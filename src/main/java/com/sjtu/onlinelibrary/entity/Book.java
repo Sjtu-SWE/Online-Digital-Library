@@ -1,5 +1,6 @@
 package com.sjtu.onlinelibrary.entity;
 
+import com.google.code.morphia.annotations.Entity;
 import com.sjtu.onlinelibrary.BasePersistable;
 
 /**
@@ -8,6 +9,7 @@ import com.sjtu.onlinelibrary.BasePersistable;
  * Date: 13-7-28
  * Time: 下午3:50
  */
+@Entity
 public class Book extends BasePersistable {
 
     private String name;

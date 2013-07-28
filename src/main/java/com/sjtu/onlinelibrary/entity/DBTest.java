@@ -6,6 +6,8 @@ import com.sjtu.onlinelibrary.impl.DataAccessMongoImpl;
 import com.sjtu.onlinelibrary.util.MongoConfig;
 
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,18 +27,23 @@ public class DBTest {
         mongoConfig.setServerList("localhost");
 
         final MutableDataAccess db = new DataAccessMongoImpl(mongoConfig);
-        db.delete(Book.class,TEST_ID);
+        db.delete(Book.class, TEST_ID);
 
         final Book book = new Book();
         book.setId(TEST_ID);
         book.setAuthor(TEST_AUTHOR);
         book.setName(TEST_NAME);
         db.save(book);
+        System.out.println("save book success");
 
         final Book book1 = db.findById(Book.class, TEST_ID);
         assert book1 != null;
-//        db.delete(Book.class,TEST_ID);
 
-        System.out.println("the data access can use");
+        final Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("name", TEST_NAME);
+        final Iterable<Book> result = db.listByFilter(Book.class, condition);
+        System.out.println("listByFilter result : name is " + result.iterator().next().getName());
+        db.delete(Book.class,TEST_ID);
+        System.out.println("deleted test data");
     }
 }

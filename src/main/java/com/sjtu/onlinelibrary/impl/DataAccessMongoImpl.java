@@ -2,14 +2,15 @@ package com.sjtu.onlinelibrary.impl;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
+import com.google.code.morphia.query.Query;
 import com.mongodb.Mongo;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.EntityChangeListener;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.Persistable;
-import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.util.MongoConfig;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -41,7 +42,7 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     public <T extends Persistable> Iterable<T> listAll(final Class<T> clazz) throws DataAccessException {
         try {
             return _ds.find(clazz);
-        } catch (Exception e) { // for some reason mongo and morphia chose to throw only runtime exceptions - uhg!
+        } catch (Exception e) {
             throw new DataAccessException("Could not list " + clazz.getSimpleName() + " entities", e);
         }
     }
@@ -50,30 +51,24 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     public <T extends Persistable> T findById(final Class<T> clazz, final String id) throws DataAccessException {
         try {
             return _ds.get(clazz, id);
-        } catch (Exception e) { // for some reason mongo and morphia chose to throw only runtime exceptions - uhg!
+        } catch (Exception e) {
             throw new DataAccessException("Could not lookup entity " + clazz.getSimpleName() + " with id " + id, e);
         }
     }
 
-    public User findServiceAdapterByServiceNameAndVersion(final String serviceName, final String serviceVersion) throws DataAccessException {
+    @Override
+    public <T extends Persistable> Iterable<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException {
         try {
-            return _ds.find(User.class).filter("name", serviceName).filter("version", serviceVersion).get();
-        } catch (Exception e) { // for some reason mongo and morphia chose to throw only runtime exceptions - uhg!
-            throw new DataAccessException("Could not lookup ServiceAdapter with name  " + serviceName + " and version " + serviceVersion, e);
+
+            Query<T> qry = _ds.createQuery(clazz);
+            for (final String key : conditionMap.keySet()) {
+                qry = qry.filter(key, conditionMap.get(key));
+            }
+            return qry;
+        } catch (Exception e) {
+            throw new DataAccessException("Could not lookup " + clazz.getName(), e);
         }
     }
-
-//    @Override
-//    public Iterable<ProjectServiceAdapterConfig> findProjectServiceAdapterConfigsByServiceIdAndProjectId(final String projectId, final String serviceAdapterId) throws RegistryException {
-//        try {
-//            Query<ProjectServiceAdapterConfig> qry = _ds.find(ProjectServiceAdapterConfig.class);
-//            if (serviceAdapterId != null) qry = qry.filter("serviceAdapterId", serviceAdapterId);
-//            if (projectId != null) qry = qry.filter("projectId", projectId);
-//            return qry;
-//        } catch (Exception e) { // for some reason mongo and morphia chose to throw only runtime exceptions - uhg!
-//            throw new RegistryException("Could not lookup ProjectServiceAdapterConfig by service id " + serviceAdapterId + " and projectId" + projectId, e);
-//        }
-//    }
 
     @Override
     public boolean exists(final Class type, final String id) throws DataAccessException {
