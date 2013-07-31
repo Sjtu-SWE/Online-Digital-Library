@@ -23,5 +23,5 @@
     <!--<bean id="mongoRegistry" class="com.sjtu.onlinelibrary.impl.DataAccessMongoImpl">-->
         <!--<constructor-arg index="0" name="mongoConfig" ref="mongoConfig"/>-->
     <!--</bean>-->
-
+	
 </beans>
