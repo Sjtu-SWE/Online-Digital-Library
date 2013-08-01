@@ -25,5 +25,8 @@
     <!-- Controllers -->
     <bean name="AccountController" class="com.sjtu.onlinelibrary.web.account.AccountController" />
     <bean name="UserController" class="com.sjtu.onlinelibrary.web.user.UserController" >
+        <property name="userService"> <ref local="userService"></ref></property>
     </bean>
+    <bean id="userService" class="com.sjtu.onlinelibrary.web.user.UserServiceImpl"></bean>
+
 </beans>

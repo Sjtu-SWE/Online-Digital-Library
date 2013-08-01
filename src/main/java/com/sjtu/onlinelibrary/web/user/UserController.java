@@ -19,8 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 	private static final Log log = LogFactory.getLog(UserController.class);
 
-	private IUserService userService= new UserServiceImpl();
-	
+	private IUserService userService;
+
 	public IUserService getUserService() {
 		return userService;
 	}
