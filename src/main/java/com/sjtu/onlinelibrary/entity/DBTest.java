@@ -4,8 +4,8 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.impl.DataAccessMongoImpl;
 import com.sjtu.onlinelibrary.util.MongoConfig;
-
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,5 +45,13 @@ public class DBTest {
         System.out.println("listByFilter result : name is " + result.iterator().next().getName());
         db.delete(Book.class,TEST_ID);
         System.out.println("deleted test data");
+        
+//        final User user = new User();
+//        user.setId("user.id");
+//        user.setCreatedOn(new Date());
+//        user.setUserName("admin");
+//        user.setPassword("admin");
+//        db.save(user);
+//        System.out.println("save user success");
     }
 }
