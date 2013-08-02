@@ -34,8 +34,8 @@ public class UserController {
     		@RequestParam(value = "username", required = false) String username,  
     		@RequestParam(value = "password", required = false) String password) throws Exception{
         //在请求/login.do时，执行该方法验证登录
-		if (userService.checkLogin(username, password) ) {
-        	return new ModelAndView("forward:/index.jsp");
+		if (userService.checkLogin(username, password) != null ) {
+        	return new ModelAndView("forward:/index.jsp","user", userService.checkLogin(username, password));
         }
         return new ModelAndView("forward:/loginError.jsp");
     }

@@ -6,5 +6,5 @@ public interface IUserService {
 
 	public User findById(String id) throws Exception;
 	
-	public boolean checkLogin(String userName, String password) throws Exception;
+	public User checkLogin(String userName, String password) throws Exception;
 }

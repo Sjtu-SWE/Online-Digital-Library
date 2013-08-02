@@ -31,7 +31,7 @@ public class UserServiceImpl implements IUserService{
 		return user;
 	}
 	
-	public boolean checkLogin(String userName, String password) throws Exception{
+	public User checkLogin(String userName, String password) throws Exception{
 		mongoConfig.setDbName("onlineLibrary");
 	    mongoConfig.setServerList("localhost");
 	    MutableDataAccess db = new DataAccessMongoImpl(mongoConfig);
@@ -41,9 +41,9 @@ public class UserServiceImpl implements IUserService{
         condition.put("password", password);
         Iterable<User> result = db.listByFilter(User.class, condition);
         if( result.iterator().hasNext() ){
-        	return true;
+        	return result.iterator().next();
         }
-		return false;
+		return null;
 	}
 	
 	
