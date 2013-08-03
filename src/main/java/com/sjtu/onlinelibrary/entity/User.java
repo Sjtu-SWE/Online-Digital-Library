@@ -19,7 +19,7 @@ public class User  extends BasePersistable{
     private String password;
     private int credits;
     private Date lastLogonTime;
-
+    private int role;
     public User() {
     }
 
@@ -69,5 +69,13 @@ public class User  extends BasePersistable{
 
     public void setLastLogonTime(Date lastLogonTime) {
         this.lastLogonTime = lastLogonTime;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

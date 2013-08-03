@@ -9,16 +9,24 @@
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd"
     default-autowire="byName">
     <!-- SpringMVC related Beans -->
-	<!-- <context:component-scan base-package="com.sjtu.onlinelibrary.web.user" />  -->
-	
-	<!-- 完成请求和注解POJO的映射 -->
+    <!--<context:component-scan base-package="com.sjtu.onlinelibrary"/>-->
+    <context:property-placeholder location="classpath:/mongo.properties"/>
+
+    <!-- 完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-	
+    <bean id="mongoConfig" class="com.sjtu.onlinelibrary.util.MongoConfig">
+        <property name="serverList" value="${mongo.servers}"/>
+        <property name="dbName" value="${mongo.dbName}"/>
+    </bean>
+
+    <bean id="mutableDataAccess" class="com.sjtu.onlinelibrary.impl.DataAccessMongoImpl">
+        <constructor-arg ref="mongoConfig"></constructor-arg>
+    </bean>
     <!-- Spring MVC View Resolver -->
     <!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/view/" />
+        <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
 
@@ -27,6 +35,11 @@
     <bean name="UserController" class="com.sjtu.onlinelibrary.web.user.UserController" >
         <property name="userService"> <ref local="userService"></ref></property>
     </bean>
-    <bean id="userService" class="com.sjtu.onlinelibrary.web.user.UserServiceImpl"></bean>
-
+    <bean name="BookMgrController" class="com.sjtu.onlinelibrary.web.admin.BookMgrController" >
+        <property name="bookService"> <ref local="bookService"></ref></property>
+    </bean>
+    <bean id="userService" class="com.sjtu.onlinelibrary.service.impl.UserServiceImpl"></bean>
+    <bean id="bookService" class="com.sjtu.onlinelibrary.service.impl.BookServiceImpl">
+        <constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
 </beans>

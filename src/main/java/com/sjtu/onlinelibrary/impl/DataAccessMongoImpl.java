@@ -10,6 +10,7 @@ import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.Persistable;
 import com.sjtu.onlinelibrary.util.MongoConfig;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,9 +40,9 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
 
 
     @Override
-    public <T extends Persistable> Iterable<T> listAll(final Class<T> clazz) throws DataAccessException {
+    public <T extends Persistable> List<T> listAll(final Class<T> clazz) throws DataAccessException {
         try {
-            return _ds.find(clazz);
+            return _ds.find(clazz).asList();
         } catch (Exception e) {
             throw new DataAccessException("Could not list " + clazz.getSimpleName() + " entities", e);
         }
@@ -57,14 +58,14 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     }
 
     @Override
-    public <T extends Persistable> Iterable<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException {
+    public <T extends Persistable> List<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException {
         try {
 
             Query<T> qry = _ds.createQuery(clazz);
             for (final String key : conditionMap.keySet()) {
                 qry = qry.filter(key, conditionMap.get(key));
             }
-            return qry;
+            return qry.asList();
         } catch (Exception e) {
             throw new DataAccessException("Could not lookup " + clazz.getName(), e);
         }

@@ -1,6 +1,7 @@
 package com.sjtu.onlinelibrary;
 
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ public interface DataAccess {
      * @return a possibly empty Iterable of all objects of the specified type registered in the system
      * @throws DataAccessException thrown if the projects could not be looked up.
      */
-    <T extends Persistable> Iterable<T> listAll(Class<T> clazz) throws DataAccessException;
+    <T extends Persistable> List<T> listAll(Class<T> clazz) throws DataAccessException;
 
     /**
      * Finds and returns an instance of the given type by looking for it by id.
@@ -39,7 +40,7 @@ public interface DataAccess {
      * @return a possibly empty Iterable of all objects of the specified type registered in the system
      * @throws DataAccessException thrown if the object could not be looked up, usually due to a storage layer error.
      */
-    <T extends Persistable> Iterable<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException;
+    <T extends Persistable> List<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException;
 
     /**
      * An efficient way to find whether an item exists already.
