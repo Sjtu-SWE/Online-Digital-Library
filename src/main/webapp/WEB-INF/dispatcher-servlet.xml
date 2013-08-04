@@ -43,4 +43,11 @@
     <bean id="bookService" class="com.sjtu.onlinelibrary.service.impl.BookServiceImpl">
         <constructor-arg ref="mutableDataAccess"></constructor-arg>
     </bean>
+    
+    <bean id="classificationService" class="com.sjtu.onlinelibrary.service.impl.ClassificationServiceImpl">
+        <constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
+    <bean name="ClassificationController" class="com.sjtu.onlinelibrary.web.admin.ClassificationController" >
+        <property name="classificationService"> <ref local="classificationService"></ref></property>
+    </bean>
 </beans>
