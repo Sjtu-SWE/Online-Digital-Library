@@ -37,7 +37,7 @@ public class KindEditController {
     @ResponseBody
     public Map<String, Object> fileUpload(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException, FileUploadException {
         final ServletContext application = request.getSession().getServletContext();
-        String savePath = application.getRealPath("/") + "attached/";
+        String savePath = application.getRealPath("/") + "/attached/";
 
         // 文件保存目录URL
         String saveUrl = request.getContextPath() + "/attached/";
@@ -59,8 +59,8 @@ public class KindEditController {
         }
         // 检查目录
         File uploadDir = new File(savePath);
-        if (!uploadDir.isDirectory()) {
-            return getError("上传目录不存在。");
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
         }
         // 检查目录写权限
         if (!uploadDir.canWrite()) {
