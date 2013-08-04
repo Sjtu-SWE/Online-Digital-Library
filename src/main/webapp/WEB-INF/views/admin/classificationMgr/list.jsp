@@ -5,40 +5,31 @@
 <html>
 <head>
     <jsp:include page="../comomResource.jsp"></jsp:include>
-    <script type="text/javascript" src="/js/pages/admin/bookList.js"></script>
+    <script type="text/javascript" src="/js/pages/admin/classificationList.js"></script>
 </head>
-<h2>书籍数量：${pageData.getTotalCount()}</h2>
-
+<h2>书籍类别管理</h2>
 <div>
-    <div id="book-operation">
-        <a class="btn btn-primary" href="/admin/book/create.do">添加类别</a>
+    <div id="classification-operation">
+        <a class="btn btn-primary" href="/admin/classification/create.do">添加类别</a>
     </div>
     <div class="help-inline"></div>
-    <div id="book-list">
+    <div id="classification-list">
         <table class="table table-striped table-condensed table-bordered table-hover">
             <thead>
             <tr>
-                <%--<th>#</th>--%>
-                <th>书名</th>
-                <th>作者</th>
-                <th>售价</th>
-                <th>书号</th>
-                <th>出版社</th>
-                <th>出版日期</th>
+                <th>类别名称</th>
+                <th>备注</th>
+                <th>创建日期</th>
                 <th></th>
             </tr>
             </thead>
-            <c:forEach items="${pageData.getList()}" var="book">
+            <c:forEach items="${pageData.getList()}" var="classification">
                 <tr>
-                        <%--<td>${book.id}</td>--%>
-                    <td>${book.name}</td>
-                    <td>${book.author}</td>
-                    <td>${book.price}</td>
-                    <td>${book.bookNumber}</td>
-                    <td>${book.publisher}</td>
-                    <td>${book.publishDate}</td>
-                    <td><a class="btn btn-link" href="./${book.id}/edit.do">编辑</a>
-                        <a class="btn btn-link" id="btn-delete-book" href="/admin/book/${book.id}/delete.do">删除</a></td>
+                    <td>${classification.classificationName}</td>
+                    <td>${classification.note}</td>
+                    <td><fmt:formatDate value="${classification.createDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                    <td><a class="btn btn-link" href="./${classification.id}/edit.do">编辑</a>
+                        <a class="btn btn-link" id="btn-delete-classification" href="/admin/classification/${classification.id}/delete.do">删除</a></td>
                 </tr>
             </c:forEach>
         </table>
