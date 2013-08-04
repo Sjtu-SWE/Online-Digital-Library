@@ -17,8 +17,6 @@ public class BookEditModel {
     private String editType;
     private Book bookEntity;
 
-    private String dateString;
-
     public BookEditModel() {
         this("创建书籍", new Book());
     }
@@ -53,6 +51,7 @@ public class BookEditModel {
     public void setAuthor(final String author) {
         innerBookEntity().setAuthor(author);
     }
+
     @NotEmpty(message = "作者不能为空。")
     public String getAuthor() {
         return innerBookEntity().getAuthor();
@@ -126,4 +125,11 @@ public class BookEditModel {
         return innerBookEntity().getKeywords();
     }
 
+    public String getBookCoverImgPath() {
+        return innerBookEntity().getBookCoverImgPath();
+    }
+
+    public void setBookCoverImgPath(String bookCoverImgPath) {
+        innerBookEntity().setBookCoverImgPath(bookCoverImgPath);
+    }
 }

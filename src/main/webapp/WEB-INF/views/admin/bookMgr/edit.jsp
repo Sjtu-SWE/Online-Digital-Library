@@ -12,6 +12,10 @@
 <head>
     <title>${book.editType}</title>
     <jsp:include page="../comomResource.jsp"></jsp:include>
+    <link rel="stylesheet" type="text/css" href="/js/kindeditor-4.1.7/themes/default/default.css"/>
+    <script type="text/javascript" src="/js/kindeditor-4.1.7/kindeditor-min.js"></script>
+    <script type="text/javascript" src="/js/kindeditor-4.1.7/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/pages/admin/booEdit.js"></script>
 </head>
 <body>
 <div class="span8">
@@ -84,6 +88,14 @@
 
                 <div class="controls">
                     <form:input path="book.keywords" cssClass="input-xlarge" placeholder="请使用空格分开：武侠 经典"></form:input>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="bookCoverImgPath">书籍封面：</label>
+
+                <div class="controls">
+                    <form:input path="book.bookCoverImgPath" cssClass="input-xlarge" placeholder="请上传书籍封面..."></form:input>
+                    <input id="coverUpload" name="coverUpload" type="button" value="选择封面图片"/>
                 </div>
             </div>
             <div class="form-actions">
