@@ -133,7 +133,7 @@ public class Book extends BasePersistable {
         this.description = description;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 

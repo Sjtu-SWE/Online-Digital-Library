@@ -8,14 +8,14 @@ import java.util.List;
  * Date: 13-8-3
  * Time: 下午2:57
  */
-public class Pager<T> extends  Pagenation {
+public class Pager<T> extends Pagination {
     private List<T> listObject;
 
     public List<T> getList(){
         return listObject;
     }
 
-    public void setListObject(List<T> listObject) {
+    public void setListObject(final List<T> listObject) {
         this.listObject = listObject;
     }
 }

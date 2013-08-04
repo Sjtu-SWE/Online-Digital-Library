@@ -8,6 +8,7 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.EntityChangeListener;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.Persistable;
+import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.MongoConfig;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     public void save(final Persistable p) throws DataAccessException {
         try {
             final boolean exists;
-            if (p.getId() == null) {
+            if (LangUtil.isNullOrEmpty(p.getId())) {
                 p.setId(UUID.randomUUID().toString());
                 exists = false;
             } else {

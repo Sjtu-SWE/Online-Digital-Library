@@ -6,7 +6,7 @@ package com.sjtu.onlinelibrary.web.viewmodel;
  * Date: 13-8-3
  * Time: 下午2:43
  */
-public class Pagenation implements IPaegnation {
+public class Pagination implements IPagination {
     private int totalCount;
     private int pageIndex;
     private int pageSize= 10; //default page size
@@ -48,7 +48,7 @@ public class Pagenation implements IPaegnation {
     }
 
 
-    public boolean HasNextPage() {
+    public boolean hasNextPage() {
         return ((pageIndex + 1) * pageSize) < totalCount;
     }
 }

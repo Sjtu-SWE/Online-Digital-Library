@@ -14,6 +14,7 @@ import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 public interface IBookService {
     void save(final Book book) throws DataAccessException;
 
-    Pager<Book> findAll() throws DataAccessException;
+    Pager<BookEditModel> findAll() throws DataAccessException;
     BookEditModel findById(String id) throws DataAccessException;
+    boolean delete(String id);
 }

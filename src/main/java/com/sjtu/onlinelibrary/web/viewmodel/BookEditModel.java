@@ -1,8 +1,11 @@
 package com.sjtu.onlinelibrary.web.viewmodel;
 
 import com.sjtu.onlinelibrary.entity.Book;
+import com.sjtu.onlinelibrary.util.LangUtil;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import java.util.Date;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,39 +17,45 @@ public class BookEditModel {
     private String editType;
     private Book bookEntity;
 
+    private String dateString;
 
-    public BookEditModel(String editType, Book book) {
+    public BookEditModel() {
+        this("创建书籍", new Book());
+    }
+
+    public BookEditModel(final String editType, final Book book) {
         setEditType(editType);
         this.bookEntity = book;
     }
 
 
-    public Book getBookEntity() {
+    public Book innerBookEntity() {
         return bookEntity;
     }
 
     public String getId() {
-        return getBookEntity().getId();
+        return innerBookEntity().getId();
     }
 
     public void setId(String id) {
-        getBookEntity().setId(id);
+        innerBookEntity().setId(id);
     }
 
+    @NotEmpty(message = "书名不能为空。")
     public String getName() {
-        return getBookEntity().getName();
+        return innerBookEntity().getName();
     }
 
     public void setName(String name) {
-        getBookEntity().setBookNumber(name);
+        innerBookEntity().setName(name);
     }
 
     public void setAuthor(final String author) {
-        getBookEntity().setAuthor(author);
+        innerBookEntity().setAuthor(author);
     }
-
+    @NotEmpty(message = "作者不能为空。")
     public String getAuthor() {
-        return getBookEntity().getAuthor();
+        return innerBookEntity().getAuthor();
     }
 
     public String getEditType() {
@@ -58,50 +67,63 @@ public class BookEditModel {
     }
 
     public void setBookNumber(final String bookNumber) {
-        getBookEntity().setBookNumber(bookNumber);
+        innerBookEntity().setBookNumber(bookNumber);
     }
 
     public String getBookNumber() {
-        return getBookEntity().getBookNumber();
+        return innerBookEntity().getBookNumber();
     }
 
     public void setPublisher(final String publisher) {
-        getBookEntity().setPublisher(publisher);
+        innerBookEntity().setPublisher(publisher);
     }
 
     public String getPublisher() {
-        return getBookEntity().getPublisher();
+        return innerBookEntity().getPublisher();
     }
 
     public void setPrice(final int price) {
-        getBookEntity().setPrice(price);
+        innerBookEntity().setPrice(price);
     }
 
+    @Min(value = 0, message = "请输入合法的数字")
+    @Max(value = Integer.MAX_VALUE, message = "请输入合法的数字")
     public int getPrice() {
-        return getBookEntity().getPrice();
+        return innerBookEntity().getPrice();
     }
 
-    public Date getPublishDate() {
-        return getBookEntity().getPublishDate();
+    @NotEmpty(message = "请输入合法发的日期")
+    public String getPublishDate() {
+        if (innerBookEntity().getPublishDate() == null) {
+            return "";
+        }
+        return LangUtil.getDefaultDateFormat().format(innerBookEntity().getPublishDate());
     }
 
-    public void setPublishDate(final Date date) {
-        getBookEntity().setPublishDate(date);
+    public void setPublishDate(final String date) {
+        try {
+            if (LangUtil.isNullOrEmpty(date)) return;
+            innerBookEntity().setPublishDate(LangUtil.getDefaultDateFormat().parse(date));
+
+        } catch (Exception e) {
+            return;
+        }
     }
 
     public void setCategory(final String category) {
-        getBookEntity().setCategory(category);
+        innerBookEntity().setCategory(category);
     }
 
     public String getCategory() {
-        return getBookEntity().getCategory();
+        return innerBookEntity().getCategory();
     }
 
     public void setKeywords(String keywords) {
-        getBookEntity().setKeywords(keywords);
+        innerBookEntity().setKeywords(keywords);
     }
 
     public String getKeywords() {
-        return getBookEntity().getKeywords();
+        return innerBookEntity().getKeywords();
     }
+
 }

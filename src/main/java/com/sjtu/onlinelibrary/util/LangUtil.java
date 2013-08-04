@@ -1,5 +1,7 @@
 package com.sjtu.onlinelibrary.util;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
@@ -9,5 +11,11 @@ package com.sjtu.onlinelibrary.util;
 public class LangUtil {
     public static boolean isNullOrEmpty(final String str) {
         return str == null || "".equals(str);
+    }
+
+    static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public static SimpleDateFormat getDefaultDateFormat() {
+        return dateformat;
     }
 }

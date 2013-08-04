@@ -1,5 +1,5 @@
 $(function () {
-    $("#btn-create-book").click(function () {
-        $("#editBook").modal();
+    $("#btn-delete-book").click(function () {
+
     });
 });

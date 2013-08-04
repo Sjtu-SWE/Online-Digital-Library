@@ -8,6 +8,7 @@ import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,16 +28,31 @@ public class BookServiceImpl extends BaseService implements IBookService {
     }
 
     @Override
-    public Pager<Book> findAll() throws DataAccessException {
+    public Pager<BookEditModel> findAll() throws DataAccessException {
         final List<Book> books = mutableDataAccess.listAll(Book.class);
-        final Pager<Book> bookPager = new Pager<Book>();
-        bookPager.setListObject(books);
+        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
+        for (final Book book : books) {
+            bookEditModelList.add(new BookEditModel("", book));
+        }
+        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>();
+        bookPager.setListObject(bookEditModelList);
         bookPager.setTotalCount(books.size());
         return bookPager;
     }
 
     @Override
-    public BookEditModel findById(String id) throws DataAccessException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public BookEditModel findById(final String id) throws DataAccessException {
+        Book book = mutableDataAccess.findById(Book.class, id);
+        return new BookEditModel("编辑书籍", book);
+    }
+
+    @Override
+    public boolean delete(final String id) {
+        try {
+            mutableDataAccess.delete(Book.class, id);
+            return true;
+        } catch (DataAccessException e) {
+            return false;
+        }
     }
 }

@@ -4,13 +4,23 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
+import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import javax.ws.rs.PathParam;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,7 +42,7 @@ public class BookMgrController {
     @RequestMapping("/list.do")
     public ModelAndView list() {
         try {
-            Pager<Book> books = this.bookService.findAll();
+            final Pager<BookEditModel> books = this.bookService.findAll();
             return new ModelAndView(ADMIN_BOOK_MGR_LIST, "books", books);
 
         } catch (DataAccessException e) {
@@ -42,23 +52,54 @@ public class BookMgrController {
 
     @RequestMapping("/create.do")
     public ModelAndView create() {
-        return new ModelAndView(ADMIN_BOOK_MGR_EDIT, "book", new BookEditModel("创建书籍",new Book()));
+        final Map<String, Object> map = getMapForEdit();
+        map.put("book", new BookEditModel("创建书籍", new Book()));
+        return new ModelAndView(ADMIN_BOOK_MGR_EDIT, map);
     }
 
     @RequestMapping("/{id}/edit.do")
-    public ModelAndView edit(@PathParam("id") final String id) {
+    public ModelAndView edit(@PathVariable("id") final String id) {
         try {
-            Pager<Book> books = this.bookService.findAll();
-            return new ModelAndView(ADMIN_BOOK_MGR_LIST, "book", books);
+            final BookEditModel book = this.bookService.findById(id);
+            final Map<String, Object> map = getMapForEdit();
+            map.put("book", book);
+            return new ModelAndView(ADMIN_BOOK_MGR_EDIT, map);
 
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }
+
     }
 
-    @RequestMapping("/save.do")
-    public ModelAndView save() {
-        return new ModelAndView("redirect:list.do");
+    @RequestMapping(value = "/save.do", method = RequestMethod.POST)
+    public ModelAndView save(@Valid @ModelAttribute("book") final BookEditModel bookEditModel, final BindingResult bindingResult) throws DataAccessException {
+        if (bindingResult.hasErrors()) {
+            final Map<String, Object> map = getMapForEdit();
+            bookEditModel.setEditType("编辑书籍");
+            map.put("book", bookEditModel);
+            return new ModelAndView(ADMIN_BOOK_MGR_EDIT, map);
+        }
 
+        bookService.save(bookEditModel.innerBookEntity());
+        return new ModelAndView("forward:/success.jsp", "message", "保存书籍成功！");
+
+    }
+
+    @RequestMapping("/{id}/delete.do")
+    public ModelAndView delete(@PathVariable("id") final String id) {
+        String result = "删除书籍失败！";
+        if (bookService.delete(id)) {
+            result = "删除书籍成功！";
+        }
+        return new ModelAndView("forward:/success.jsp", "message", result);
+    }
+
+    private Map<String, Object> getMapForEdit() {
+        final Map<String, Object> map = new HashMap<String, Object>();
+        final List<Category> categories = new ArrayList<Category>();
+        categories.add(new Category("测试分类1"));
+        categories.add(new Category("测试分类2"));
+        map.put("categories", categories);
+        return map;
     }
 }

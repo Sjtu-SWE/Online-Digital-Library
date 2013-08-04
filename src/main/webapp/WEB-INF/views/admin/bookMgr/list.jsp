@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html>
 <head>
-    <jsp:include page="../comomReource.jsp"></jsp:include>
+    <jsp:include page="../comomResource.jsp"></jsp:include>
     <script type="text/javascript" src="/js/pages/admin/bookList.js"></script>
 </head>
 <body>
@@ -19,7 +19,7 @@
         <table class="table table-striped table-condensed table-bordered table-hover">
             <thead>
             <tr>
-                <th>#</th>
+                <%--<th>#</th>--%>
                 <th>书名</th>
                 <th>作者</th>
                 <th>售价</th>
@@ -31,15 +31,15 @@
             </thead>
             <c:forEach items="${books.getList()}" var="book">
                 <tr>
-                    <td>${book.id}</td>
+                    <%--<td>${book.id}</td>--%>
                     <td>${book.name}</td>
                     <td>${book.author}</td>
                     <td>${book.price}</td>
                     <td>${book.bookNumber}</td>
                     <td>${book.publisher}</td>
                     <td>${book.publishDate}</td>
-                    <td><a class="btn-link" herf="/admin/book/${book.id}/edit.do" data-id="${book.id}">编辑</a>
-                        <a class="btn-link" herf="void(0)" data-id="${book.id}">删除</a></td>
+                    <td><a class="btn btn-link" href="./${book.id}/edit.do">编辑</a>
+                        <a class="btn btn-link" id="btn-delete-book" href="/admin/book/${book.id}/delete.do" >删除</a></td>
                 </tr>
             </c:forEach>
         </table>

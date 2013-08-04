@@ -6,7 +6,7 @@ package com.sjtu.onlinelibrary.web.viewmodel;
  * Date: 13-8-3
  * Time: 下午2:43
  */
-public interface IPaegnation {
+public interface IPagination {
     int getTotalCount();
     int getPageIndex();
     int getPageSize();
