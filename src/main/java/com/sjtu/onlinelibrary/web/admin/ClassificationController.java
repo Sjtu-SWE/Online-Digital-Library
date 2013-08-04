@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,8 +81,11 @@ public class ClassificationController {
 	        }
 	        classificationEditModel.setCreateDate();
 	        classificationService.save(classificationEditModel.innerClassificationEntity());
-	        return new ModelAndView("forward:/success.jsp", "message", "保存类别成功！");
-
+	        
+	        ModelMap mm = new ModelMap();
+	        mm.put("message", "保存类别成功！");
+	        mm.put("url", "/admin/classification/list.do");
+	        return new ModelAndView( "forward:/success.jsp", mm);
 	    }
 
 	    @RequestMapping("/{id}/delete.do")
@@ -90,7 +94,10 @@ public class ClassificationController {
 	        if (classificationService.delete(id)) {
 	            result = "删除类别成功！";
 	        }
-	        return new ModelAndView("forward:/success.jsp", "message", result);
+	        ModelMap mm = new ModelMap();
+	        mm.put("message", result);
+	        mm.put("url", "/admin/classification/list.do");
+	        return new ModelAndView("forward:/success.jsp", mm);
 	    }
 
 }
