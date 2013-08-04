@@ -80,7 +80,7 @@ public class ClassificationController {
 	        }
 	        classificationEditModel.setCreateDate();
 	        classificationService.save(classificationEditModel.innerClassificationEntity());
-	        return new ModelAndView("forward:/success.jsp", "message", "保存书籍成功！");
+	        return new ModelAndView("forward:/success.jsp", "message", "保存类别成功！");
 
 	    }
 
