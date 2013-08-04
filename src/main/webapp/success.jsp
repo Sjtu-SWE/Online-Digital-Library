@@ -26,7 +26,7 @@
 </head>
 <body>
 <div class="success">
-    ${message} <span id="messageSec">2</span>秒后跳转到列表页,点击 <a href="/admin/book/list.do">这里</a>
+    ${message} <span id="messageSec">2</span>秒后跳转到列表页,点击 <a href="${url}">这里</a>
 </div>
 </body>
 </html>
