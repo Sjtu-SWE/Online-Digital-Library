@@ -3,20 +3,17 @@ package com.sjtu.onlinelibrary.web.admin;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.service.IBookService;
+import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +30,7 @@ import java.util.Map;
 public class BookMgrController {
     public static final String ADMIN_BOOK_MGR_LIST = "admin/bookMgr/list";
     public static final String ADMIN_BOOK_MGR_EDIT = "admin/bookMgr/edit";
+    public static final String PAGE_DATE = "pageData";
     private IBookService bookService;
 
     public void setBookService(IBookService bookService) {
@@ -40,10 +38,14 @@ public class BookMgrController {
     }
 
     @RequestMapping("/list.do")
-    public ModelAndView list() {
+    public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
         try {
-            final Pager<BookEditModel> books = this.bookService.findAll();
-            return new ModelAndView(ADMIN_BOOK_MGR_LIST, "books", books);
+            int index = 0;
+            if (!LangUtil.isNullOrEmpty(pageIndex)) {
+                index = Integer.parseInt(pageIndex);
+            }
+            final Pager<BookEditModel> books = this.bookService.findAll(index);
+            return new ModelAndView(ADMIN_BOOK_MGR_LIST, PAGE_DATE, books);
 
         } catch (DataAccessException e) {
             return new ModelAndView("error");

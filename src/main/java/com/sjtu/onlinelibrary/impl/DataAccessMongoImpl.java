@@ -73,6 +73,21 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     }
 
     @Override
+    public <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize) throws DataAccessException {
+        try {
+            Query<T> qry = _ds.createQuery(clazz).limit(pageSize).offset((pageIndex - 1) * pageSize);
+            return qry.asList();
+        } catch (Exception e) {
+            throw new DataAccessException("Could not lookup " + clazz.getName(), e);
+        }
+    }
+
+    @Override
+    public <T extends Persistable> int count(final Class<T> clazz) {
+        return (int) _ds.getCount(clazz);
+    }
+
+    @Override
     public boolean exists(final Class type, final String id) throws DataAccessException {
         try {
             return _ds.find(type, "_id", id).countAll() != 0;

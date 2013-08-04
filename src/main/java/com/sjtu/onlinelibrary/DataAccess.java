@@ -35,12 +35,16 @@ public interface DataAccess {
     /**
      * Finds and returns an instance of the given type by looking for it by id.
      *
-     * @param clazz The type of object you want to look up.
-     * @param conditionMap  the condition map : the key is the condition tag like :'name' or 'age >='
+     * @param clazz        The type of object you want to look up.
+     * @param conditionMap the condition map : the key is the condition tag like :'name' or 'age >='
      * @return a possibly empty Iterable of all objects of the specified type registered in the system
      * @throws DataAccessException thrown if the object could not be looked up, usually due to a storage layer error.
      */
     <T extends Persistable> List<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException;
+
+    <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize) throws DataAccessException;
+
+    <T extends Persistable> int count(final Class<T> clazz);
 
     /**
      * An efficient way to find whether an item exists already.

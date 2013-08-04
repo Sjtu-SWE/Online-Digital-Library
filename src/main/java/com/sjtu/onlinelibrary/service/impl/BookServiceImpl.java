@@ -7,6 +7,7 @@ import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,18 @@ public class BookServiceImpl extends BaseService implements IBookService {
     }
 
     @Override
-    public Pager<BookEditModel> findAll() throws DataAccessException {
-        final List<Book> books = mutableDataAccess.listAll(Book.class);
+    public Pager<BookEditModel> findAll(int pageIndex) throws DataAccessException {
+        if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE);
         final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
         for (final Book book : books) {
             bookEditModelList.add(new BookEditModel("", book));
         }
-        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>();
+        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
         bookPager.setListObject(bookEditModelList);
-        bookPager.setTotalCount(books.size());
+        bookPager.setTotalCount(mutableDataAccess.count(Book.class));
         return bookPager;
     }
 

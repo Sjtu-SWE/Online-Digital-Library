@@ -7,9 +7,10 @@ package com.sjtu.onlinelibrary.web.viewmodel;
  * Time: 下午2:43
  */
 public class Pagination implements IPagination {
+    public static final int DEFAULT_PAGE_SIZE = 10;
     private int totalCount;
     private int pageIndex;
-    private int pageSize= 10; //default page size
+    private int pageSize = DEFAULT_PAGE_SIZE; //default page size
 
     @Override
     public int getTotalCount() {
@@ -40,15 +41,15 @@ public class Pagination implements IPagination {
 
     @Override
     public int getTotalPage() {
-        return (totalCount % pageSize == 0) ? totalCount / pageSize : totalCount / pageSize + 1;
+        return (int) Math.ceil(totalCount / (double)pageSize);
     }
 
     public boolean hasPreviousPage() {
-        return pageIndex > 0;
+        return pageIndex > 1;
     }
 
 
     public boolean hasNextPage() {
-        return ((pageIndex + 1) * pageSize) < totalCount;
+        return pageIndex * pageSize < totalCount;
     }
 }

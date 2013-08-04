@@ -11,6 +11,9 @@ import java.util.List;
 public class Pager<T> extends Pagination {
     private List<T> listObject;
 
+    public Pager(final int pageIndex){
+        setPageIndex(pageIndex);
+    }
     public List<T> getList(){
         return listObject;
     }
