@@ -1,44 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=gb2312" pageEncoding="gb2312" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="pager">
+<div class="pagination pagination-centered">
     <ul>
-        <!-- ��ҳ��ҳ��ť -->
+        <!-- 分页首页按钮 -->
         <c:choose>
             <c:when test="${pageData.pageIndex <= 1}">
-                <li class="disabled"><span>��ҳ</span></li>
+                <li class="disabled"><span>首页</span></li>
             </c:when>
             <c:otherwise>
-                <li><a href="?pageIndex=1">��ҳ</a></li>
+                <li><a href="?pageIndex=1">首页</a></li>
             </c:otherwise>
         </c:choose>
-        <!-- ǰһҳ��ť -->
+        <!-- 前一页按钮 -->
         <c:choose>
             <c:when test="${!pageData.hasPreviousPage()}">
-                <li class="disabled"><span>ǰһҳ</span></li>
+                <li class="disabled"><span>前一页</span></li>
             </c:when>
             <c:otherwise>
-                <li><a href="?pageIndex=${pageData.pageIndex - 1}">ǰһҳ</a></li>
+                <li><a href="?pageIndex=${pageData.pageIndex - 1}">前一页</a></li>
             </c:otherwise>
         </c:choose>
-        <!-- ��һҳ��ť -->
+        <!-- 下一页按钮 -->
         <c:choose>
             <c:when test="${!pageData.hasNextPage()}">
-                <li class="disabled"><span>��һҳ</span></li>
+                <li class="disabled"><span>下一页</span></li>
             </c:when>
             <c:otherwise>
-                <li><a href="?pageIndex=${pageData.pageIndex + 1}">��һҳ</a></li>
+                <li><a href="?pageIndex=${pageData.pageIndex + 1}">下一页</a></li>
             </c:otherwise>
         </c:choose>
-        <!-- ��ҳβҳ��ť -->
+        <!-- 分页尾页按钮 -->
         <c:choose>
             <c:when test="${pageData.pageIndex >= pageData.totalPage}">
-                <li class="disabled"><span>βҳ</span></li>
+                <li class="disabled"><span>尾页</span></li>
             </c:when>
             <c:otherwise>
-                <li><a href="?pageIndex=${pageData.totalPage}">βҳ</a></li>
+                <li><a href="?pageIndex=${pageData.totalPage}">尾页</a></li>
             </c:otherwise>
         </c:choose>
-        <li class="disabled"><a> ��${pageData.totalCount }��</a></li>
+        <li class="disabled"><a> 共${pageData.totalCount }条</a></li>
     </ul>
 </div>
 <script>

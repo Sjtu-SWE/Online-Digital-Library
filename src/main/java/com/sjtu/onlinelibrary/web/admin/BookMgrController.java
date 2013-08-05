@@ -83,7 +83,10 @@ public class BookMgrController {
         }
 
         bookService.save(bookEditModel.innerBookEntity());
-        return new ModelAndView("forward:/success.jsp", "message", "保存书籍成功！");
+        final Map<String, Object> map = new HashMap<String, Object>();
+        map.put("message", "保存书籍成功！");
+        map.put("url", "/admin/book/list.do");
+        return new ModelAndView("forward:/success.jsp",map);
 
     }
 
