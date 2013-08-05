@@ -2,7 +2,6 @@ package com.sjtu.onlinelibrary.entity;
 
 import com.google.code.morphia.annotations.Entity;
 import com.sjtu.onlinelibrary.BasePersistable;
-
 import java.util.Date;
 
 /**
@@ -15,10 +14,13 @@ import java.util.Date;
 public class User  extends BasePersistable{
     private String userName;
     private String realName;
+    private String phone;
     private String email;
     private String password;
     private int credits;
     private Date lastLogonTime;
+    private Date createDate;
+    private Date updaDate;
     private int role;
     public User() {
     }
@@ -39,7 +41,15 @@ public class User  extends BasePersistable{
         this.realName = realName;
     }
 
-    public String getEmail() {
+    public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
         return email;
     }
 
@@ -78,4 +88,21 @@ public class User  extends BasePersistable{
     public void setRole(int role) {
         this.role = role;
     }
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdaDate() {
+		return updaDate;
+	}
+
+	public void setUpdaDate(Date updaDate) {
+		this.updaDate = updaDate;
+	}
+    
 }
