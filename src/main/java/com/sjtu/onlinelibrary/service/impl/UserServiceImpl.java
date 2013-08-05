@@ -1,52 +1,79 @@
 package com.sjtu.onlinelibrary.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
+import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IUserService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
-
+import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.entity.User;
-import com.sjtu.onlinelibrary.impl.DataAccessMongoImpl;
-import com.sjtu.onlinelibrary.util.MongoConfig;
+import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
+import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
 /**
  *  @author Crystal
  *
  */
+
 @Service
-public class UserServiceImpl implements IUserService {
-	private static final Log log = LogFactory.getLog(UserServiceImpl.class);
+public class UserServiceImpl extends BaseService  implements IUserService {
 	
-	final MongoConfig mongoConfig = new MongoConfig();
-    
-	public User findById(String id) throws Exception{
-		mongoConfig.setDbName("onlineLibrary");
-	    mongoConfig.setServerList("localhost");
-	    MutableDataAccess db = new DataAccessMongoImpl(mongoConfig);
-	    
-	    User user = db.findById(User.class, id);
-        assert user != null:"该用户不存在";
-		return user;
+	public UserServiceImpl(MutableDataAccess mutableDataAccess) {
+		super(mutableDataAccess);
 	}
 	
-	public User checkLogin(String userName, String password) throws Exception{
-		mongoConfig.setDbName("onlineLibrary");
-	    mongoConfig.setServerList("localhost");
-	    MutableDataAccess db = new DataAccessMongoImpl(mongoConfig);
+	@Override
+	public UserEditModel findById(String id) throws DataAccessException{
+		User user = mutableDataAccess.findById(User.class, id);
+        return new UserEditModel("编辑用户", user);
+	}
+	
+	@Override
+	public UserEditModel checkLogin(String userName, String password) throws Exception{
 	    
 	    Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("userName", userName);
         condition.put("password", password);
-        Iterable<User> result = db.listByFilter(User.class, condition);
+        Iterable<User> result = mutableDataAccess.listByFilter(User.class, condition);
         if( result.iterator().hasNext() ){
-        	return result.iterator().next();
+//        	return result.iterator().next();
         }
-		return null;
+		return new UserEditModel();
 	}
-	
+
+	@Override
+	public Pager<UserEditModel> findAll(int pageIndex) 	throws DataAccessException {
+		if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+        final List<User> users = mutableDataAccess.paging(User.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE);
+        final List<UserEditModel> userEditModelList = new ArrayList<UserEditModel>();
+        for (final User user : users) {
+        	userEditModelList.add(new UserEditModel("", user));
+        }
+        final Pager<UserEditModel> userPager = new Pager<UserEditModel>(pageIndex);
+        userPager.setListObject(userEditModelList);
+        userPager.setTotalCount(mutableDataAccess.count(User.class));
+        return userPager;
+	}
+
+	@Override
+	public void save(User user) throws DataAccessException {
+		mutableDataAccess.save(user);
+	}
+
+	@Override
+	public boolean delete(String id) {
+		try {
+            mutableDataAccess.delete(User.class, id);
+            return true;
+        } catch (DataAccessException e) {
+            return false;
+        }
+	}
 	
 }
