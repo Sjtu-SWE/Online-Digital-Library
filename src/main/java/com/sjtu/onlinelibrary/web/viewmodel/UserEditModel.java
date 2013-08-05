@@ -117,6 +117,14 @@ public class UserEditModel {
     	innerUserEntity().setLastLogonTime(lastLogonTime);
     }
     
+    public String getRoleName(){
+    	return innerUserEntity().getRoleName(); 
+    }
+    
+    public void setRoleName(String roleName){
+    	innerUserEntity().setRoleName(roleName);
+    }
+    
     public String getNote(){
     	return innerUserEntity().getNote(); 
     }
