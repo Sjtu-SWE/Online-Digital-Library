@@ -18,7 +18,7 @@
 
                 $("#messageSec").html(sec);
                 if (sec == 0) {
-                    location = "/admin/book/list.do"
+                    location = "${url}"
                 }
             }, sec * 1000);
         })
