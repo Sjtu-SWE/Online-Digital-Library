@@ -1,10 +1,17 @@
 package com.sjtu.onlinelibrary.service;
 
+import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.User;
+import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
 public interface IUserService {
 
-	public User findById(String id) throws Exception;
+	Pager<UserEditModel> findAll(int pageIndex) throws DataAccessException;
+	UserEditModel findById(String id) throws DataAccessException;
+	void save(final User user) throws DataAccessException;
+	boolean delete(String id);
+	 
+	UserEditModel checkLogin(String userName, String password) throws Exception;
 	
-	public User checkLogin(String userName, String password) throws Exception;
 }
