@@ -1,5 +1,6 @@
 package com.sjtu.onlinelibrary.web.user;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
@@ -86,10 +87,9 @@ public class UserController {
 	            map.put("user", userEditModel);
 	            return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
 	        }
-	       userEditModel.setCreateDate();
-	       if(userEditModel.getCreateDate() != null){
-	    	   userEditModel.setUpdateDate();
-	       }
+//	        if(userEditModel.innerUserEntity().getId() == null){
+//	        	userEditModel.innerUserEntity().setCreateDate(new Date());
+//	        }
 	       userService.save(userEditModel.innerUserEntity());
 	        
 	        ModelMap mm = new ModelMap();
