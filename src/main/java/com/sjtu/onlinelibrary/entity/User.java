@@ -20,9 +20,11 @@ public class User  extends BasePersistable{
     private int credits;
     private Date lastLogonTime;
     private Date createDate;
-    private Date updaDate;
+    private Date updateDate;
     private String note;
     private int role;
+    private String roleName;
+    
     public User() {
     }
 
@@ -98,12 +100,12 @@ public class User  extends BasePersistable{
 		this.createDate = createDate;
 	}
 
-	public Date getUpdaDate() {
-		return updaDate;
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 
-	public void setUpdaDate(Date updaDate) {
-		this.updaDate = updaDate;
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getNote() {
@@ -112,6 +114,14 @@ public class User  extends BasePersistable{
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
     
 }
