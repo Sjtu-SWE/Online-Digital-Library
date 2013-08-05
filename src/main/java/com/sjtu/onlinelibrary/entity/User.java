@@ -21,6 +21,7 @@ public class User  extends BasePersistable{
     private Date lastLogonTime;
     private Date createDate;
     private Date updaDate;
+    private String note;
     private int role;
     public User() {
     }
@@ -103,6 +104,14 @@ public class User  extends BasePersistable{
 
 	public void setUpdaDate(Date updaDate) {
 		this.updaDate = updaDate;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
     
 }
