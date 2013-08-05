@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IUserService;
-import org.springframework.stereotype.Service;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.entity.User;
@@ -18,9 +17,7 @@ import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
  *  @author Crystal
  *
  */
-
-@Service
-public class UserServiceImpl extends BaseService  implements IUserService {
+public class UserServiceImpl  extends BaseService implements IUserService {
 	
 	public UserServiceImpl(MutableDataAccess mutableDataAccess) {
 		super(mutableDataAccess);
