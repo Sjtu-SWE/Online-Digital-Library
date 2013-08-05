@@ -3,6 +3,7 @@ package com.sjtu.onlinelibrary.web.viewmodel;
 import java.util.Date;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.sjtu.onlinelibrary.entity.User;
+import com.sjtu.onlinelibrary.util.LangUtil;
 
 public class UserEditModel {
 
@@ -91,22 +92,20 @@ public class UserEditModel {
         this.editType = editType;
     }
 
-    public Date getCreateDate(){
-    	return innerUserEntity().getCreateDate();
+    public String getCreateDate(){
+    	 if (innerUserEntity().getCreateDate() == null) {
+             return "";
+         }
+    	return LangUtil.getDefaultDateFormat().format(innerUserEntity().getCreateDate());
     }
     
-    public void setCreateDate(){
-    	if(getCreateDate() == null){
-    		innerUserEntity().setCreateDate(new Date());
-    	}
-    }
-    
-    public Date getUpdateDate(){
-    	return innerUserEntity().getUpdateDate();
-    }
-    
-    public void setUpdateDate(){
-    	innerUserEntity().setUpdateDate(new Date());
+    public void setCreateDate(String createDate){
+    	try {
+            if (LangUtil.isNullOrEmpty(createDate)) return;
+            innerUserEntity().setCreateDate(LangUtil.getDefaultDateFormat().parse(createDate));
+        } catch (Exception e) {
+            return;
+        }
     }
     
     public Date getLastLogonTime(){
