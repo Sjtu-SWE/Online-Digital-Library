@@ -8,10 +8,9 @@
 <style type='text/css'>
     
 </style>
-
+<jsp:include page="/WEB-INF/views/admin/comomResource.jsp"></jsp:include>
 </head>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery-2.0.3.min.js"></script>
+
 <body>
 <div class="container">
 <!-- 导航 -->
