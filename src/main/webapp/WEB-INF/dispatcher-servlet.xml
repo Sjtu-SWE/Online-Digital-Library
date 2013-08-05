@@ -39,7 +39,9 @@
     <bean name="BookMgrController" class="com.sjtu.onlinelibrary.web.admin.BookMgrController" >
         <property name="bookService"> <ref local="bookService"></ref></property>
     </bean>
-    <bean id="userService" class="com.sjtu.onlinelibrary.service.impl.UserServiceImpl"></bean>
+    <bean id="userService" class="com.sjtu.onlinelibrary.service.impl.UserServiceImpl">
+    	<constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
     <bean id="bookService" class="com.sjtu.onlinelibrary.service.impl.BookServiceImpl">
         <constructor-arg ref="mutableDataAccess"></constructor-arg>
     </bean>
