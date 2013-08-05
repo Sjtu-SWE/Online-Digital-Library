@@ -12,6 +12,6 @@ public interface IUserService {
 	void save(final User user) throws DataAccessException;
 	boolean delete(String id);
 	 
-	UserEditModel checkLogin(String userName, String password) throws Exception;
+	User checkLogin(String userName, String password) throws Exception;
 	
 }
