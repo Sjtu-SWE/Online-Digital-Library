@@ -10,7 +10,7 @@
 <body>
 <h2>书籍数量：${pageData.getTotalCount()}</h2>
 
-<div>
+<div class="container">
     <div id="book-operation">
         <a class="btn btn-primary" href="/admin/book/create.do">创建书籍</a>
     </div>
