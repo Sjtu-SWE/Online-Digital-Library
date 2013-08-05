@@ -3,7 +3,6 @@ package com.sjtu.onlinelibrary.web.viewmodel;
 import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
