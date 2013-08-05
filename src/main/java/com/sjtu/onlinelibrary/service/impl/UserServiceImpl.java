@@ -33,16 +33,16 @@ public class UserServiceImpl extends BaseService  implements IUserService {
 	}
 	
 	@Override
-	public UserEditModel checkLogin(String userName, String password) throws Exception{
+	public User checkLogin(String userName, String password) throws Exception{
 	    
 	    Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("userName", userName);
         condition.put("password", password);
         Iterable<User> result = mutableDataAccess.listByFilter(User.class, condition);
         if( result.iterator().hasNext() ){
-//        	return result.iterator().next();
+        	return result.iterator().next();
         }
-		return new UserEditModel();
+		return null;
 	}
 
 	@Override
