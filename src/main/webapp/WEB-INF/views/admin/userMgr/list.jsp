@@ -10,7 +10,7 @@
 <h2>用户管理</h2>
 <div>
     <div id="user-operation">
-        <a class="btn btn-primary" href="/admin/user/create.do">添加类别</a>
+        <a class="btn btn-primary" href="/admin/user/create.do">添加用户</a>
     </div>
     <div class="help-inline"></div>
     <div id="user-list">
