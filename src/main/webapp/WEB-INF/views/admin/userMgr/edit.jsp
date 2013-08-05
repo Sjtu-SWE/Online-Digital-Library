@@ -17,6 +17,7 @@
         <form method="post" class="form-horizontal" action="/admin/user/save.do">
 
             <form:hidden path="user.id"></form:hidden>
+            
             <div class="control-group">
                 <label class="control-label" for="userName">用户名：</label>
                 <div class="controls">
