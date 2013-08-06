@@ -22,5 +22,7 @@
     <a href="#tags-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-tags"></i>分类管理</a>
     <ul id="tags-menu" class="nav nav-list collapse">
         <li><a href="/admin/classification/list.do">分类列表</a></li>
+        <li><a href="/admin/classification/create.do">新建分类</a></li>
+
     </ul>
 </div>

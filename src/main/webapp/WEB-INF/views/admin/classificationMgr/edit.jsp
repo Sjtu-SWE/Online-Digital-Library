@@ -68,7 +68,7 @@
                                         placeholder="备注：无"></form:input>
                         </div>
                     </div>
-                    <div class="but-actions">
+                    <div class="form-actions">
                         <button type="submit" class="btn btn-primary">保存</button>
                         <a class="btn" href="/admin/classification/list.do">取消</a>
                     </div>
