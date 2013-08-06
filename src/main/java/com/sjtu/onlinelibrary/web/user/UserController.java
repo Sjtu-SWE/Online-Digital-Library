@@ -1,5 +1,6 @@
 package com.sjtu.onlinelibrary.web.user;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
-
 public class UserController {
 
 	public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
@@ -87,10 +87,11 @@ public class UserController {
 	            map.put("user", userEditModel);
 	            return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
 	        }
-//	        if(userEditModel.innerUserEntity().getId() == null){
-//	        	userEditModel.innerUserEntity().setCreateDate(new Date());
-//	        }
-	       userService.save(userEditModel.innerUserEntity());
+	        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        if( userEditModel.innerUserEntity().getId() == null ||  "".equals(userEditModel.innerUserEntity().getId()) ){
+	        	userEditModel.setCreateDate(dateformat.format(new Date()));
+	        }
+	        userService.save(userEditModel.innerUserEntity());
 	        
 	        ModelMap mm = new ModelMap();
 	        mm.put("message", "保存用户成功！");
@@ -116,7 +117,7 @@ public class UserController {
     		@RequestParam(value = "password", required = false) String password) throws Exception{
         //在请求/login.do时，执行该方法验证登录
 		if (userService.checkLogin(username, password) != null ) {
-        	return new ModelAndView("forward:../../../index.jsp","user", userService.checkLogin(username, password));
+        	return new ModelAndView("forward:/index.jsp","user", userService.checkLogin(username, password));
         }
         return new ModelAndView("forward:/loginError.jsp");
     }
