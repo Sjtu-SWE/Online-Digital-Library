@@ -25,6 +25,7 @@
                     <form:errors cssClass="error text-error" path="classification.classificationName"></form:errors>
                 </div>
             </div>
+            <c:if test="${classification.id!=null}">
             <div class="control-group">
                 <label class="control-label" for="createDate">创建日期：</label>
                 <div class="controls">
@@ -32,6 +33,7 @@
                     <form:errors cssClass="error text-error" path="classification.createDate"></form:errors>
                 </div>
             </div>
+            </c:if>
             <div class="control-group">
                 <label class="control-label" for="note">备注：</label>
 
