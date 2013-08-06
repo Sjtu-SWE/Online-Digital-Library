@@ -15,7 +15,13 @@ public class LangUtil {
 
     static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 
+    static final SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    
     public static SimpleDateFormat getDefaultDateFormat() {
         return dateformat;
+    }
+    
+    public static SimpleDateFormat getDefaultTimeFormat() {
+        return timeformat;
     }
 }
