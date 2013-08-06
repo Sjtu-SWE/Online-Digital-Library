@@ -1,5 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <link href="/css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/BlackTieAdmin/stylesheets/theme.css">
 <link rel="stylesheet" href="/BlackTieAdmin/lib/font-awesome/css/font-awesome.css">
