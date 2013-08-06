@@ -37,6 +37,7 @@
 
                 <div class="controls">
                     <form:input path="book.author" cssClass="input-xlarge" placeholder="作者：金庸"></form:input>
+                     <form:errors cssClass="error text-error" path="book.author"></form:errors>
                 </div>
             </div>
             <div class="control-group">

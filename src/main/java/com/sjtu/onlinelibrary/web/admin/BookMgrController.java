@@ -96,7 +96,10 @@ public class BookMgrController {
         if (bookService.delete(id)) {
             result = "删除书籍成功！";
         }
-        return new ModelAndView("forward:/success.jsp", "message", result);
+        final Map<String, Object> map = new HashMap<String, Object>();
+        map.put("message", result);
+        map.put("url", "/admin/book/list.do");
+        return new ModelAndView("forward:/success.jsp", map);
     }
 
     private Map<String, Object> getMapForEdit() {
