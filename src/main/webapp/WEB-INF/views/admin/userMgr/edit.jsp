@@ -67,6 +67,7 @@
                     <form:errors cssClass="error text-error" path="user.roleName"></form:errors>
                 </div>
             </div>
+            <c:if test="${user.id!=null}">
             <div class="control-group">
                 <label class="control-label" for="createDate">创建日期：</label>
                 <div class="controls">
@@ -74,6 +75,7 @@
                     <form:errors cssClass="error text-error" path="user.createDate"></form:errors>
                 </div>
             </div>
+            </c:if>
             <div class="control-group">
                 <label class="control-label" for="note">备注：</label>
                 <div class="controls">
