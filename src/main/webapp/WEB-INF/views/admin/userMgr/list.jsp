@@ -7,13 +7,38 @@
     <jsp:include page="../comomResource.jsp"></jsp:include>
     <script type="text/javascript" src="/js/pages/admin/userList.js"></script>
 </head>
-<h2>用户管理</h2>
-<div>
-    <div id="user-operation">
-        <a class="btn btn-primary" href="/admin/user/create.do">添加用户</a>
+
+<!--[if lt IE 7 ]>
+<body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]>
+<body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]>
+<body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]>
+<body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+  <!--<![endif]-->
+<jsp:include page="../navbar.jsp"></jsp:include>
+
+<jsp:include page="../sidebar.jsp"></jsp:include>
+
+<div class="content">
+    <div class="header">
+        <h1 class="page-title">用户列表</h1>
     </div>
-    <div class="help-inline"></div>
-    <div id="user-list">
+    <ul class="breadcrumb">
+        <li><a href="/admin/user/list.do">用户列表</a> <span class="divider">/</span></li>
+        <li class="active">用户管理</li>
+    </ul>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="btn-toolbar">
+                <a class="btn btn-primary" href="/admin/user/create.do">添加用户</a>
+            </div>
+            <div class="help-inline"></div>
+            <div id="user-list">
+     
         <table class="table table-striped table-condensed table-bordered table-hover">
             <thead>
             <tr>
@@ -46,6 +71,9 @@
         </table>
     </div>
     <jsp:include page="../pagination.jsp"></jsp:include>
+    </div>
+    <jsp:include page="../foot.jsp"></jsp:include>
+</div>
 </div>
 
 </body>
