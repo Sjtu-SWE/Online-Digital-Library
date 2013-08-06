@@ -96,16 +96,17 @@ public class UserEditModel {
     	 if (innerUserEntity().getCreateDate() == null) {
              return "";
          }
-    	return LangUtil.getDefaultDateFormat().format(innerUserEntity().getCreateDate());
+         return LangUtil.getDefaultTimeFormat().format(innerUserEntity().getCreateDate());
     }
     
     public void setCreateDate(String createDate){
-    	try {
-            if (LangUtil.isNullOrEmpty(createDate)) return;
-            innerUserEntity().setCreateDate(LangUtil.getDefaultDateFormat().parse(createDate));
-        } catch (Exception e) {
-            return;
-        }
+    	 try {
+             if (LangUtil.isNullOrEmpty(createDate)) return;
+             innerUserEntity().setCreateDate(LangUtil.getDefaultTimeFormat().parse(createDate));
+
+         } catch (Exception e) {
+             return;
+         }
     }
     
     public Date getLastLogonTime(){
