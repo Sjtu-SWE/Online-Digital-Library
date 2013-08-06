@@ -1,9 +1,8 @@
 package com.sjtu.onlinelibrary.web.viewmodel;
 
-import java.util.Date;
-
 import org.hibernate.validator.constraints.NotEmpty;
 import com.sjtu.onlinelibrary.entity.Classification;
+import com.sjtu.onlinelibrary.util.LangUtil;
 
 /**
  * @author Crystal
@@ -52,15 +51,22 @@ public class ClassificationEditModel {
         this.editType = editType;
     }
 
-    public Date getCreateDate(){
-    	return innerClassificationEntity().getCreateDate();
-    }
-    
-    public void setCreateDate(){
-    	if(getCreateDate() == null){
-    		innerClassificationEntity().setCreateDate(new Date());
-    	}
-    }
+    public String getCreateDate(){
+   	 if (innerClassificationEntity().getCreateDate() == null) {
+            return "";
+        }
+        return LangUtil.getDefaultTimeFormat().format(innerClassificationEntity().getCreateDate());
+   }
+   
+   public void setCreateDate(String createDate){
+   	 try {
+            if (LangUtil.isNullOrEmpty(createDate)) return;
+            innerClassificationEntity().setCreateDate(LangUtil.getDefaultTimeFormat().parse(createDate));
+
+        } catch (Exception e) {
+            return;
+        }
+   }
     
     public String getNote(){
     	return innerClassificationEntity().getNote(); 
