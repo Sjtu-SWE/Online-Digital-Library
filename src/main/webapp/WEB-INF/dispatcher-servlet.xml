@@ -32,6 +32,7 @@
     </bean>
     <!-- Controllers -->
     <bean name="AccountController" class="com.sjtu.onlinelibrary.web.account.AccountController" />
+    <bean name="HomeController" class="com.sjtu.onlinelibrary.web.admin.HomeController" />
     <bean name="KindEditController" class="com.sjtu.onlinelibrary.web.admin.KindEditController" />
     <bean name="UserController" class="com.sjtu.onlinelibrary.web.user.UserController" >
         <property name="userService"> <ref local="userService"></ref></property>

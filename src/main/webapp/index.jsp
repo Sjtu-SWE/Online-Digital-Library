@@ -8,7 +8,6 @@
 <style type='text/css'>
     
 </style>
-<jsp:include page="/WEB-INF/views/admin/comomResource.jsp"></jsp:include>
 </head>
 
 <body>
@@ -23,9 +22,10 @@
           <li><a>我的书架</a></li>
           <li class="divider-vertical"></li> 
           <li><a>我的账户</a></li>
-          <li class="divider-vertical"></li> 
-          <li><a href="login.jsp">登录</a></li>
-          <li class="divider-vertical"></li> 
+          <li class="divider-vertical"></li>
+           <li><a href="login.jsp">登录</a></li>
+           <li><a href="/admin/dashboard.do">后台管理</a></li>
+          <li class="divider-vertical"></li>
           <li><a>注册</a></li>
           <form class="navbar-form pull-right">  
           	<input type="text" class="span2">  
