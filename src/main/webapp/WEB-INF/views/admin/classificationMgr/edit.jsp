@@ -26,6 +26,13 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label" for="createDate">创建日期：</label>
+                <div class="controls">
+                    <form:input path="classification.createDate" cssClass="input-xlarge" placeholder="创建日期：" readonly="true"></form:input>
+                    <form:errors cssClass="error text-error" path="classification.createDate"></form:errors>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label" for="note">备注：</label>
 
                 <div class="controls">
