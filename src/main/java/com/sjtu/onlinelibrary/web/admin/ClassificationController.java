@@ -1,5 +1,7 @@
 package com.sjtu.onlinelibrary.web.admin;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.validation.Valid;
@@ -79,7 +81,10 @@ public class ClassificationController {
 	            map.put("classification", classificationEditModel);
 	            return new ModelAndView(ADMIN_CLASSIFICATION_MGR_EDIT, map);
 	        }
-	        classificationEditModel.setCreateDate();
+	        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        if( classificationEditModel.innerClassificationEntity().getId() == null ||  "".equals(classificationEditModel.innerClassificationEntity().getId()) ){
+	        	classificationEditModel.setCreateDate(dateformat.format(new Date()));
+	        }
 	        classificationService.save(classificationEditModel.innerClassificationEntity());
 	        
 	        ModelMap mm = new ModelMap();
