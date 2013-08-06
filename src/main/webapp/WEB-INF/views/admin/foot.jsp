@@ -6,5 +6,5 @@
         Bootstrap Theme</a> by <a href="http://www.portnine.com" target="_blank">Portnine</a></p>
 
 
-    <p>&copy; 2012 <a href="http://www.portnine.com" target="_blank">Portnine</a></p>
+    <p>&copy; 2013 <a href="#">sjtu</a></p>
 </footer>

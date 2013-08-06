@@ -16,6 +16,7 @@
     <a href="#books-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-book"></i>书籍管理</a>
     <ul id="books-menu" class="nav nav-list collapse">
         <li><a href="/admin/book/list.do">书籍列表</a></li>
+        <li><a href="/admin/book/create.do">新建书籍</a></li>
     </ul>
 
     <a href="#tags-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-tags"></i>分类管理</a>

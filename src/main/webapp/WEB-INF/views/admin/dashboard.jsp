@@ -19,7 +19,7 @@
 <!--[if IE 9 ]>
 <body class="ie ie9 "> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!-->
-<body class="">
+<body class="ie9">
 <!--<![endif]-->
 <jsp:include page="navbar.jsp"></jsp:include>
 
