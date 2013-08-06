@@ -10,10 +10,32 @@
     <title>${user.editType}</title>
     <jsp:include page="../comomResource.jsp"></jsp:include>
 </head>
-<body>
-<div class="span8">
-    <fieldset>
-        <legend>${user.editType}</legend>
+
+<!--[if lt IE 7 ]>
+<body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]>
+<body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]>
+<body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]>
+<body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+<!--<![endif]-->
+<jsp:include page="../navbar.jsp"></jsp:include>
+
+<jsp:include page="../sidebar.jsp"></jsp:include>
+<div class="content">
+    <div class="header">
+        <h1 class="page-title">${user.editType}</h1>
+    </div>
+    <ul class="breadcrumb">
+        <li><a href="/admin/user/list.do">书籍列表</a><span class="divider">/</span></li>
+        <li class="active">${user.editType}</li>
+    </ul>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="row-fluid">
         <form method="post" class="form-horizontal" action="/admin/user/save.do">
 
             <form:hidden path="user.id"></form:hidden>
@@ -87,7 +109,10 @@
                 <a class="btn" href="/admin/user/list.do">取消</a>
             </div>
         </form>
-    </fieldset>
+        </div>
+            <jsp:include page="../foot.jsp"></jsp:include>
+     </div>
+    </div>
 
 </div>
 </body>
