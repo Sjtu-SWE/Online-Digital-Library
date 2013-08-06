@@ -27,7 +27,7 @@
                 <tr>
                     <td>${classification.classificationName}</td>
                     <td>${classification.note}</td>
-                    <td><fmt:formatDate value="${classification.createDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                    <td>${classification.createDate}</td>
                     <td><a class="btn btn-link" href="./${classification.id}/edit.do">编辑</a>
                         <a class="btn btn-link" id="btn-delete-classification" href="/admin/classification/${classification.id}/delete.do">删除</a></td>
                 </tr>
