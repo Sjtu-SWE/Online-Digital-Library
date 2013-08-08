@@ -42,7 +42,7 @@
     </ul>
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="row-fluid">
+            <div class="row-fluid span6">
                 <form method="post" class="form-horizontal" action="/admin/book/save.do">
 
                     <form:hidden path="book.id"></form:hidden>
@@ -66,7 +66,8 @@
                         <label class="control-label" for="bookNumber">书号：</label>
 
                         <div class="controls">
-                            <form:input path="book.bookNumber" cssClass="input-xlarge" placeholder="书号：ISO00001"></form:input>
+                            <form:input path="book.bookNumber" cssClass="input-xlarge"
+                                        placeholder="书号：ISO00001"></form:input>
 
                         </div>
                     </div>
@@ -84,7 +85,8 @@
                         <label class="control-label" for="publisher">出版社：</label>
 
                         <div class="controls">
-                            <form:input path="book.publisher" cssClass="input-xlarge" placeholder="出版社：新华社"></form:input>
+                            <form:input path="book.publisher" cssClass="input-xlarge"
+                                        placeholder="出版社：新华社"></form:input>
 
                         </div>
                     </div>
@@ -92,7 +94,8 @@
                         <label class="control-label" for="publishDate">出版日期：</label>
 
                         <div class="controls">
-                            <form:input path="book.publishDate" cssClass="input-xlarge form-date" placeholder="出版日期：2000-1-1"
+                            <form:input path="book.publishDate" cssClass="input-xlarge form-date"
+                                        placeholder="出版日期：2000-1-1"
                                         readonly="readonly"></form:input>
                             <form:errors cssClass="error text-error" path="book.publishDate"></form:errors>
 
@@ -110,7 +113,8 @@
                         <label class="control-label" for="keywords">关键字：</label>
 
                         <div class="controls">
-                            <form:input path="book.keywords" cssClass="input-xlarge" placeholder="请使用空格分开：武侠 经典"></form:input>
+                            <form:input path="book.keywords" cssClass="input-xlarge"
+                                        placeholder="请使用空格分开：武侠 经典"></form:input>
                         </div>
                     </div>
                     <div class="control-group">
@@ -128,6 +132,9 @@
                     </div>
                 </form>
 
+            </div>
+            <div class="row-fluid offset2 span4">
+                <img src="${book.bookCoverImgPath}" class="img-polaroid"/>
             </div>
             <jsp:include page="../foot.jsp"></jsp:include>
         </div>
