@@ -6,6 +6,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,15 +34,18 @@ import java.util.*;
 public class KindEditController {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger LOG = LoggerFactory.getLogger(KindEditController.class);
 
     @RequestMapping(value = "/fileUpload.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> fileUpload(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException, FileUploadException {
         final ServletContext application = request.getSession().getServletContext();
         String savePath = System.getProperty("user.home") + "/attached/";
-
         // 文件保存目录URL
         String saveUrl = request.getContextPath() + "/attached/";
+        LOG.info("savepath: "+savePath);
+
+        LOG.info("saveUrl: "+saveUrl);
 
         // 定义允许上传的文件扩展名
         HashMap<String, String> extMap = new HashMap<String, String>();
@@ -64,7 +69,7 @@ public class KindEditController {
         }
         // 检查目录写权限
         if (!uploadDir.canWrite()) {
-            return getError("上传目录没有写权限。");
+            return getError("上传目录没有写权限。"+ savePath);
         }
 
         String dirName = request.getParameter("dir");
