@@ -37,7 +37,7 @@ public class KindEditController {
     @ResponseBody
     public Map<String, Object> fileUpload(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException, FileUploadException {
         final ServletContext application = request.getSession().getServletContext();
-        String savePath = application.getRealPath("/") + "/attached/";
+        String savePath = System.getProperty("user.home") + "/attached/";
 
         // 文件保存目录URL
         String saveUrl = request.getContextPath() + "/attached/";
