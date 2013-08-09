@@ -37,8 +37,7 @@ public class KindEditController {
     @ResponseBody
     public Map<String, Object> fileUpload(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException, FileUploadException {
         final ServletContext application = request.getSession().getServletContext();
-        String savePath = application.getRealPath("/") + "/attached/";
-
+        String savePath = application.getContextPath() + "/attached/";
         // 文件保存目录URL
         String saveUrl = request.getContextPath() + "/attached/";
 
@@ -64,7 +63,7 @@ public class KindEditController {
         }
         // 检查目录写权限
         if (!uploadDir.canWrite()) {
-            return getError("上传目录没有写权限。");
+            return getError("上传目录没有写权限。"+ savePath);
         }
 
         String dirName = request.getParameter("dir");
