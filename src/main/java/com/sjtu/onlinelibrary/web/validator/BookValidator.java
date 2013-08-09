@@ -7,4 +7,5 @@ package com.sjtu.onlinelibrary.web.validator;
  * Time: 下午10:12
  */
 public class BookValidator {
+    //test
 }
