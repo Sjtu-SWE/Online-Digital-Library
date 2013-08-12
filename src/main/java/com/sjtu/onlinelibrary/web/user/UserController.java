@@ -111,10 +111,10 @@ public class UserController {
 	        return new ModelAndView("forward:/success.jsp", mm);
 	    }
 	 
-	@RequestMapping("/login.do")
+	@RequestMapping("/j_spring_security_check.do")
     public ModelAndView login(HttpServletResponse response,  
-    		@RequestParam(value = "username", required = false) String username,  
-    		@RequestParam(value = "password", required = false) String password) throws Exception{
+    		@RequestParam(value = "j_username", required = false) String username,  
+    		@RequestParam(value = "j_password", required = false) String password) throws Exception{
         //在请求/login.do时，执行该方法验证登录
 		if (userService.checkLogin(username, password) != null ) {
         	return new ModelAndView("forward:/index.jsp","user", userService.checkLogin(username, password));
