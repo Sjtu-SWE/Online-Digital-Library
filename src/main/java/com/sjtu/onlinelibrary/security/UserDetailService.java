@@ -18,6 +18,7 @@ public class UserDetailService implements UserDetailsService {
      @Override
      public UserDetails loadUserByUsername(String arg0)    throws UsernameNotFoundException, DataAccessException   {
     	 System.out.println("-----------------------UserDetailService");
+    	 System.out.println("================登录的用户名"+arg0);
          List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
          GrantedAuthority grantedAuthority = null;
  
