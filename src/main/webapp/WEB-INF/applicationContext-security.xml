@@ -4,43 +4,26 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
     <!-- 用户验证通过才能授权，若不通过会跳到authentication-failure-url(验证失败页面)
           若用户验证通过，但没有default-target-url的访问权限，则会跳转至access-denied-page(授权失败页面) -->
-    <http access-denied-page="/login.jsp">
-        <intercept-url pattern="/login.jsp" filters="none" />
-        <logout logout-success-url="/login.jsp" />
+    <http auto-config="true" access-denied-page="/accessDeny.jsp">
+        <intercept-url pattern="/admin/*/save.do"  access="ROLE_USER" />
+        <intercept-url pattern="/admin/*/create.do"  access="ROLE_USER" />
+        <intercept-url pattern="/admin/*/list.do"  access="ROLE_USER" />
+        <intercept-url pattern="/admin/*/delete.do"  access="ROLE_USER" />
+         
+        <session-management session-fixation-protection="none">  
+             <concurrency-control/>  
+        </session-management>        
         <form-login login-page="/login.jsp" default-target-url="/index.jsp"
             authentication-failure-url="/login.jsp" />
-        <http-basic />
-
-        <custom-filter ref="UserSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />
-        <intercept-url pattern="/admin/**/save.do"  access="ROLE_PLATFORMADMIN" />
-        <intercept-url pattern="/admin/**/create.do"  access="ROLE_PLATFORMADMIN" />
-        <intercept-url pattern="/admin/**/list.do"  access="ROLE_PLATFORMADMIN" />
-        <intercept-url pattern="/admin/**/delete.do"  access="ROLE_PLATFORMADMIN" />
+		<logout logout-success-url="/login.jsp" />
+        <!-- custom-filter ref="UserSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />-->
     </http>
 
-    <beans:bean id="UserSecurityFilter" class="com.sjtu.onlinelibrary.security.UserSecurityFilter">
-        <!-- 注入决策管理器 -->
-        <beans:property name="accessDecisionManager" ref="CC_AccessDecisionManager"></beans:property>
-
-        <!-- 注入资源角色授权管理器 -->
-        <beans:property name="securityMetadataSource" ref="CC_SecurityMetadataSource"></beans:property>
-
-        <!-- 注入身份认证管理器 -->
-        <beans:property name="authenticationManager" ref="CC_AuthenticationManager"></beans:property>
-    </beans:bean>
-
-	<!-- 自定义资源权限关系集合 -->  
-    <beans:bean id="CC_SecurityMetadataSource"
-        class="com.sjtu.onlinelibrary.security.UserFilterInvocationSecurityMetadataSource"></beans:bean>
-
-	<!-- 自定义资源权限关系认证 -->  
-    <beans:bean id="CC_AccessDecisionManager"
-        class="com.sjtu.onlinelibrary.security.UserAccessDecisionManager"></beans:bean>
-
-    <authentication-manager alias="CC_AuthenticationManager">
+    <authentication-manager>
         <authentication-provider user-service-ref="UserDetailService"></authentication-provider>
     </authentication-manager>
 
-	<!-- 自定义UserDetailsService认证  -->
-    <beans:bean id="UserDetailService" class="com.sjtu.onlinelibrary.security.UserDetailService"></beans:bean>
+	<!-- 自定义UserDetailsService认证 -->
+    <beans:bean id="UserDetailService" class="com.sjtu.onlinelibrary.security.UserDetailService"></beans:bean> 
+    
 </beans:beans>
