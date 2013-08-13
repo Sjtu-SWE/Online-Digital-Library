@@ -14,7 +14,7 @@
 <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 </head>  
 <body>  
-<form method="post" action="/j_spring_security_check.do">
+<form method="post" action="/j_spring_security_check">
 <div class="container">
 <div class="hero-unit">
 <table class="">
