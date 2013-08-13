@@ -30,7 +30,7 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 	}
 	
 	@Override
-	public User checkLogin(String userName, String password) throws Exception{
+	public User checkLogin(String userName, String password) throws Exception{//前台页面登录用
 	    
 	    Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("userName", userName);
@@ -71,6 +71,17 @@ public class UserServiceImpl  extends BaseService implements IUserService {
         } catch (DataAccessException e) {
             return false;
         }
+	}
+
+	@Override
+	public User findByName(String userName) throws DataAccessException {
+		Map<String,Object> condition = new HashMap<String, Object>();
+		condition.put("userName", userName);
+		List<User> users = mutableDataAccess.listByFilter(User.class, condition);
+		if(users!=null && users.size()>0){
+			return users.get(0);
+		}
+        return null;
 	}
 	
 }

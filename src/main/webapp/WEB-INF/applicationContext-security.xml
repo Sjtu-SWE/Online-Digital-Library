@@ -5,10 +5,10 @@
     <!-- 用户验证通过才能授权，若不通过会跳到authentication-failure-url(验证失败页面)
           若用户验证通过，但没有default-target-url的访问权限，则会跳转至access-denied-page(授权失败页面) -->
     <http auto-config="true" access-denied-page="/accessDeny.jsp">
-        <intercept-url pattern="/admin/*/save.do"  access="ROLE_USER" />
-        <intercept-url pattern="/admin/*/create.do"  access="ROLE_USER" />
-        <intercept-url pattern="/admin/*/list.do"  access="ROLE_USER" />
-        <intercept-url pattern="/admin/*/delete.do"  access="ROLE_USER" />
+        <intercept-url pattern="/admin/*/save.do"  access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/*/create.do"  access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/*/list.do"  access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/*/delete.do"  access="ROLE_ADMIN" />
          
         <session-management session-fixation-protection="none">  
              <concurrency-control/>  
@@ -19,11 +19,25 @@
         <!-- custom-filter ref="UserSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />-->
     </http>
 
+	<beans:bean id="mongoConfig" class="com.sjtu.onlinelibrary.util.MongoConfig">
+        <beans:property name="serverList" value="localhost"/>
+        <beans:property name="dbName" value="onlineLibrary"/>
+    </beans:bean>
+	<beans:bean id="mutableDataAccess" class="com.sjtu.onlinelibrary.impl.DataAccessMongoImpl">
+        <beans:constructor-arg ref="mongoConfig"></beans:constructor-arg>
+    </beans:bean>
+    <beans:bean id="userService" class="com.sjtu.onlinelibrary.service.impl.UserServiceImpl">
+    	<beans:constructor-arg ref="mutableDataAccess"></beans:constructor-arg>
+    </beans:bean>
+    
+    <!-- 自定义UserDetailsService认证 -->
+    <beans:bean id="UserDetailService" class="com.sjtu.onlinelibrary.security.UserDetailService">
+    	<beans:property name="userService" ref="userService"></beans:property>
+    </beans:bean> 
+    
     <authentication-manager>
         <authentication-provider user-service-ref="UserDetailService"></authentication-provider>
     </authentication-manager>
-
-	<!-- 自定义UserDetailsService认证 -->
-    <beans:bean id="UserDetailService" class="com.sjtu.onlinelibrary.security.UserDetailService"></beans:bean> 
+	
     
 </beans:beans>

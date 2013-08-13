@@ -111,7 +111,7 @@ public class UserController {
 	        return new ModelAndView("forward:/success.jsp", mm);
 	    }
 	 
-	@RequestMapping("/j_spring_security_check.do")
+	@RequestMapping("/login.do")
     public ModelAndView login(HttpServletResponse response,  
     		@RequestParam(value = "j_username", required = false) String username,  
     		@RequestParam(value = "j_password", required = false) String password) throws Exception{
