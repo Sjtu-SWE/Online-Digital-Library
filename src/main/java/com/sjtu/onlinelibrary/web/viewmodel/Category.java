@@ -8,11 +8,16 @@ package com.sjtu.onlinelibrary.web.viewmodel;
  */
 public class Category {
     private String name;
+    private String value;
 
     public Category(String name) {
         this.name = name;
     }
 
+    public Category(String name,String value){
+    	this.name = name;
+    	this.value = value;
+    }
     public String getName() {
         return name;
     }
@@ -20,4 +25,13 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+    
 }
