@@ -52,7 +52,7 @@
                         </thead>
                         <c:forEach items="${pageData.getList()}" var="book">
                             <tr>
-                                    <%--<td>${book.id}</td>--%>
+                                <%--<td>${book.id}</td>--%>
                                 <td>${book.name}</td>
                                 <td>${book.author}</td>
                                 <td>${book.price}</td>
