@@ -85,8 +85,7 @@
             <div class="control-group">
                 <label class="control-label" for="roleName">角色：</label>
                 <div class="controls">
-                    <form:input path="user.roleName" cssClass="input-xlarge" placeholder="角色：普通用户"></form:input>
-                    <form:errors cssClass="error text-error" path="user.roleName"></form:errors>
+                    <form:select path="user.roleName" items="${types}" itemValue="value" itemLabel="name"/>
                 </div>
             </div>
             <c:if test="${user.id!=null}">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html>
@@ -62,7 +63,13 @@
                     <td>${user.phone}</td>
                     <td>${user.credits}</td>
                     <td><fmt:formatDate value="${user.lastLogonTime}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-                    <td>${user.roleName}</td>
+                    <td>
+                    	<c:choose>
+                    		<c:when test="${user.roleName=='ROLE_ADMIN'}">系统管理员</c:when>
+                    		<c:when test="${user.roleName=='ROLE_USER'}">普通用户</c:when>
+                    		<c:otherwise>未知</c:otherwise>
+                    	</c:choose>
+                    </td>
                     <td>${user.createDate}</td>
                     <td><a class="btn btn-link" href="./${user.id}/edit.do">编辑</a>
                         <a class="btn btn-link" id="btn-delete-user" href="/admin/user/${user.id}/delete.do">删除</a></td>
