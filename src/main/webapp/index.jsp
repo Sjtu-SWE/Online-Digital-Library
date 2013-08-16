@@ -28,17 +28,19 @@
           <li class="divider-vertical"></li>
           <li><a>注册</a></li>
           <form class="navbar-form pull-right">  
-          	<input type="text" class="span2">  
+          	<input type="text" class="span2">
           	<button type="submit" class="btn">搜索</button>
-      	  </form> 
-        </ul> 
+      	  </form>
+      	  <li class="divider-vertical"></li>
+          <li><a href="/j_spring_security_logout">退出</a></li>
+        </ul>
     </div>  
 </div>
 
 <div >
 <!-- Main hero unit for a primary marketing message or call to action-->
 <div class="hero-unit">
-<h1>${user.userName}欢迎来到在线数字图书馆!</h1>
+<h1>${session.SPRING_SECURITY_CONTEXT.authentication.principal}欢迎来到在线数字图书馆!</h1>
 <p>This is a template for a simple marketing or informational website.It includes a large callout called
  the hero unit and three supporting pieces of content.Use it as a starting point to create something
   more unique.</p>
