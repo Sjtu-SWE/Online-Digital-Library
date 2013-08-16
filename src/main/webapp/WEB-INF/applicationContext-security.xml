@@ -4,18 +4,20 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
     <!-- 用户验证通过才能授权，若不通过会跳到authentication-failure-url(验证失败页面)
           若用户验证通过，但没有default-target-url的访问权限，则会跳转至access-denied-page(授权失败页面) -->
-    <http auto-config="true" access-denied-page="/accessDeny.jsp">
+    <http  access-denied-page="/accessDeny.jsp">
+    	<intercept-url pattern="/admin/*.do"  access="ROLE_ADMIN" />
         <intercept-url pattern="/admin/*/save.do"  access="ROLE_ADMIN" />
         <intercept-url pattern="/admin/*/create.do"  access="ROLE_ADMIN" />
         <intercept-url pattern="/admin/*/list.do"  access="ROLE_ADMIN" />
         <intercept-url pattern="/admin/*/delete.do"  access="ROLE_ADMIN" />
          
         <session-management session-fixation-protection="none">  
-             <concurrency-control/>  
+             <concurrency-control/>
         </session-management>        
         <form-login login-page="/login.jsp" default-target-url="/index.jsp"
             authentication-failure-url="/login.jsp" />
-		<logout logout-success-url="/login.jsp" />
+		<logout logout-success-url="/login.jsp" 
+			    logout-url="/j_spring_security_logout"/>
         <!-- custom-filter ref="UserSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />-->
     </http>
 
