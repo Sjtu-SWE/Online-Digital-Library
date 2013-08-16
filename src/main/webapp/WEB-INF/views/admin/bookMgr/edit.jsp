@@ -46,6 +46,7 @@
                 <form method="post" class="form-horizontal" action="/admin/book/save.do">
 
                     <form:hidden path="book.id"></form:hidden>
+                    <form:hidden path="book.createdOn"></form:hidden>
                     <div class="control-group">
                         <label class="control-label" for="name">书名：</label>
 
@@ -106,7 +107,7 @@
                         <label class="control-label" for="category">书籍分类：</label>
 
                         <div class="controls">
-                            <form:select path="book.category" items="${categories}" itemValue="name" itemLabel="name"/>
+                            <form:select path="book.category" items="${categories}" itemValue="classificationName" itemLabel="classificationName"/>
                         </div>
                     </div>
                     <div class="control-group">

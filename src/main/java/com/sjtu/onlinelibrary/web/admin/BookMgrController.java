@@ -3,6 +3,7 @@ package com.sjtu.onlinelibrary.web.admin;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.service.IBookService;
+import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
@@ -32,8 +33,13 @@ public class BookMgrController {
     public static final String ADMIN_BOOK_MGR_EDIT = "admin/bookMgr/edit";
     public static final String PAGE_DATE = "pageData";
     private IBookService bookService;
+    private IClassificationService classificationService;
 
-    public void setBookService(IBookService bookService) {
+    public void setClassificationService(final IClassificationService classificationService) {
+        this.classificationService = classificationService;
+    }
+
+    public void setBookService(final IBookService bookService) {
         this.bookService = bookService;
     }
 
@@ -53,7 +59,7 @@ public class BookMgrController {
     }
 
     @RequestMapping("/create.do")
-    public ModelAndView create() {
+    public ModelAndView create() throws DataAccessException {
         final Map<String, Object> map = getMapForEdit();
         map.put("book", new BookEditModel("创建书籍", new Book()));
         return new ModelAndView(ADMIN_BOOK_MGR_EDIT, map);
@@ -102,12 +108,9 @@ public class BookMgrController {
         return new ModelAndView("forward:/success.jsp", map);
     }
 
-    private Map<String, Object> getMapForEdit() {
+    private Map<String, Object> getMapForEdit() throws DataAccessException {
         final Map<String, Object> map = new HashMap<String, Object>();
-        final List<Category> categories = new ArrayList<Category>();
-        categories.add(new Category("测试分类1"));
-        categories.add(new Category("测试分类2"));
-        map.put("categories", categories);
+        map.put("categories", this.classificationService.findAll(0).getList());
         return map;
     }
 }

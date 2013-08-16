@@ -4,6 +4,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.sjtu.onlinelibrary.BasePersistable;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,6 +29,7 @@ public class Book extends BasePersistable {
     private int clickAmount;
     private int userLikeAmount;
     private int userUnlikeAmount;
+    private List<Chappter> chappters;
 
     public String getName() {
         return name;
@@ -139,5 +141,13 @@ public class Book extends BasePersistable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public List<Chappter> getChappters() {
+        return chappters;
+    }
+
+    public void setChappters(List<Chappter> chappters) {
+        this.chappters = chappters;
     }
 }

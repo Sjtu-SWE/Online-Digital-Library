@@ -5,6 +5,7 @@ import com.sjtu.onlinelibrary.util.LangUtil;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -130,5 +131,12 @@ public class BookEditModel {
 
     public void setBookCoverImgPath(String bookCoverImgPath) {
         innerBookEntity().setBookCoverImgPath(bookCoverImgPath);
+    }
+    public Date getCreatedOn() {
+        return innerBookEntity().getCreatedOn();
+    }
+
+    public void setCreatedOn(final Date createdOn) {
+        innerBookEntity().setCreatedOn(createdOn);
     }
 }
