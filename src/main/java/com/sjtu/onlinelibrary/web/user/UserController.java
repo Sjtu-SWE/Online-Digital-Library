@@ -1,8 +1,10 @@
 package com.sjtu.onlinelibrary.web.user;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -10,6 +12,7 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.util.LangUtil;
+import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 import org.springframework.stereotype.Controller;
@@ -61,7 +64,7 @@ public class UserController {
 	
 	 @RequestMapping("/admin/user/create.do")
 	    public ModelAndView create() {
-	        final Map<String, Object> map = new HashMap<String, Object>();
+	        final Map<String, Object> map = getMapForEdit();
 	        map.put("user", new UserEditModel("创建用户", new User()));
 	        return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
 	    }
@@ -70,7 +73,7 @@ public class UserController {
 	    public ModelAndView edit(@PathVariable("id") final String id) {
 	        try {
 	            final UserEditModel user = this.userService.findById(id);
-	            final Map<String, Object> map = new HashMap<String, Object>();
+	            final Map<String, Object> map = getMapForEdit();
 	            map.put("user", user);
 	            return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
 
@@ -82,7 +85,7 @@ public class UserController {
 	 @RequestMapping(value = "/admin/user/save.do", method = RequestMethod.POST)
 	    public ModelAndView save(@Valid @ModelAttribute("user") final UserEditModel userEditModel, final BindingResult bindingResult) throws DataAccessException {
 	        if (bindingResult.hasErrors()) {
-	            final Map<String, Object> map = new HashMap<String, Object>();
+	            final Map<String, Object> map = getMapForEdit();
 	            userEditModel.setEditType("编辑用户");
 	            map.put("user", userEditModel);
 	            return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
@@ -120,6 +123,15 @@ public class UserController {
         	return new ModelAndView("forward:/index.jsp","user", userService.checkLogin(username, password));
         }
         return new ModelAndView("forward:/loginError.jsp");
+    }
+	
+	private Map<String, Object> getMapForEdit() {
+        final Map<String, Object> map = new HashMap<String, Object>();
+        final List<Category> types = new ArrayList<Category>();
+        types.add(new Category("系统管理员","ROLE_ADMIN"));
+        types.add(new Category("普通用户","ROLE_USER"));
+        map.put("types", types);
+        return map;
     }
 	
 }
