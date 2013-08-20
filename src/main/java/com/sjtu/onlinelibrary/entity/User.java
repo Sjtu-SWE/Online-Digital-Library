@@ -2,7 +2,13 @@ package com.sjtu.onlinelibrary.entity;
 
 import com.google.code.morphia.annotations.Entity;
 import com.sjtu.onlinelibrary.BasePersistable;
+
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +17,8 @@ import java.util.Date;
  * Time: 下午3:52
  */
 @Entity
-public class User  extends BasePersistable {
-    private String userName;
+public class User  extends BasePersistable implements UserDetails {
+    private String username;
     private String realName;
     private String phone;
     private String email;
@@ -23,18 +29,32 @@ public class User  extends BasePersistable {
     private String note;
     private int role;
     private String roleName;
+       
+   private List<GrantedAuthority> authorities;
+   private boolean accountNonExpired;       
+   private boolean accountNonLocked;      
+   private boolean credentialsNonExpired;      
+   private boolean enabled;
     
-    public User() {
+   public User(){}
+   
+    public User(String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, 
+    		boolean enabled, List<GrantedAuthority> authorities) {
+    	if (username == null || "".equals(username) || password == null)  
+    		throw new IllegalArgumentException("Cannot pass null or empty values to constructor");  
+    	this.username = username;
+    	this.password = password;
+    	this.accountNonExpired = accountNonExpired;
+    	this.accountNonLocked = accountNonLocked;
+    	this.credentialsNonExpired = credentialsNonExpired;
+    	this.enabled = enabled;
+    	this.authorities = authorities;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUsername(String username) {
+       this.username = username;
     }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    
     public String getRealName() {
         return realName;
     }
@@ -113,6 +133,36 @@ public class User  extends BasePersistable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	@Override
+	public Collection<GrantedAuthority> getAuthorities() {
+		return this.authorities;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return this.accountNonExpired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.accountNonLocked;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return this.credentialsNonExpired;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.enabled;
 	}
     
 }
