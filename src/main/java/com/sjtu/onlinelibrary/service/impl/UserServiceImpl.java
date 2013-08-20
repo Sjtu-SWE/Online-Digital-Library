@@ -33,7 +33,7 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 	public User checkLogin(String userName, String password) throws Exception{//前台页面登录用
 	    
 	    Map<String, Object> condition = new HashMap<String, Object>();
-        condition.put("userName", userName);
+        condition.put("username", userName);
         condition.put("password", password);
         Iterable<User> result = mutableDataAccess.listByFilter(User.class, condition);
         if( result.iterator().hasNext() ){
@@ -74,9 +74,9 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 	}
 
 	@Override
-	public User findByName(String userName) throws DataAccessException {
+	public User findByName(String username) throws DataAccessException {
 		Map<String,Object> condition = new HashMap<String, Object>();
-		condition.put("userName", userName);
+		condition.put("username", username);
 		List<User> users = mutableDataAccess.listByFilter(User.class, condition);
 		if(users!=null && users.size()>0){
 			return users.get(0);
