@@ -72,7 +72,7 @@ public class DBTest {
         final User user = new User();
         user.setId("user.id");
         user.setCreatedOn(new Date());
-        user.setUserName("admin");
+        user.setUsername("admin");
         user.setPassword("admin");
         user.setRole(1);
         db.save(user);
