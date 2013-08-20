@@ -19,7 +19,7 @@
 <div class="hero-unit">
 <table class="">
     <tr><td>姓名</td><td><input id="username" name="j_username" type="text" /></td></tr>
-    <tr><td>密码</td><td><input id="password" name="j_password"  type="password" /></td></tr>  
+    <tr><td>密码</td><td><input id="password" name="j_password"  type="password" /></td></tr>
     <tr><td colSpan="2" align="center">
     	<input type="submit" value="提交" class="btn"/><input type="button" onclick="" value="返回" class="btn"/> </td></tr>
 </table>
