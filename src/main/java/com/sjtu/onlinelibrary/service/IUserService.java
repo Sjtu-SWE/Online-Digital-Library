@@ -9,7 +9,7 @@ public interface IUserService {
 
 	Pager<UserEditModel> findAll(int pageIndex) throws DataAccessException;
 	UserEditModel findById(String id) throws DataAccessException;
-	User findByName(String userName) throws DataAccessException;
+	User findByName(String username) throws DataAccessException;
 	void save(final User user) throws DataAccessException;
 	boolean delete(String id);
 	 
