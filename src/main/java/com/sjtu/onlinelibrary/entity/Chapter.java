@@ -10,7 +10,8 @@ import com.sjtu.onlinelibrary.BasePersistable;
  * Time: 下午8:23
  */
 @Entity
-public class Chappter extends BasePersistable {
+public class Chapter extends BasePersistable {
+    private String bookId;
     private String title;
     private String content;
     private int orderNumber;
@@ -36,5 +37,13 @@ public class Chappter extends BasePersistable {
 
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 }

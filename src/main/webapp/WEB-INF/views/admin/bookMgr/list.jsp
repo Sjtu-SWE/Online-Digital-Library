@@ -61,7 +61,9 @@
                                 <td>${book.publishDate}</td>
                                 <td><a class="btn btn-link" href="./${book.id}/edit.do">编辑</a>
                                     <a class="btn btn-link" id="btn-delete-book"
-                                       href="/admin/book/${book.id}/delete.do">删除</a>
+                                       href="javascript:if(confirm('确定删除？')){window.location='/admin/book/${book.id}/delete.do';}">删除</a>
+                                    <a class="btn btn-link" id="btn-edit-chapter"
+                                       href="/admin/book/${book.id}/chapter/list.do">章节维护</a>
                                 </td>
                             </tr>
                         </c:forEach>

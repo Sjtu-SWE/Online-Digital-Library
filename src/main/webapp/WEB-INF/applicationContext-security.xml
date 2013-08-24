@@ -6,11 +6,11 @@
           若用户验证通过，但没有default-target-url的访问权限，则会跳转至access-denied-page(授权失败页面) -->
     <http  access-denied-page="/accessDeny.jsp">
     	<intercept-url pattern="/admin/*.do"  access="ROLE_ADMIN" />
-        <intercept-url pattern="/admin/*/save.do"  access="ROLE_ADMIN" />
-        <intercept-url pattern="/admin/*/create.do"  access="ROLE_ADMIN" />
-        <intercept-url pattern="/admin/*/list.do"  access="ROLE_ADMIN" />
-        <intercept-url pattern="/admin/*/delete.do"  access="ROLE_ADMIN" />
-         
+        <intercept-url pattern="/admin/**/save.do"  access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/**/create.do"  access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/**/list.do"  access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/**/delete.do"  access="ROLE_ADMIN" />
+
         <session-management session-fixation-protection="none">  
              <concurrency-control/>
         </session-management>        

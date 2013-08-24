@@ -37,6 +37,10 @@
     <bean name="UserController" class="com.sjtu.onlinelibrary.web.user.UserController" >
         <property name="userService"> <ref local="userService"></ref></property>
     </bean>
+    <bean name="ChapterMgrController" class="com.sjtu.onlinelibrary.web.admin.ChapterMgrController">
+        <property name="chapterService"> <ref local="chapterService"></ref> </property>
+        <property name="bookService"> <ref local="bookService"></ref></property>
+    </bean>
     <bean name="BookMgrController" class="com.sjtu.onlinelibrary.web.admin.BookMgrController" >
         <property name="bookService"> <ref local="bookService"></ref></property>
         <property name="classificationService"> <ref local="classificationService"></ref></property>
@@ -49,6 +53,9 @@
     </bean>
     
     <bean id="classificationService" class="com.sjtu.onlinelibrary.service.impl.ClassificationServiceImpl">
+        <constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
+    <bean id="chapterService" class="com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl">
         <constructor-arg ref="mutableDataAccess"></constructor-arg>
     </bean>
     <bean name="ClassificationController" class="com.sjtu.onlinelibrary.web.admin.ClassificationController" >

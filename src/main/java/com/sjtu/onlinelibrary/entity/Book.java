@@ -29,7 +29,7 @@ public class Book extends BasePersistable {
     private int clickAmount;
     private int userLikeAmount;
     private int userUnlikeAmount;
-    private List<Chappter> chappters;
+    private List<Chapter> chapters;
 
     public String getName() {
         return name;
@@ -143,11 +143,11 @@ public class Book extends BasePersistable {
         this.price = price;
     }
 
-    public List<Chappter> getChappters() {
-        return chappters;
+    public List<Chapter> getChapters() {
+        return chapters;
     }
 
-    public void setChappters(List<Chappter> chappters) {
-        this.chappters = chappters;
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
     }
 }

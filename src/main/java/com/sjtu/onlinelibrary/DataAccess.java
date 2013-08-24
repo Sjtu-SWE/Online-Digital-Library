@@ -44,7 +44,11 @@ public interface DataAccess {
 
     <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize) throws DataAccessException;
 
+    <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize, final Map<String, Object> conditionMap) throws DataAccessException;
+
     <T extends Persistable> int count(final Class<T> clazz);
+
+    <T extends Persistable> int count(final Class<T> clazz, final Map<String, Object> conditionMap);
 
     /**
      * An efficient way to find whether an item exists already.

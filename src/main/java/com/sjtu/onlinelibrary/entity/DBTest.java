@@ -29,6 +29,7 @@ public class DBTest {
     public static void main(final String[] args) throws DataAccessException, UnknownHostException {
         final MongoConfig mongoConfig = new MongoConfig();
         mongoConfig.setDbName("onlineLibrary");
+//        mongoConfig.setServerList("ec2-46-137-198-225.ap-southeast-1.compute.amazonaws.com");
         mongoConfig.setServerList("localhost");
 
         final MutableDataAccess db = new DataAccessMongoImpl(mongoConfig);
@@ -74,6 +75,7 @@ public class DBTest {
         user.setCreatedOn(new Date());
         user.setUsername("admin");
         user.setPassword("admin");
+        user.setRoleName("ROLE_ADMIN");
         user.setRole(1);
         db.save(user);
         System.out.println("save user success");

@@ -74,8 +74,18 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
 
     @Override
     public <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize) throws DataAccessException {
+        return paging(clazz, pageIndex, pageSize, null);
+    }
+
+    @Override
+    public <T extends Persistable> List<T> paging(Class<T> clazz, int pageIndex, int pageSize, Map<String, Object> conditionMap) throws DataAccessException {
         try {
             Query<T> qry = _ds.createQuery(clazz).limit(pageSize).offset((pageIndex - 1) * pageSize);
+            if (conditionMap != null) {
+                for (final String key : conditionMap.keySet()) {
+                    qry = qry.filter(key, conditionMap.get(key));
+                }
+            }
             return qry.asList();
         } catch (Exception e) {
             throw new DataAccessException("Could not lookup " + clazz.getName(), e);
@@ -85,6 +95,16 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     @Override
     public <T extends Persistable> int count(final Class<T> clazz) {
         return (int) _ds.getCount(clazz);
+    }
+
+    @Override
+    public <T extends Persistable> int count(Class<T> clazz, Map<String, Object> conditionMap) {
+        if (conditionMap == null) return (int) _ds.getCount(clazz);
+        Query<T> qry = _ds.createQuery(clazz);
+        for (final String key : conditionMap.keySet()) {
+            qry = qry.filter(key, conditionMap.get(key));
+        }
+        return (int) _ds.getCount(qry);
     }
 
     @Override

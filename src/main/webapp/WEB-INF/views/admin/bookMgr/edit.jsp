@@ -46,7 +46,10 @@
                 <form method="post" class="form-horizontal" action="/admin/book/save.do">
 
                     <form:hidden path="book.id"></form:hidden>
-                    <form:hidden path="book.createdOn"></form:hidden>
+                    <c:if test="${book.createdOn!= null}">
+                        <form:hidden path="book.createdOn"></form:hidden>
+                    </c:if>
+
                     <div class="control-group">
                         <label class="control-label" for="name">书名：</label>
 
@@ -107,7 +110,8 @@
                         <label class="control-label" for="category">书籍分类：</label>
 
                         <div class="controls">
-                            <form:select path="book.category" items="${categories}" itemValue="classificationName" itemLabel="classificationName"/>
+                            <form:select path="book.category" items="${categories}" itemValue="classificationName"
+                                         itemLabel="classificationName"/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -127,6 +131,13 @@
                             <input id="coverUpload" name="coverUpload" type="button" value="选择封面图片"/>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label" ></label>
+                        <div class="controls">
+                            <img src="${book.bookCoverImgPath}" class="img-polaroid"/>
+                            <%--<img src="/attached/image/20130804/20130804225820_572.jpg" class="img-polaroid"/>--%>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">保存</button>
                         <a class="btn" href="/admin/book/list.do">取消</a>
@@ -134,9 +145,7 @@
                 </form>
 
             </div>
-            <div class="row-fluid offset2 span4">
-                <img src="${book.bookCoverImgPath}" class="img-polaroid"/>
-            </div>
+
             <jsp:include page="../foot.jsp"></jsp:include>
         </div>
     </div>

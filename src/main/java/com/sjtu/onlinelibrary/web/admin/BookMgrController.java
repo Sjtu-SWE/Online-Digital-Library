@@ -6,7 +6,6 @@ import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
-import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import javax.ws.rs.QueryParam;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +27,7 @@ import java.util.Map;
 public class BookMgrController {
     public static final String ADMIN_BOOK_MGR_LIST = "admin/bookMgr/list";
     public static final String ADMIN_BOOK_MGR_EDIT = "admin/bookMgr/edit";
-    public static final String PAGE_DATE = "pageData";
+    public static final String PAGE_DATA = "pageData";
     private IBookService bookService;
     private IClassificationService classificationService;
 
@@ -51,7 +47,7 @@ public class BookMgrController {
                 index = Integer.parseInt(pageIndex);
             }
             final Pager<BookEditModel> books = this.bookService.findAll(index);
-            return new ModelAndView(ADMIN_BOOK_MGR_LIST, PAGE_DATE, books);
+            return new ModelAndView(ADMIN_BOOK_MGR_LIST, PAGE_DATA, books);
 
         } catch (DataAccessException e) {
             return new ModelAndView("error");
