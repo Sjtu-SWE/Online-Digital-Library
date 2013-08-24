@@ -57,7 +57,7 @@
             </thead>
             <c:forEach items="${pageData.getList()}" var="user">
                 <tr>
-                    <td>${user.userName}</td>
+                    <td>${user.username}</td>
                     <td>${user.realName}</td>
                     <td>${user.email}</td>
                     <td>${user.phone}</td>

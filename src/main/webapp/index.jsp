@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="org.springframework.security.core.context.SecurityContextHolder" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -12,35 +13,16 @@
 
 <body>
 <div class="container">
-<!-- 导航 -->
-<h1>在线数字图书馆</h1>
-<div class="navbar navbar-inverse">  
-   <div class="navbar-inner nav-collapse"  style="height: auto;">  
-       <ul class="nav">  
-          <li class="active"><a>首页</a></li>
-          <li class="divider-vertical"></li> 
-          <li><a>我的书架</a></li>
-          <li class="divider-vertical"></li> 
-          <li><a>我的账户</a></li>
-          <li class="divider-vertical"></li>
-           <li><a href="login.jsp">登录</a></li>
-           <li><a href="/admin/dashboard.do">后台管理</a></li>
-          <li class="divider-vertical"></li>
-          <li><a>注册</a></li>
-          <form class="navbar-form pull-right">  
-          	<input type="text" class="span2">
-          	<button type="submit" class="btn">搜索</button>
-      	  </form>
-      	  <li class="divider-vertical"></li>
-          <li><a href="/j_spring_security_logout">退出</a></li>
-        </ul>
-    </div>  
-</div>
+<jsp:include page="navigation.jsp"></jsp:include>
 
 <div >
 <!-- Main hero unit for a primary marketing message or call to action-->
-<div class="hero-unit">
-<h1>${session.SPRING_SECURITY_CONTEXT.authentication.principal}欢迎来到在线数字图书馆!</h1>
+<div class="hero-unit"><h1>
+<%
+	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	out.print(username);
+%>
+欢迎来到在线数字图书馆!</h1>
 <p>This is a template for a simple marketing or informational website.It includes a large callout called
  the hero unit and three supporting pieces of content.Use it as a starting point to create something
   more unique.</p>
@@ -68,7 +50,7 @@
   
   <hr>
   <footer>
-  <p>@Company 2013</p>
+  <p>@SJTU 2013</p>
   </footer>
   </div>
   </div><!-- /container -->

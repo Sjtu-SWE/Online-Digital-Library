@@ -32,12 +32,12 @@ public class UserEditModel {
     }
 
     @NotEmpty(message = "用户名不能为空。")
-    public String getUserName() {
-        return innerUserEntity().getUserName();
+    public String getUsername() {
+        return innerUserEntity().getUsername();
     }
 
-    public void setUserName(String name) {
-    	innerUserEntity().setUserName(name);
+    public void setUsername(String name) {
+    	innerUserEntity().setUsername(name);
     }
 
     @NotEmpty(message = "真实名不能为空。")

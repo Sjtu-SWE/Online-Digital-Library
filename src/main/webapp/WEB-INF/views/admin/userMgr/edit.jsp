@@ -41,10 +41,10 @@
             <form:hidden path="user.id"></form:hidden>
             
             <div class="control-group">
-                <label class="control-label" for="userName">用户名：</label>
+                <label class="control-label" for="username">用户名：</label>
                 <div class="controls">
-                    <form:input path="user.userName" cssClass="input-xlarge" placeholder="用户名：user"></form:input>
-                    <form:errors cssClass="error text-error" path="user.userName"></form:errors>
+                    <form:input path="user.username" cssClass="input-xlarge" placeholder="用户名：user"></form:input>
+                    <form:errors cssClass="error text-error" path="user.username"></form:errors>
                 </div>
             </div>
             <div class="control-group">
