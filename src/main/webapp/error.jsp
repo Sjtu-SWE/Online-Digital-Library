@@ -24,7 +24,7 @@
             </div>
             <div class="error-message">
                 <p>this page is not exist!<p>
-                <p class="return-home"><a href="/admin/dashboard.do">Back to the home page</a></p>
+                <p class="return-home"><a href="/">Back to the home page</a></p>
             </div>
         </div>
     </div>

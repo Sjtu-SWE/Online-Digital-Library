@@ -6,6 +6,7 @@ import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
+import com.sjtu.onlinelibrary.web.viewmodel.BookViewModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 
@@ -59,4 +60,5 @@ public class BookServiceImpl extends BaseService implements IBookService {
             return false;
         }
     }
+
 }

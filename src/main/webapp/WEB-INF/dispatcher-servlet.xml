@@ -45,6 +45,7 @@
         <property name="bookService"> <ref local="bookService"></ref></property>
         <property name="classificationService"> <ref local="classificationService"></ref></property>
     </bean>
+
     <bean id="userService" class="com.sjtu.onlinelibrary.service.impl.UserServiceImpl">
     	<constructor-arg ref="mutableDataAccess"></constructor-arg>
     </bean>
@@ -60,5 +61,12 @@
     </bean>
     <bean name="ClassificationController" class="com.sjtu.onlinelibrary.web.admin.ClassificationController" >
         <property name="classificationService"> <ref local="classificationService"></ref></property>
+    </bean>
+    <bean name="commentService" class="com.sjtu.onlinelibrary.service.impl.CommentService" >
+        <constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
+    <bean name="BookController" class="com.sjtu.onlinelibrary.web.book.BookController">
+        <property name="bookService"> <ref local="bookService"></ref></property>
+        <property name="commentService" ref="commentService"></property>
     </bean>
 </beans>

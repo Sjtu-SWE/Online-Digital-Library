@@ -45,7 +45,7 @@ public class UserDetailService  implements UserDetailsService {
          List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
          GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(roleName);
          grantedAuthorities.add(grantedAuthority);
-         
+
          User user = new User(name, password, true, true, true, true, grantedAuthorities);
          return user;
      }

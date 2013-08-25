@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="org.springframework.security.core.context.SecurityContextHolder" pageEncoding="UTF-8"%>
+<%@ page import="com.sjtu.onlinelibrary.util.SpringSecurityUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html>
@@ -7,7 +8,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 <style type='text/css'>
-    
+
 </style>
 </head>
 
@@ -19,7 +20,7 @@
 <!-- Main hero unit for a primary marketing message or call to action-->
 <div class="hero-unit"><h1>
 <%
-	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	String username = SpringSecurityUtils.getCurrentUserName();
 	out.print(username);
 %>
 欢迎来到在线数字图书馆!</h1>
@@ -28,7 +29,7 @@
   more unique.</p>
   <p><a class="btn btn-primary btn-large">了解更多 &raquo;</a></p>
   </div>
-  
+
   <!-- Example row of columns -->
   <div class='row'>
   <div class="span4">
@@ -47,9 +48,10 @@
   <p><a href="#">View details &raquo;</a></p>
   </div>
   </div>
-  
+
   <hr>
   <footer>
+
   <p>@SJTU 2013</p>
   </footer>
   </div>
