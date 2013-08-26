@@ -1,5 +1,7 @@
 package com.sjtu.onlinelibrary.service;
 
+import java.util.List;
+
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.web.viewmodel.ClassificationEditModel;
@@ -18,5 +20,7 @@ public interface IClassificationService {
     ClassificationEditModel findById(String id) throws DataAccessException;
     
     boolean delete(String id);
+    
+    List<Classification> findAll() throws DataAccessException;
     
 }
