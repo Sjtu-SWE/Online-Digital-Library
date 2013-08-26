@@ -10,6 +10,9 @@ import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
+
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -119,7 +122,7 @@ public class UserController {
     public ModelAndView login(HttpServletResponse response,
                               @RequestParam(value = "j_username", required = false) String username,
                               @RequestParam(value = "j_password", required = false) String password) throws Exception {
-        //在请�?login.do时，执行该方法验证登�?
+        //在请求ogin.do时，执行该方法验证登录
         if (userService.checkLogin(username, password) != null) {
             return new ModelAndView("forward:/index.jsp", "user", userService.checkLogin(username, password));
         }
@@ -137,7 +140,7 @@ public class UserController {
 	
 	@RequestMapping("/index.do")
     public ModelAndView index() throws Exception{
-        //在访问首页面时，生成动�?菜单sidebar
+        //在访问首页面时，生成动态菜单sidebar
 		List<Classification> classifications = classificationService.findAll();
 		ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
