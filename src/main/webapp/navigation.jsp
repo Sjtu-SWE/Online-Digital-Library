@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="org.springframework.security.core.context.SecurityContextHolder" pageEncoding="UTF-8"%>
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse">
       <div class="navbar-inner">
         <div class="container-fluid">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
