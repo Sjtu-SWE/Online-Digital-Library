@@ -51,7 +51,7 @@
                             <td>${classification.createDate}</td>
                             <td><a class="btn btn-link" href="./${classification.id}/edit.do">编辑</a>
                                 <a class="btn btn-link" id="btn-delete-classification"
-                                   href="/admin/classification/${classification.id}/delete.do">删除</a></td>
+                                   href="javascript:if(confirm('确定删除？')){window.location='/admin/classification/${classification.id}/delete.do';}">删除</a></td>
                         </tr>
                     </c:forEach>
                 </table>
