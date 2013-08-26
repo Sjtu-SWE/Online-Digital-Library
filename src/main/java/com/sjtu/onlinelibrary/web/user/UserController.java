@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import com.sjtu.onlinelibrary.DataAccessException;
-import com.sjtu.onlinelibrary.common.Constants;
+import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.entity.User;
+import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
@@ -28,27 +28,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @author Crystal
+ *  @author Crystal
+ *
  */
 
 @Controller
 public class UserController {
 
-    public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
+	public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
     public static final String ADMIN_USER_MGR_EDIT = "admin/userMgr/edit";
     public static final String PAGE_DATE = "pageData";
 
     private IUserService userService;
-
-    public IUserService getUserService() {
-        return userService;
-    }
+    private IClassificationService classificationService;
+    
+	public IUserService getUserService() {
+		return userService;
+	}
 
     public void setUserService(IUserService userService) {
         this.userService = userService;
     }
 
-    @RequestMapping("/admin/user/list.do")
+	public void setClassificationService(IClassificationService classificationService) {
+		this.classificationService = classificationService;
+	}
+
+	@RequestMapping("/admin/user/list.do")
     public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
         try {
             int index = 0;
@@ -98,16 +104,16 @@ public class UserController {
         userService.save(userEditModel.innerUserEntity());
 
         ModelMap mm = new ModelMap();
-        mm.put("message", "保存用户成功！");
+        mm.put("message", "保存用户成功�?);
         mm.put("url", "/admin/user/list.do");
         return new ModelAndView("forward:/success.jsp", mm);
     }
 
     @RequestMapping("/admin/user/{id}/delete.do")
     public ModelAndView delete(@PathVariable("id") final String id) {
-        String result = "删除用户失败！";
+        String result = "删除用户失败�?;
         if (userService.delete(id)) {
-            result = "删除用户成功！";
+            result = "删除用户成功�?;
         }
         ModelMap mm = new ModelMap();
         mm.put("message", result);
@@ -119,7 +125,7 @@ public class UserController {
     public ModelAndView login(HttpServletResponse response,
                               @RequestParam(value = "j_username", required = false) String username,
                               @RequestParam(value = "j_password", required = false) String password) throws Exception {
-        //在请求/login.do时，执行该方法验证登录
+        //在请�?login.do时，执行该方法验证登�?
         if (userService.checkLogin(username, password) != null) {
             return new ModelAndView("forward:/index.jsp", "user", userService.checkLogin(username, password));
         }
@@ -129,10 +135,19 @@ public class UserController {
     private Map<String, Object> getMapForEdit() {
         final Map<String, Object> map = new HashMap<String, Object>();
         final List<Category> types = new ArrayList<Category>();
-        types.add(new Category("系统管理员", Constants.ROLE_NAME_ADMIN));
-        types.add(new Category("普通用户", Constants.ROLE_NAME_USER));
+        types.add(new Category("系统管理�?, Constants.ROLE_NAME_ADMIN));
+        types.add(new Category("普�?用户", Constants.ROLE_NAME_USER));
         map.put("types", types);
         return map;
     }
-
+	
+	@RequestMapping("/index.do")
+    public ModelAndView index() throws Exception{
+        //在访问首页面时，生成动�?菜单sidebar
+		List<Classification> classifications = classificationService.findAll();
+		ModelMap mm = new ModelMap();
+        mm.put("classifications", classifications);
+        return new ModelAndView("forward:/index.jsp", mm);
+    }
+	
 }
