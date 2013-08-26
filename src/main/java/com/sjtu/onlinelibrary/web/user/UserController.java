@@ -119,7 +119,7 @@ public class UserController {
     public ModelAndView login(HttpServletResponse response,
                               @RequestParam(value = "j_username", required = false) String username,
                               @RequestParam(value = "j_password", required = false) String password) throws Exception {
-        //在请�?login.do时，执行该方法验证登�?
+        //在请�?login.do时，执行该方法验证登�?
         if (userService.checkLogin(username, password) != null) {
             return new ModelAndView("forward:/index.jsp", "user", userService.checkLogin(username, password));
         }
@@ -129,8 +129,8 @@ public class UserController {
     private Map<String, Object> getMapForEdit() {
         final Map<String, Object> map = new HashMap<String, Object>();
         final List<Category> types = new ArrayList<Category>();
-        types.add(new Category("系统管理�?, Constants.ROLE_NAME_ADMIN));
-        types.add(new Category("普�?用户", Constants.ROLE_NAME_USER));
+        types.add(new Category("系统管理", Constants.ROLE_NAME_ADMIN));
+        types.add(new Category("普通用户", Constants.ROLE_NAME_USER));
         map.put("types", types);
         return map;
     }
