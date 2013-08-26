@@ -16,7 +16,7 @@
         </session-management>        
         <form-login login-page="/login.jsp" default-target-url="/index.do"
             authentication-failure-url="/login.jsp" />
-		<logout logout-success-url="/login.jsp" 
+		<logout logout-success-url="/welcome.jsp" 
 			    logout-url="/j_spring_security_logout"/>
         <!-- custom-filter ref="UserSecurityFilter" before="FILTER_SECURITY_INTERCEPTOR" />-->
     </http>
