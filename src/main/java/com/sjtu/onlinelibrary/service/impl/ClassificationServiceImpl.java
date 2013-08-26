@@ -60,7 +60,7 @@ public class ClassificationServiceImpl extends BaseService implements 	IClassifi
 
 	@Override
 	public List<Classification> findAll() 	throws DataAccessException {
-        final List<Classification> classifications = mutableDataAccess.listAll(Classification.class);
+        List<Classification> classifications = mutableDataAccess.listAll(Classification.class);
         return classifications;
 	}
 	
