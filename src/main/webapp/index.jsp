@@ -23,7 +23,7 @@
 	String username = SpringSecurityUtils.getCurrentUserName();
 	out.print(username);
 %>
-欢迎来到在线数字图书馆!</h1>
+欢迎来到在线数字图书�?</h1>
 <p>This is a template for a simple marketing or informational website.It includes a large callout called
  the hero unit and three supporting pieces of content.Use it as a starting point to create something
   more unique.</p>
@@ -33,7 +33,7 @@
   <!-- Example row of columns -->
   <div class='row'>
   <div class="span4">
-  <h2>图书排行榜</h2>
+  <h2>图书排行�?/h2>
   <p>各类图书排行</p>
   <p><a href="#">View details &raquo;</a></p>
   </div>
@@ -43,7 +43,7 @@
   <p><a href="#">View details &raquo;</a></p>
   </div>
   <div>
-  <h2>图书检索</h2>
+  <h2>图书�?��</h2>
   <p>Donec id elit non mi porta gravida at eget metus.</p>
   <p><a href="#">View details &raquo;</a></p>
   </div>
