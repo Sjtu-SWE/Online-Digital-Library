@@ -36,6 +36,7 @@
     <bean name="KindEditController" class="com.sjtu.onlinelibrary.web.admin.KindEditController" />
     <bean name="UserController" class="com.sjtu.onlinelibrary.web.user.UserController" >
         <property name="userService"> <ref local="userService"></ref></property>
+        <property name="classificationService"> <ref local="classificationService"></ref></property>
     </bean>
     <bean name="ChapterMgrController" class="com.sjtu.onlinelibrary.web.admin.ChapterMgrController">
         <property name="chapterService"> <ref local="chapterService"></ref> </property>
