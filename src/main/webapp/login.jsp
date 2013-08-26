@@ -21,7 +21,8 @@
     <tr><td>姓名</td><td><input id="username" name="j_username" type="text" /></td></tr>
     <tr><td>密码</td><td><input id="password" name="j_password"  type="password" /></td></tr>
     <tr><td colSpan="2" align="center">
-    	<input type="submit" value="提交" class="btn"/><input type="button" onclick="" value="返回" class="btn"/> </td></tr>
+    	<input type="submit" value="提交" class="btn"/>
+    	<a class="btn" href="/index.do">返回</a></td></tr>
 </table>
 </div>
 </div>

@@ -10,11 +10,15 @@
           <a class="brand" href="#">在线数字图书馆</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              	登录用户
+              	当前用户
              <!-- <a href="#" class="navbar-link">Username</a> -->
               <%
 					String username = SecurityContextHolder.getContext().getAuthentication().getName();
-					out.print(username);
+                    if("anonymousUser".equals(username)){
+                    	out.print("游客");
+                    } else {
+                    	out.print(username);
+                    }
 			  %>
             </p>
             <ul class="nav">
