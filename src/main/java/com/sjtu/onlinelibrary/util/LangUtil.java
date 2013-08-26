@@ -1,5 +1,6 @@
 package com.sjtu.onlinelibrary.util;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 
 /**
@@ -23,5 +24,10 @@ public class LangUtil {
     
     public static SimpleDateFormat getDefaultTimeFormat() {
         return timeformat;
+    }
+
+    public static   String covertDouble2(double dou){
+        BigDecimal bg = new BigDecimal(dou);
+        return bg.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
     }
 }

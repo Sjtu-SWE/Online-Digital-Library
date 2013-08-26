@@ -139,4 +139,11 @@ public class BookEditModel {
     public void setCreatedOn(final Date createdOn) {
         innerBookEntity().setCreatedOn(createdOn);
     }
+
+    public String getDescription(){
+        return innerBookEntity().getDescription();
+    }
+    public void setDescription(final String desctiption){
+        innerBookEntity().setDescription(desctiption);
+    }
 }

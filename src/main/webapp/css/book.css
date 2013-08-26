@@ -71,3 +71,9 @@ li.comment-odd {
     border: 1px dotted #ccc;
     overflow: hidden;
 }
+.progress{
+    margin:15px 5px;
+}
+.progress .bar-warning {
+    color: #777;
+}

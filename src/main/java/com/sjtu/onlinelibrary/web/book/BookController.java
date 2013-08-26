@@ -25,10 +25,10 @@ public class BookController {
     @RequestMapping("/{id}.do")
     public ModelAndView book(@PathVariable("id") String id) throws DataAccessException {
         BookViewModel bookViewModel = new BookViewModel();
-//        bookViewModel.setBook(this.bookService.findById(id).innerBookEntity());
-//        bookViewModel.setComments(this.commentService.findAll(id, 1));
+        bookViewModel.setBook(this.bookService.findById(id).innerBookEntity());
+        bookViewModel.setComments(this.commentService.findAll(id, 1));
 //        return bookViewModel;
-        return new ModelAndView("book/bookDetail");
+        return new ModelAndView("book/bookDetail","book",bookViewModel);
     }
 
 }

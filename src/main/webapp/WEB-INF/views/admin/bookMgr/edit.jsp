@@ -66,6 +66,7 @@
                             <form:errors cssClass="error text-error" path="book.author"></form:errors>
                         </div>
                     </div>
+
                     <div class="control-group">
                         <label class="control-label" for="bookNumber">书号：</label>
 
@@ -129,6 +130,13 @@
                             <form:input path="book.bookCoverImgPath" cssClass="input-xlarge"
                                         placeholder="请上传书籍封面..."></form:input>
                             <input id="coverUpload" name="coverUpload" type="button" value="选择封面图片"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="description">书籍简介：</label>
+
+                        <div class="controls">
+                            <form:textarea path="book.description" cssClass="input-xlarge" placeholder="书籍简介：武侠"></form:textarea>
                         </div>
                     </div>
                     <div class="control-group">
