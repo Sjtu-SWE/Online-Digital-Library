@@ -1,29 +1,54 @@
+<%@page import="com.sjtu.onlinelibrary.service.impl.ClassificationServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="org.springframework.security.core.context.SecurityContextHolder" pageEncoding="UTF-8"%>
 <%@ page import="com.sjtu.onlinelibrary.util.SpringSecurityUtils" %>
+<%@ page import="com.sjtu.onlinelibrary.entity.Classification" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html>
 <head>
 <title>首页</title>
+<meta charset="utf-8">
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-<style type='text/css'>
+<style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
 
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
 </style>
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 </head>
 
 <body>
-<div class="container">
 <jsp:include page="navigation.jsp"></jsp:include>
 
-<div >
-<!-- Main hero unit for a primary marketing message or call to action-->
-<div class="hero-unit"><h1>
-<%
-	String username = SpringSecurityUtils.getCurrentUserName();
-	out.print(username);
-%>
-欢迎来到在线数字图书馆</h1>
+<div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span3">
+        <div class="well sidebar-nav">
+          <ul class="nav nav-list">
+           	  <c:forEach items="${classifications}" var="classification">
+           	  	<li><a href="#">${classification.classificationName}</a></li>
+           	  </c:forEach>
+          </ul>
+        </div><!--/.well -->
+      </div><!--/span-->
+
+<div class="span9">
+<!-- Main hero unit for a primary marketing message or call to action -->
+<div class="hero-unit">
+<h1>欢迎来到在线数字图书馆</h1>
 <p>This is a template for a simple marketing or informational website.It includes a large callout called
  the hero unit and three supporting pieces of content.Use it as a starting point to create something
   more unique.</p>
@@ -51,10 +76,13 @@
 
   <hr>
   <footer>
-
-  <p>@SJTU 2013</p>
+  	<p>@SJTU 2013</p>
   </footer>
   </div>
-  </div><!-- /container -->
+  </div>
+</div>
+  <!-- /container -->
+  <script src="js/jquery.js"></script>
+  
 </body>
 </html>
