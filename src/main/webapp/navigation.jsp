@@ -43,9 +43,15 @@
 			  %>
             </p>
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a href="index.jsp">首页</a></li>
+              <li><a href="login.jsp">登录</a></li>
+              <li><a href="/admin/dashboard.do">后台管理</a></li>
+              <li><a href="register.jsp">注册</a></li>
+              <form class="navbar-form pull-right">
+          		<input type="text" class="span2">
+           		<button type="submit" class="btn">搜索</button>
+          	  </form>
+          	  <li><a href="/j_spring_security_logout">退出</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
