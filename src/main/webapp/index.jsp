@@ -80,8 +80,7 @@
   </footer>
   </div>
   </div>
-</div>
-  <!-- /container -->
+</div><!-- /container -->
   <script src="js/jquery.js"></script>
   
 </body>
