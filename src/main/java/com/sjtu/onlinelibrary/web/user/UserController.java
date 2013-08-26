@@ -1,14 +1,7 @@
 package com.sjtu.onlinelibrary.web.user;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import com.sjtu.onlinelibrary.DataAccessException;
+import com.sjtu.onlinelibrary.common.Constants;
 import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.IClassificationService;
@@ -20,12 +13,13 @@ import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  *  @author Crystal
@@ -104,16 +98,16 @@ public class UserController {
         userService.save(userEditModel.innerUserEntity());
 
         ModelMap mm = new ModelMap();
-        mm.put("message", "保存用户成功�?);
+        mm.put("message", "保存用户成功");
         mm.put("url", "/admin/user/list.do");
         return new ModelAndView("forward:/success.jsp", mm);
     }
 
     @RequestMapping("/admin/user/{id}/delete.do")
     public ModelAndView delete(@PathVariable("id") final String id) {
-        String result = "删除用户失败�?;
+        String result = "删除用户失败";
         if (userService.delete(id)) {
-            result = "删除用户成功�?;
+            result = "删除用户成功";
         }
         ModelMap mm = new ModelMap();
         mm.put("message", result);
@@ -125,7 +119,7 @@ public class UserController {
     public ModelAndView login(HttpServletResponse response,
                               @RequestParam(value = "j_username", required = false) String username,
                               @RequestParam(value = "j_password", required = false) String password) throws Exception {
-        //在请�?login.do时，执行该方法验证登�?
+        //在请�?login.do时，执行该方法验证登录
         if (userService.checkLogin(username, password) != null) {
             return new ModelAndView("forward:/index.jsp", "user", userService.checkLogin(username, password));
         }
@@ -135,15 +129,15 @@ public class UserController {
     private Map<String, Object> getMapForEdit() {
         final Map<String, Object> map = new HashMap<String, Object>();
         final List<Category> types = new ArrayList<Category>();
-        types.add(new Category("系统管理�?, Constants.ROLE_NAME_ADMIN));
-        types.add(new Category("普�?用户", Constants.ROLE_NAME_USER));
+        types.add(new Category("系统管理员", Constants.ROLE_NAME_ADMIN));
+        types.add(new Category("普通用户", Constants.ROLE_NAME_USER));
         map.put("types", types);
         return map;
     }
 	
 	@RequestMapping("/index.do")
     public ModelAndView index() throws Exception{
-        //在访问首页面时，生成动�?菜单sidebar
+        //在访问首页面时，生成动�?菜单sidebar
 		List<Classification> classifications = classificationService.findAll();
 		ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
