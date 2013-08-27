@@ -30,7 +30,7 @@
         <h1 class="page-title">${user.editType}</h1>
     </div>
     <ul class="breadcrumb">
-        <li><a href="/admin/user/list.do">书籍列表</a><span class="divider">/</span></li>
+        <li><a href="/admin/user/list.do">用户列表</a><span class="divider">/</span></li>
         <li class="active">${user.editType}</li>
     </ul>
     <div class="container-fluid">
@@ -88,7 +88,7 @@
                     <form:select path="user.roleName" items="${types}" itemValue="value" itemLabel="name"/>
                 </div>
             </div>
-            <c:if test="${user.id!=null}">
+            <c:if test="${user.id!=null&&!''.equals(user.id)}">
             <div class="control-group">
                 <label class="control-label" for="createDate">创建日期：</label>
                 <div class="controls">
