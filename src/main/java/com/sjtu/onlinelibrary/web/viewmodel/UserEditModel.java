@@ -1,6 +1,8 @@
 package com.sjtu.onlinelibrary.web.viewmodel;
 
 import java.util.Date;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.util.LangUtil;
@@ -31,7 +33,7 @@ public class UserEditModel {
     	innerUserEntity().setId(id);
     }
 
-    @NotEmpty(message = "用户名不能为空。")
+    @Pattern(regexp = "^[a-zA-Z_]\\w{4,19}$", message = "用户名必须以字母下划线开头，由字母数字下划线组成，长度5～20位")
     public String getUsername() {
         return innerUserEntity().getUsername();
     }
@@ -40,7 +42,7 @@ public class UserEditModel {
     	innerUserEntity().setUsername(name);
     }
 
-    @NotEmpty(message = "真实名不能为空。")
+    @Pattern(regexp="^[\u4e00-\u9fa5]+$",message="真实名必须是中文。")
     public String getRealName() {
         return innerUserEntity().getRealName();
     }
@@ -49,7 +51,7 @@ public class UserEditModel {
     	innerUserEntity().setRealName(name);
     }
     
-    @NotEmpty(message = "密码不能为空。")
+    @Pattern(regexp = "^[a-zA-Z]\\w{5,7}$",message = "密码必须以字母开头，字符、数字、下划线组成，长度6~8位")
     public String getPassword() {
         return innerUserEntity().getPassword();
     }
@@ -58,7 +60,7 @@ public class UserEditModel {
     	innerUserEntity().setPassword(name);
     }
     
-    @NotEmpty(message = "手机号码不能为空。")
+    @Pattern(regexp="^(13+[0-9]{9})|(15+[0-9]{9})|(18+[0-9]{9})$",message="请输入正确格式的11位手机号码。")
     public String getPhone() {
         return innerUserEntity().getPhone();
     }
@@ -67,7 +69,8 @@ public class UserEditModel {
     	innerUserEntity().setPhone(phone);
     }
     
-    @NotEmpty(message = "邮箱不能为空。")
+    @NotEmpty(message = "邮箱不能为空")
+    @Email(message = "请输入正确的邮箱格式，例如xxxx@sina.com")
     public String getEmail() {
         return innerUserEntity().getEmail();
     }
