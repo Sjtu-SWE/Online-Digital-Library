@@ -49,7 +49,7 @@
                                          path="classification.classificationName"></form:errors>
                         </div>
                     </div>
-                    <c:if test="${classification.id!=null}">
+                    <c:if test="${classification.id!=null&&!''.equals(classification.id)}">
                         <div class="control-group">
                             <label class="control-label" for="createDate">创建日期：</label>
 
