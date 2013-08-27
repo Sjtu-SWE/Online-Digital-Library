@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/js/kindeditor-4.1.7/themes/default/default.css"/>
     <script type="text/javascript" src="/js/kindeditor-4.1.7/kindeditor-min.js"></script>
     <script type="text/javascript" src="/js/kindeditor-4.1.7/lang/zh_CN.js"></script>
-    <script type="text/javascript" src="/js/pages/admin/chapterEdit.js"></script>
+    <%--<script type="text/javascript" src="/js/pages/admin/chapterEdit.js"></script>--%>
 </head>
 <!--[if lt IE 7 ]>
 <body class="ie ie6"> <![endif]-->
@@ -49,10 +49,10 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="content">章节名：</label>
+                        <label class="control-label" for="content">章节内容：</label>
 
                         <div class="controls">
-                            <form:textarea path="chapter.content" cssClass="input-xlarge"
+                            <form:textarea path="chapter.content" cssClass="input-xlarge" cssStyle="width: 600px;height: 150px;"
                                            issimplerichedit="true"></form:textarea>
                             <form:errors cssClass="error text-error" path="chapter.content"></form:errors>
                         </div>

@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#">在线数字图书馆</a>
+            <a class="brand" href="/">在线数字图书馆</a>
 
             <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">

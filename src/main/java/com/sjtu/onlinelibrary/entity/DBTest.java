@@ -78,6 +78,15 @@ public class DBTest {
         user.setRoleName("ROLE_ADMIN");
         user.setRole(1);
         db.save(user);
+
+        for (int i = 1; i <= 200; i++) {
+            Chapter chapter = new Chapter();
+            chapter.setBookId(TEST_ID);
+            chapter.setContent("测试");
+            chapter.setTitle(String.format("第%s章 测试", i));
+            db.save(chapter);
+        }
+
         System.out.println("save user success");
     }
 }

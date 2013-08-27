@@ -34,22 +34,20 @@
         <div class="span2">
             <div class="span2"></div>
             <div class="span10">
-                <a>
+                <a href="/book/${book.book.id}/read.do">
                     <c:choose>
-
                         <c:when test="${book.book.bookCoverImgPath==''||book.book.bookCoverImgPath==null}">
                             <img src="/img/fm_big.gif"/>
                         </c:when>
                         <c:otherwise>
-                            <img src="${book.book.bookCoverImgPath}">
+                            <img src="${book.book.bookCoverImgPath}"/>
                         </c:otherwise>
-
                     </c:choose>
                 </a>
 
                 <div class="divider" style="height: 15px;"></div>
                 <ul class="nav nav-list">
-                    <li><a href="#" class="">点击阅读</a></li>
+                    <li><a href="/book/${book.book.id}/read.do" class="">点击阅读</a></li>
                     <li><a href="#" class="">加入书架</a></li>
                     <li><a href="#" class="">购买图书</a></li>
                 </ul>
@@ -157,9 +155,9 @@
             <div class="bar" style="width:${book.getLikeRate()}%;">
                 <span>鲜花率 ${book.getLikeRate()} %</span>
             </div>
-                <div class="bar bar-warning" style="width:${book.getUnlikeRate()}%;">
-                    <span>鸡蛋 ${book.getUnlikeRate()}%</span>
-                </div>
+            <div class="bar bar-warning" style="width:${book.getUnlikeRate()}%;">
+                <span>鸡蛋 ${book.getUnlikeRate()}%</span>
+            </div>
         </div>
         <div class="row-fluid">
             <div class="controls-row">

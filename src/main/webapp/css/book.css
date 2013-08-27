@@ -77,3 +77,6 @@ li.comment-odd {
 .progress .bar-warning {
     color: #777;
 }
+li.chapter{
+    width: 15%;
+}

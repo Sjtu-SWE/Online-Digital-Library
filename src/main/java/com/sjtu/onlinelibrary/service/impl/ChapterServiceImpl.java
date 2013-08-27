@@ -57,4 +57,11 @@ public class ChapterServiceImpl extends BaseService implements IChapterService {
             return false;
         }
     }
+
+    @Override
+    public List<Chapter> findAll(String bookId) throws DataAccessException {
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("bookId", bookId);
+      return   mutableDataAccess.listByFilter(Chapter.class,condition);
+    }
 }
