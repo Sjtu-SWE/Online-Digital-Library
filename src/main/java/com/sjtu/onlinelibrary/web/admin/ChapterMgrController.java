@@ -1,12 +1,15 @@
 package com.sjtu.onlinelibrary.web.admin;
 
 import com.sjtu.onlinelibrary.DataAccessException;
+import com.sjtu.onlinelibrary.entity.Chapter;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.ChapterModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +25,11 @@ public class ChapterMgrController {
     private ChapterServiceImpl chapterService;
     public static final String PAGE_DATA = "pageData";
     private BookServiceImpl bookService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Integer.class, "orderNumber", new CustomNumberEditor(Integer.class, null, false));
+    }
 
     public void setChapterService(ChapterServiceImpl chapterService) {
         this.chapterService = chapterService;
@@ -52,7 +60,9 @@ public class ChapterMgrController {
     @RequestMapping("/create.do")
     public ModelAndView create(@PathVariable("bookId") String bookId) throws DataAccessException {
         final Map<String, Object> map = getMapForEdit(bookId);
-        map.put(CHAPTER, new ChapterModel());
+        ChapterModel chapterModel=new ChapterModel();
+        chapterModel.setOrderNumber(this.chapterService.getNextOrderNumber(bookId));
+        map.put(CHAPTER, chapterModel);
         return new ModelAndView(ADMIN_CHAPTER_MGR_EDIT, map);
     }
 
@@ -79,7 +89,16 @@ public class ChapterMgrController {
         }
 
         chapterModel.getChapterEntity().setBookId(bookId);
-        chapterService.save(chapterModel.getChapterEntity());
+        chapterModel.getChapterEntity().setContent(chapterModel.getContent().replaceAll("&nbsp;", " ").replaceAll("<br>", "").replaceAll("<br />", ""));
+        ChapterModel chapter = this.chapterService.findById(chapterModel.getId());
+        if (chapter.getChapterEntity() == null) {
+            chapterService.save(chapterModel.getChapterEntity());
+        } else {
+            chapter.setBookId(bookId);
+            chapter.setContent(chapterModel.getContent());
+            chapter.setTitle(chapterModel.getTitle());
+            chapterService.save(chapter.getChapterEntity());
+        }
         final Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", "保存章节成功！");
         map.put("url", "/admin/book/" + bookId + "/chapter/list.do");
@@ -88,7 +107,7 @@ public class ChapterMgrController {
     }
 
     @RequestMapping("/{id}/delete.do")
-    public ModelAndView delete(@PathVariable("bookId") String bookId,@PathVariable("id") final String id) {
+    public ModelAndView delete(@PathVariable("bookId") String bookId, @PathVariable("id") final String id) {
         String result = "删除章节失败！";
         if (chapterService.delete(id)) {
             result = "删除章节成功！";

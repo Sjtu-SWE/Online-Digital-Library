@@ -4,6 +4,6 @@ $(function () {
         allowPreviewEmoticons: false,
         allowImageUpload: false,
         allowFileManager: false,
-        items: [ 'preview','fullscreen']
+        items: ['source', 'preview', 'plainpaste']
     });
 })

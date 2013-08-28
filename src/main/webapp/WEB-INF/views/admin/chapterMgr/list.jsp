@@ -42,14 +42,16 @@
                         <thead>
                         <tr>
                             <%--<th>#</th>--%>
-                            <th>章节</th>
+                                <th>序号</th>
+                                <th>章节</th>
                             <th></th>
                         </tr>
                         </thead>
                         <c:forEach items="${pageData.getList()}" var="chapter">
                             <tr>
                                     <%--<td>${book.id}</td>--%>
-                                <td>${chapter.title}</td>
+                                        <td>${chapter.orderNumber}</td>
+                                        <td>${chapter.title}</td>
                                 <td><a class="btn btn-link" href="./${chapter.id}/edit.do">编辑</a>
                                     <a class="btn btn-link" id="btn-delete-chapter"
                                        href="javascript:if(confirm('确定删除？')){window.location='/admin/book/${book.id}/chapter/${chapter.id}/delete.do';}">删除</a>

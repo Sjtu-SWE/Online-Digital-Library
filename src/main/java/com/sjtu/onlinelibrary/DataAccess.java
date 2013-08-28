@@ -41,10 +41,12 @@ public interface DataAccess {
      * @throws DataAccessException thrown if the object could not be looked up, usually due to a storage layer error.
      */
     <T extends Persistable> List<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException;
+    <T extends Persistable> List<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap,String orderFields) throws DataAccessException;
 
     <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize) throws DataAccessException;
 
     <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize, final Map<String, Object> conditionMap) throws DataAccessException;
+    <T extends Persistable> List<T> paging(final Class<T> clazz, final int pageIndex, final int pageSize, final Map<String, Object> conditionMap,String orderFields) throws DataAccessException;
 
     <T extends Persistable> int count(final Class<T> clazz);
 

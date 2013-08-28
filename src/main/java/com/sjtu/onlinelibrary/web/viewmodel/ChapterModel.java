@@ -1,6 +1,7 @@
 package com.sjtu.onlinelibrary.web.viewmodel;
 
 import com.sjtu.onlinelibrary.entity.Chapter;
+import com.sjtu.onlinelibrary.util.LangUtil;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -50,7 +51,6 @@ public class ChapterModel {
     public void setContent(String content) {
         getChapterEntity().setContent(content);
     }
-
     public int getOrderNumber() {
         return getChapterEntity().getOrderNumber();
     }
@@ -80,5 +80,9 @@ public class ChapterModel {
 
     public void setCreatedOn(final Date createdOn) {
         getChapterEntity().setCreatedOn(createdOn);
+    }
+
+    public String getCreatedDate() {
+        return LangUtil.getDefaultDateFormat().format(getChapterEntity().getCreatedOn());
     }
 }

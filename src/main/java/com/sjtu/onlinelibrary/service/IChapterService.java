@@ -12,6 +12,7 @@ public interface IChapterService {
     Pager<ChapterModel> findAll(String bookId, int pageIndex) throws DataAccessException;
     ChapterModel findById(String id) throws DataAccessException;
     boolean delete(String id);
+    int getNextOrderNumber(String bookId) throws DataAccessException;
 
     List<Chapter> findAll(String bookId) throws DataAccessException;
 }

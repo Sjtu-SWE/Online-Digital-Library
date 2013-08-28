@@ -25,6 +25,7 @@ public class DBTest {
     public static final String TEST_CATEGORY = "test.category";
     public static final String TEST_KEYWORDS = "test.keywords";
     public static final String TEST_DESCRIPTION = "test.description";
+    public static final String TEST_CHAPTER_ID = "test.chapter.id";
 
     public static void main(final String[] args) throws DataAccessException, UnknownHostException {
         final MongoConfig mongoConfig = new MongoConfig();
@@ -81,9 +82,11 @@ public class DBTest {
 
         for (int i = 1; i <= 200; i++) {
             Chapter chapter = new Chapter();
+            chapter.setId(String.format("chapter%s",i));
             chapter.setBookId(TEST_ID);
             chapter.setContent("测试");
             chapter.setTitle(String.format("第%s章 测试", i));
+            chapter.setOrderNumber(i);
             db.save(chapter);
         }
 

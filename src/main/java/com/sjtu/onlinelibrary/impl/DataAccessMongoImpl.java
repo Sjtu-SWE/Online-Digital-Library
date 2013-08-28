@@ -60,11 +60,20 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
 
     @Override
     public <T extends Persistable> List<T> listByFilter(final Class<T> clazz, final Map<String, Object> conditionMap) throws DataAccessException {
-        try {
+        return listByFilter(clazz, conditionMap, "createdOn");
+    }
 
+    @Override
+    public <T extends Persistable> List<T> listByFilter(Class<T> clazz, Map<String, Object> conditionMap, String orderFields) throws DataAccessException {
+        try {
             Query<T> qry = _ds.createQuery(clazz);
-            for (final String key : conditionMap.keySet()) {
-                qry = qry.filter(key, conditionMap.get(key));
+            if (conditionMap != null) {
+                for (final String key : conditionMap.keySet()) {
+                    qry = qry.filter(key, conditionMap.get(key));
+                }
+            }
+            if (!LangUtil.isNullOrEmpty(orderFields)) {
+                qry = qry.order(orderFields);
             }
             return qry.asList();
         } catch (Exception e) {
@@ -79,13 +88,23 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
 
     @Override
     public <T extends Persistable> List<T> paging(Class<T> clazz, int pageIndex, int pageSize, Map<String, Object> conditionMap) throws DataAccessException {
+        return paging(clazz, pageIndex, pageSize, conditionMap, "createdOn");
+    }
+
+    @Override
+    public <T extends Persistable> List<T> paging(Class<T> clazz, int pageIndex, int pageSize, Map<String, Object> conditionMap, String orderFields) throws DataAccessException {
         try {
-            Query<T> qry = _ds.createQuery(clazz).limit(pageSize).offset((pageIndex - 1) * pageSize);
+            Query<T> qry = _ds.createQuery(clazz);
             if (conditionMap != null) {
                 for (final String key : conditionMap.keySet()) {
                     qry = qry.filter(key, conditionMap.get(key));
                 }
             }
+
+            if (!LangUtil.isNullOrEmpty(orderFields)) {
+                qry = qry.order(orderFields);
+            }
+            qry = qry.limit(pageSize).offset((pageIndex - 1) * pageSize);
             return qry.asList();
         } catch (Exception e) {
             throw new DataAccessException("Could not lookup " + clazz.getName(), e);

@@ -30,7 +30,16 @@
             <div class="text-center">作者：${book.author}</div>
 
         </div>
+        <div class="row-fluid span11">
+            <ul class="breadcrumb ">
+                <li><a href="/">首页</a> <span class="divider">/</span></li>
+                <li><a href="/">书库</a> <span class="divider">/</span></li>
+                <li><a href="/">${book.category}</a> <span class="divider">/</span></li>
+                <li class="active">${book.name}</li>
+            </ul>
+        </div>
         <div class="row-fluid span12">
+
             <ul class="nav nav-pills text-center">
                 <c:forEach items="${chapters}" var="chapter"><li class="chapter"><a href="./chapter/${chapter.id}.do">${chapter.title}</a></li>
                 </c:forEach>

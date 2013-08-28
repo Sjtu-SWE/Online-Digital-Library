@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/js/kindeditor-4.1.7/themes/default/default.css"/>
     <script type="text/javascript" src="/js/kindeditor-4.1.7/kindeditor-min.js"></script>
     <script type="text/javascript" src="/js/kindeditor-4.1.7/lang/zh_CN.js"></script>
-    <%--<script type="text/javascript" src="/js/pages/admin/chapterEdit.js"></script>--%>
+    <script type="text/javascript" src="/js/pages/admin/chapterEdit.js"></script>
 </head>
 <!--[if lt IE 7 ]>
 <body class="ie ie6"> <![endif]-->
@@ -37,8 +37,6 @@
             <div class="row-fluid">
                 <form method="post" class="form-horizontal" action="/admin/book/${book.id}/chapter/save.do">
                     <form:hidden path="chapter.id"></form:hidden>
-                    <c:if test="${chapter.createdOn !=null}">
-                        <form:hidden path="chapter.createdOn"></form:hidden></c:if>
                     <div class="control-group">
                         <label class="control-label" for="title">章节名：</label>
 
@@ -49,10 +47,17 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label" for="orderNumber">序号：</label>
+
+                        <div class="controls">
+                            <form:input path="chapter.orderNumber" cssClass="input-xlarge" readonly="true"></form:input>
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label" for="content">章节内容：</label>
 
                         <div class="controls">
-                            <form:textarea path="chapter.content" cssClass="input-xlarge" cssStyle="width: 600px;height: 150px;"
+                            <form:textarea path="chapter.content" cssClass="input-xlarge"
                                            issimplerichedit="true"></form:textarea>
                             <form:errors cssClass="error text-error" path="chapter.content"></form:errors>
                         </div>

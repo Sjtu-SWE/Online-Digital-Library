@@ -9,8 +9,8 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
   
     <script type="text/javascript">
-        var DOMURL = self.URL || self.webkitURL || self;
         $(document).ready(function() {
+            var DOMURL = self.URL || self.webkitURL || self;
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
             var con=$("#chapter-content").html();
@@ -38,10 +38,7 @@
                 $("#chapter-content").remove();
             };
             img.src = url;
-            //var style='<style type="text/css"> body { font :14px sans-serif;line-height: 20px;color: #333;    } p {display: block;-webkit-margin-before: 1em;-webkit-margin-after: 1em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;}</style>';
-            //rasterizeHTML.drawHTML(style+$("#chapter-content").html(), canvas);
-
-      });   
+      });
     </script>
 
 </head>

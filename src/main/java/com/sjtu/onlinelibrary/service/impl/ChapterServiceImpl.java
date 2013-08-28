@@ -31,7 +31,7 @@ public class ChapterServiceImpl extends BaseService implements IChapterService {
         }
         Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("bookId", bookId);
-        final List<Chapter> chapters = mutableDataAccess.paging(Chapter.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition);
+        final List<Chapter> chapters = mutableDataAccess.paging(Chapter.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition, "orderNumber");
         final List<ChapterModel> chapterModels = new ArrayList<ChapterModel>();
         for (final Chapter book : chapters) {
             chapterModels.add(new ChapterModel("", book));
@@ -59,9 +59,21 @@ public class ChapterServiceImpl extends BaseService implements IChapterService {
     }
 
     @Override
+    public int getNextOrderNumber(String bookId) throws DataAccessException {
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("bookId", bookId);
+        List<Chapter> chapters = mutableDataAccess.paging(Chapter.class, 1, 1, condition, "-orderNumber");
+        if (chapters == null || chapters.size() == 0) {
+            return 1;
+        } else {
+            return chapters.get(0).getOrderNumber() + 1;
+        }
+    }
+
+    @Override
     public List<Chapter> findAll(String bookId) throws DataAccessException {
         Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("bookId", bookId);
-      return   mutableDataAccess.listByFilter(Chapter.class,condition);
+        return mutableDataAccess.listByFilter(Chapter.class, condition);
     }
 }

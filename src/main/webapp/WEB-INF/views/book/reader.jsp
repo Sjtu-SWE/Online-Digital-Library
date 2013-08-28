@@ -27,9 +27,18 @@
                 ${chapter.title}
             </h1>
         </div>
-        <div id="chapter-content" class="hidden">${chapter.content}</div>
+        <div class="row-fluid span11">
+            <ul class="breadcrumb ">
+                <li><a href="/">首页</a> <span class="divider">/</span></li>
+                <li><a href="/">书库</a> <span class="divider">/</span></li>
+                <li><a href="/">${book.category}</a> <span class="divider">/</span></li>
+                <li><a href="/book/${book.id}.do">${book.name}</a><span class="divider">/</span></li>
+                <li class="active">${chapter.title}</li>
+            </ul>
+        </div>
+        <div id="chapter-content"  style="width:960px;margin: auto auto;">${chapter.content}</div>
         <div class="text-center">
-            <canvas id="canvas" width="960px"></canvas>
+            <canvas id="canvas" width="960"></canvas>
         </div>
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
