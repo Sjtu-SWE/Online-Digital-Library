@@ -1,6 +1,7 @@
 package com.sjtu.onlinelibrary.security;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.IUserService;
+import com.sjtu.onlinelibrary.util.LangUtil;
 
 public class UserDetailService  implements UserDetailsService {
 
@@ -47,6 +49,13 @@ public class UserDetailService  implements UserDetailsService {
          grantedAuthorities.add(grantedAuthority);
 
          User user = new User(name, password, true, true, true, true, grantedAuthorities);
+         try {
+			User temp = userService.findByName(name);
+			temp.setLastLogonTime(new Date());
+			userService.save(temp);
+		} catch (com.sjtu.onlinelibrary.DataAccessException e) {
+			e.printStackTrace();
+		}
          return user;
      }
 
