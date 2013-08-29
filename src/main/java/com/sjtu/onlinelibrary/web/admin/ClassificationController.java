@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Classification;
+import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.ClassificationEditModel;
@@ -35,9 +36,14 @@ public class ClassificationController {
 	    public static final String ADMIN_CLASSIFICATION_MGR_EDIT = "admin/classificationMgr/edit";
 	    public static final String PAGE_DATE = "pageData";
 	    private IClassificationService classificationService;
+	    private IBookService bookService;
 
 		public void setClassificationService(IClassificationService classificationService) {
 			this.classificationService = classificationService;
+		}
+
+		public void setBookService(IBookService bookService) {
+			this.bookService = bookService;
 		}
 
 		@RequestMapping("/list.do")
@@ -97,12 +103,19 @@ public class ClassificationController {
 	    }
 
 	    @RequestMapping("/{id}/delete.do")
-	    public ModelAndView delete(@PathVariable("id") final String id) {
+	    public ModelAndView delete(@PathVariable("id") final String id)  throws DataAccessException{
+	    	ModelMap mm = new ModelMap();
+	    	//判断是否有图书属于该类别
+	    	boolean temp = bookService.findBookByType(classificationService.findById(id).getClassificationName());
+	    	if(temp){
+	    		 mm.put("message", "要删除的类别中仍存在图书,请核实后再删除!");
+	 	         mm.put("url", "/admin/classification/list.do");
+	 	         return new ModelAndView("forward:/success.jsp", mm);
+	    	}
 	        String result = "删除类别失败！";
 	        if (classificationService.delete(id)) {
 	            result = "删除类别成功！";
 	        }
-	        ModelMap mm = new ModelMap();
 	        mm.put("message", result);
 	        mm.put("url", "/admin/classification/list.do");
 	        return new ModelAndView("forward:/success.jsp", mm);

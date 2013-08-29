@@ -11,7 +11,9 @@ import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,5 +62,42 @@ public class BookServiceImpl extends BaseService implements IBookService {
             return false;
         }
     }
+
+    /**
+     * 根据类别查询所有的图书
+     */
+	@Override
+	public Pager<BookEditModel> findBooksByType(int pageIndex, final String category) throws DataAccessException {
+		 if (pageIndex <= 0) {
+	            pageIndex = 1;
+	        }
+		 Map<String, Object> condition = new HashMap<String, Object>();
+	     condition.put("category", category );
+	     
+        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition);
+        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
+        for (final Book book : books) {
+            bookEditModelList.add(new BookEditModel("", book));
+        }
+        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
+        bookPager.setListObject(bookEditModelList);
+        bookPager.setTotalCount(mutableDataAccess.count(Book.class));
+        return bookPager;
+	}
+
+	/**
+	 * 判断是否有图书属于该类别
+	 */
+	@Override
+	public boolean findBookByType(String category) throws DataAccessException {
+		Map<String, Object> condition = new HashMap<String, Object>();
+	    condition.put("category", category );
+	     
+	    List<Book> books = mutableDataAccess.listByFilter(Book.class, condition);
+	    if(books!=null && books.size()>0){
+	    	return true;
+	    }
+		return false;
+	}
 
 }

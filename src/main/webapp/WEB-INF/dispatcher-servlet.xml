@@ -62,6 +62,7 @@
     </bean>
     <bean name="ClassificationController" class="com.sjtu.onlinelibrary.web.admin.ClassificationController" >
         <property name="classificationService"> <ref local="classificationService"></ref></property>
+        <property name="bookService"> <ref local="bookService"></ref></property>
     </bean>
     <bean name="commentService" class="com.sjtu.onlinelibrary.service.impl.CommentService" >
         <constructor-arg ref="mutableDataAccess"></constructor-arg>
