@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.regex.Pattern;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -50,13 +52,20 @@ public class UserController {
 	}
 
 	@RequestMapping("/admin/user/list.do")
-    public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+    public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex
+    		,@RequestParam(value="username" ,required = false) final String username) {
         try {
             int index = 0;
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
-            final Pager<UserEditModel> users = this.userService.findAll(index);
+            Map<String, Object> condition = new HashMap<String, Object>();
+            if( username!=null && !"".equals(username.trim()) ){
+            	Pattern pattern = Pattern.compile(".*" + username.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+            	condition.put("username", pattern);
+            }
+            final Pager<UserEditModel> users = this.userService.findAll(index,condition);
+            
             return new ModelAndView(ADMIN_USER_MGR_LIST, PAGE_DATE, users);
 
         } catch (DataAccessException e) {

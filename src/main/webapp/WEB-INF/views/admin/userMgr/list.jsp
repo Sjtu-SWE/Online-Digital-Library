@@ -34,6 +34,10 @@
     </ul>
     <div class="container-fluid">
         <div class="row-fluid">
+        	<form class="navbar-form pull-right">
+        		用户名 <input type="text" class="span6" name="username" value="${username}">
+                <button type="submit" class="btn" formaction="/admin/user/list.do" >查询</button>
+            </form>
             <div class="btn-toolbar">
                 <a class="btn btn-primary" href="/admin/user/create.do">添加用户</a>
             </div>

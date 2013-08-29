@@ -43,11 +43,12 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 	}
 
 	@Override
-	public Pager<UserEditModel> findAll(int pageIndex) 	throws DataAccessException {
+	public Pager<UserEditModel> findAll(int pageIndex, Map<String, Object> condition) 	throws DataAccessException {
 		if (pageIndex <= 0) {
             pageIndex = 1;
         }
-        final List<User> users = mutableDataAccess.paging(User.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE);
+		//根据用户名进行排序
+        final List<User> users = mutableDataAccess.paging(User.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition , "username");
         final List<UserEditModel> userEditModelList = new ArrayList<UserEditModel>();
         for (final User user : users) {
         	userEditModelList.add(new UserEditModel("", user));
