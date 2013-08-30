@@ -30,6 +30,7 @@ public class Book extends BasePersistable {
     private int userLikeAmount;
     private int userUnlikeAmount;
     private int userFavoriteAmount;
+    private int sellAmount;
     private List<Chapter> chapters;
 
     public String getName() {
@@ -158,5 +159,13 @@ public class Book extends BasePersistable {
 
     public void setUserFavoriteAmount(int userFavoriteAmount) {
         this.userFavoriteAmount = userFavoriteAmount;
+    }
+
+    public int getSellAmount() {
+        return sellAmount;
+    }
+
+    public void setSellAmount(final int sellAmount) {
+        this.sellAmount = sellAmount;
     }
 }
