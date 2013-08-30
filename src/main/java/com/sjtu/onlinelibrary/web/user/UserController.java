@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.regex.Pattern;
@@ -163,6 +164,10 @@ public class UserController {
         return new ModelAndView("forward:/index.jsp", mm);
     }
 	
+	/**
+	 * 跳转到注册页面
+	 */
+	
 	@RequestMapping("/register.do")
     public ModelAndView register() {
         final Map<String, Object> map = getMapForEdit();
@@ -170,31 +175,34 @@ public class UserController {
         return new ModelAndView("forward:/register.jsp", map);
     }
 	
+	/**
+	 * 提交注册请求
+	 * @return
+	 */
 	 @RequestMapping(value = "/savaUser.do", method = RequestMethod.POST)
-	    public ModelAndView saveUser(@Valid @ModelAttribute("user") final RegisterModel registerModel, final BindingResult bindingResult) throws DataAccessException {
+	    public ModelAndView saveUser(@Valid @ModelAttribute("user") final RegisterModel registerModel, final BindingResult bindingResult) 
+	    		throws DataAccessException {
 	        ModelMap mm = new ModelMap();
 	        if (bindingResult.hasErrors()) {
-	            final Map<String, Object> map = getMapForEdit();
-	            map.put("user", registerModel);
-	            return new ModelAndView("forward:/register.jsp", map);
+	        	mm.put("message", "用户注册失败,请输入正确的格式!");
+	        	return new ModelAndView("forward:/register.jsp", mm);
 	        }
 	        //判断用户名是否已存在
 	        String nameTemp  = registerModel.getUsername();
 	        User temp = userService.findByName(nameTemp);
 	        if( temp != null ){
 	        	mm.put("message", "用户注册失败,此用户名已存在!");
-	        	mm.put("url", "/register.do");
-	        	return new ModelAndView("forward:/success.jsp", mm);
+	        	return new ModelAndView("redirect:/register.do", mm);
 	        }
 	        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	        if (registerModel.innerUserEntity().getId() == null || "".equals(registerModel.innerUserEntity().getId())) {
 	        	registerModel.setCreateDate(dateformat.format(new Date()));
 	        }
+	        registerModel.innerUserEntity().setRoleName("ROLE_USER");
 	        userService.save(registerModel.innerUserEntity());
 
 	        mm.put("message", "用户注册成功！");
-	        mm.put("url", "/index.do");
-	        return new ModelAndView("forward:/success.jsp", mm);
+	        return new ModelAndView("redirect:/register.do", mm);
 	    }
 	 
 	
