@@ -9,6 +9,7 @@ import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.RegisterModel;
 import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
 import org.springframework.stereotype.Controller;
@@ -161,5 +162,40 @@ public class UserController {
         mm.put("classifications", classifications);
         return new ModelAndView("forward:/index.jsp", mm);
     }
+	
+	@RequestMapping("/register.do")
+    public ModelAndView register() {
+        final Map<String, Object> map = getMapForEdit();
+        map.put("user", new RegisterModel( new User() ));
+        return new ModelAndView("forward:/register.jsp", map);
+    }
+	
+	 @RequestMapping(value = "/savaUser.do", method = RequestMethod.POST)
+	    public ModelAndView saveUser(@Valid @ModelAttribute("user") final RegisterModel registerModel, final BindingResult bindingResult) throws DataAccessException {
+	        ModelMap mm = new ModelMap();
+	        if (bindingResult.hasErrors()) {
+	            final Map<String, Object> map = getMapForEdit();
+	            map.put("user", registerModel);
+	            return new ModelAndView("forward:/register.jsp", map);
+	        }
+	        //判断用户名是否已存在
+	        String nameTemp  = registerModel.getUsername();
+	        User temp = userService.findByName(nameTemp);
+	        if( temp != null ){
+	        	mm.put("message", "用户注册失败,此用户名已存在!");
+	        	mm.put("url", "/register.do");
+	        	return new ModelAndView("forward:/success.jsp", mm);
+	        }
+	        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        if (registerModel.innerUserEntity().getId() == null || "".equals(registerModel.innerUserEntity().getId())) {
+	        	registerModel.setCreateDate(dateformat.format(new Date()));
+	        }
+	        userService.save(registerModel.innerUserEntity());
+
+	        mm.put("message", "用户注册成功！");
+	        mm.put("url", "/index.do");
+	        return new ModelAndView("forward:/success.jsp", mm);
+	    }
+	 
 	
 }
