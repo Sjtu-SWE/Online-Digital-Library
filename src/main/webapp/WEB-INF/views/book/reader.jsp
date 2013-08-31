@@ -23,12 +23,7 @@
 <div class="container">
     <jsp:include page="../../../navigation.jsp"></jsp:include>
     <div class="row-fluid">
-        <div class="page-header text-center">
-            <h1>
-                ${chapter.title}
-            </h1>
-        </div>
-        <div class="row-fluid span11">
+        <div class="row-fluid span12">
             <ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
                 <li><a href="/">书库</a> <span class="divider">/</span></li>
@@ -36,7 +31,13 @@
                 <li><a href="/book/${book.id}.do">${book.name}</a><span class="divider">/</span></li>
                 <li class="active">${chapter.title}</li>
             </ul>
+            <div class="row-fluid page-header text-center">
+                <h1>
+                    ${chapter.title}
+                </h1>
+            </div>
         </div>
+
         <div id="chapter-content"  style="width:960px;margin: auto auto;">${chapter.content}</div>
         <div class="text-center">
             <canvas id="canvas" width="960"></canvas>

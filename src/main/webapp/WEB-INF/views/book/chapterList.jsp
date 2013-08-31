@@ -22,14 +22,6 @@
 <div class="container">
     <jsp:include page="../../../navigation.jsp"></jsp:include>
     <div class="row-fluid">
-        <div class="page-header text-center">
-            <h1>
-                <a href="/book/${book.id}.do">${book.name}</a>
-            </h1>
-
-            <div class="text-center">作者：${book.author}</div>
-
-        </div>
         <div class="row-fluid span11">
             <ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
@@ -38,6 +30,15 @@
                 <li class="active">${book.name}</li>
             </ul>
         </div>
+        <div class="page-header text-center">
+            <h1>
+                <a href="/book/${book.id}.do">${book.name}</a>
+            </h1>
+
+            <div class="text-center">作者：${book.author}</div>
+
+        </div>
+
         <div class="row-fluid span12">
 
             <ul class="nav nav-pills text-center">
