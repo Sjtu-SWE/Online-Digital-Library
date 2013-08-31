@@ -6,6 +6,7 @@ import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
+import com.sjtu.onlinelibrary.web.viewmodel.ClassificationEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -83,12 +84,25 @@ public class BookMgrController {
             map.put("book", bookEditModel);
             return new ModelAndView(ADMIN_BOOK_MGR_EDIT, map);
         }
-
-        bookService.save(bookEditModel.innerBookEntity());
+        ClassificationEditModel classificationEditModel = this.classificationService.findById(bookEditModel.getCategoryId());
+        final BookEditModel book = this.bookService.findById(bookEditModel.getId());
+        book.setCategoryId(classificationEditModel.getId());
+        book.setCategory(classificationEditModel.getClassificationName());
+        book.setCategoryId(classificationEditModel.getId());
+        book.setCategory(classificationEditModel.getClassificationName());
+        book.setAuthor(bookEditModel.getAuthor());
+        book.setBookCoverImgPath(bookEditModel.getBookCoverImgPath());
+        book.setBookNumber(bookEditModel.getBookNumber());
+        book.setPrice((bookEditModel.getPrice()));
+        book.setPublisher(bookEditModel.getPublisher());
+        book.setPublishDate(bookEditModel.getPublishDate());
+        book.setKeywords(bookEditModel.getKeywords());
+        book.setDescription(bookEditModel.getDescription());
+        bookService.save(book.innerBookEntity());
         final Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", "保存书籍成功！");
         map.put("url", "/admin/book/list.do");
-        return new ModelAndView("forward:/success.jsp",map);
+        return new ModelAndView("forward:/success.jsp", map);
 
     }
 

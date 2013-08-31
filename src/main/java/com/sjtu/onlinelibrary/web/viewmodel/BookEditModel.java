@@ -146,4 +146,11 @@ public class BookEditModel {
     public void setDescription(final String desctiption){
         innerBookEntity().setDescription(desctiption);
     }
+    public String getCategoryId() {
+        return innerBookEntity().getCategoryId();
+    }
+
+    public void setCategoryId(String categoryId) {
+        innerBookEntity().setCategoryId(categoryId);
+    }
 }

@@ -47,7 +47,7 @@
             </thead>
             <c:forEach items="${pageData.getList()}" var="book">
                 <tr>
-                    <td><a href="../${book.id}/read.do">${book.name}</a></td>
+                    <td><a href="../${book.id}.do">${book.name}</a></td>
                     <td>${book.author}</td>
                     <td>${book.bookNumber}</td>
                     <td>${book.publisher}</td>

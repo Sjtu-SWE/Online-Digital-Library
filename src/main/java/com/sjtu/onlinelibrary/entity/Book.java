@@ -18,6 +18,7 @@ public class Book extends BasePersistable {
     private String name;
     private String author;
     private String category;
+    private String categoryId;
     private String keywords;
     private String description;
     private String publisher;
@@ -167,5 +168,13 @@ public class Book extends BasePersistable {
 
     public void setSellAmount(final int sellAmount) {
         this.sellAmount = sellAmount;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

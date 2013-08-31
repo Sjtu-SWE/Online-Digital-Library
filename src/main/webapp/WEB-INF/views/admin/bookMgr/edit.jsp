@@ -111,7 +111,7 @@
                         <label class="control-label" for="category">书籍分类：</label>
 
                         <div class="controls">
-                            <form:select path="book.category" items="${categories}" itemValue="classificationName"
+                            <form:select path="book.categoryId" items="${categories}" itemValue="id"
                                          itemLabel="classificationName"/>
                         </div>
                     </div>
