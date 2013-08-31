@@ -22,6 +22,7 @@
 			var password=$('.password').val();
 			var newPassword=$('.newPassword').val();
 			var renewPassword=$('.renewPassword').val();
+			
 			if(valid_password(password)) {
 				$('.error1').hide();
 			} else {

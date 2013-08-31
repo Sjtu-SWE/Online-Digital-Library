@@ -14,7 +14,7 @@
 <body>
 <div class="container">
 <jsp:include page="navigation.jsp"></jsp:include> 
-<form method="post" action="/savaUser.do">
+<form method="post" action="/saveUser.do">
 <div class="hero-unit">
 <h3>用户注册</h3>
 <table class="">

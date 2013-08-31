@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.regex.Pattern;
@@ -180,7 +179,7 @@ public class UserController {
 	 * 提交注册请求
 	 * @return
 	 */
-	 @RequestMapping(value = "/savaUser.do", method = RequestMethod.POST)
+	 @RequestMapping(value = "/saveUser.do", method = RequestMethod.POST)
 	    public ModelAndView saveUser(@Valid @ModelAttribute("user") final RegisterModel registerModel, final BindingResult bindingResult) 
 	    		throws DataAccessException {
 	        ModelMap mm = new ModelMap();
@@ -210,7 +209,7 @@ public class UserController {
 		 * 保存修改的新密码
 		 * @return
 		 */
-		 @RequestMapping(value = "/savaPassword.do", method = RequestMethod.POST)
+		 @RequestMapping(value = "/savePassword.do", method = RequestMethod.POST)
 		    public ModelAndView savePassword(@RequestParam(value = "password", required = false) String password, @RequestParam(value = "newPassword", required = false) String newPassword
 		    		,@RequestParam(value = "renewPassword", required = false) String renewPassword)  throws DataAccessException {
 		        ModelMap mm = new ModelMap();
@@ -218,10 +217,14 @@ public class UserController {
 		        	mm.put("message", "两次输入的新密码不一致，请重新输入!");
 		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
 		        }
-		        //检验原密码是否正确
-		        
 		        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		        User temp = userService.findByName(username);//当前登录用户
+		        
+		        //检验原密码是否正确
+		        if( !password.equals(temp.getPassword())){
+		        	mm.put("message", "原密码不正确，请重新输入!");
+		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
+		        }
 		        temp.setPassword(newPassword);
 		        
 		        userService.save(temp);
