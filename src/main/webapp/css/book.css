@@ -78,5 +78,12 @@ li.comment-odd {
     color: #777;
 }
 li.chapter{
-    width: 15%;
+    width: 25%;
+}
+#scrollUp {
+    bottom: 20px;
+    right: 20px;
+    height: 38px;
+    width: 38px;
+    background: url("/img/top.png") no-repeat;
 }

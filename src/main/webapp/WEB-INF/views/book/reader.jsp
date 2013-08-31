@@ -11,6 +11,7 @@
     <link href="/css/book.css" rel="stylesheet">
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
     <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/js/jquery.scrollUp.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/pages/book/bookReader.js">
 
@@ -41,6 +42,7 @@
             <canvas id="canvas" width="960"></canvas>
         </div>
     </div>
+    <a id="scrollUp" title="回到顶部"></a>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>
 <!-- /container -->
