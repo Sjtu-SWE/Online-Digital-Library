@@ -63,7 +63,7 @@ public class ChapterServiceImpl extends BaseService implements IChapterService {
         }
         condition.remove("orderNumber >");
         condition.put("orderNumber <",chapterReaderModel.getCurrent().getOrderNumber());
-        List<Chapter> chaptersPrevious=this.mutableDataAccess.paging(Chapter.class,1,1,condition,"orderNumber");
+        List<Chapter> chaptersPrevious=this.mutableDataAccess.paging(Chapter.class,1,1,condition,"-orderNumber");
 
         chapterReaderModel.setHasPrevious(chaptersPrevious.size()>0);
         if(chapterReaderModel.isHasPrevious()){
