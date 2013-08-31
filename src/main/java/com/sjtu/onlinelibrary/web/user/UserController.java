@@ -104,13 +104,15 @@ public class UserController {
             return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
         }
         ModelMap mm = new ModelMap();
-        //判断用户名是否已存在
-        String nameTemp  = userEditModel.getUsername();
-        User temp = userService.findByName(nameTemp);
-        if( temp != null ){
-        	mm.put("message", "保存用户失败,此用户名已存在!");
-        	mm.put("url", "/admin/user/create.do");
-        	return new ModelAndView("forward:/success.jsp", mm);
+        if(userEditModel.getEditType().equals("创建用户")){
+        	 //判断用户名是否已存在
+            String nameTemp  = userEditModel.getUsername();
+            User temp = userService.findByName(nameTemp);
+            if( temp != null ){
+            	mm.put("message", "保存用户失败,此用户名已存在!");
+            	mm.put("url", "/admin/user/create.do");
+            	return new ModelAndView("forward:/success.jsp", mm);
+            }
         }
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (userEditModel.innerUserEntity().getId() == null || "".equals(userEditModel.innerUserEntity().getId())) {
