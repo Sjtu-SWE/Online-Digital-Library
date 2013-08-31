@@ -30,7 +30,7 @@
     	</td></tr>
     <tr>
     	<td>密码</td>
-    	<td><form:input path="user.password" cssClass="input-xlarge" placeholder="密码：XXXXXX"></form:input>
+    	<td><form:password path="user.password" cssClass="input-xlarge" placeholder="密码：XXXXXX"></form:password>
             <form:errors cssClass="error text-error" path="user.password"></form:errors>
         </td></tr>
     <tr>
