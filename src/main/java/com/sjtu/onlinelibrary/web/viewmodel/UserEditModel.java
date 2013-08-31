@@ -33,7 +33,7 @@ public class UserEditModel {
     	innerUserEntity().setId(id);
     }
 
-    @Pattern(regexp = "^[a-zA-Z_]\\w{4,19}$", message = "用户名必须以字母下划线开头，由字母数字下划线组成，长度5～20位")
+    @Pattern(regexp = "^[a-zA-Z]\\w{4,19}$", message = "用户名必须以字母开头，由字母数字下划线组成，长度5～20位")
     public String getUsername() {
         return innerUserEntity().getUsername();
     }

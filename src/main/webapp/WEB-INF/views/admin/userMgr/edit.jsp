@@ -57,7 +57,7 @@
             <div class="control-group">
                 <label class="control-label" for="password">密码：</label>
                 <div class="controls">
-                    <form:input path="user.password" cssClass="input-xlarge" placeholder="密码：XXXXXX"></form:input>
+                    <form:password path="user.password" cssClass="input-xlarge" placeholder="密码：XXXXXX"></form:password>
                     <form:errors cssClass="error text-error" path="user.password"></form:errors>
                 </div>
             </div>

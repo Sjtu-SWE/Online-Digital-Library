@@ -21,7 +21,7 @@
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         <c:forEach items="${classifications}" var="classification">
-                            <li><a href="#">${classification.classificationName}</a></li>
+                            <li><a href="/book/${classification.id}/list.do">${classification.classificationName}</a></li>
                         </c:forEach>
                     </ul>
                 </div>
@@ -76,7 +76,8 @@
         </div>
     </div>
     <!-- /container -->
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
 </div>
 </body>
 </html>

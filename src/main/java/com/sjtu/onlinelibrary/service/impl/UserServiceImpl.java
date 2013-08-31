@@ -55,7 +55,7 @@ public class UserServiceImpl  extends BaseService implements IUserService {
         }
         final Pager<UserEditModel> userPager = new Pager<UserEditModel>(pageIndex);
         userPager.setListObject(userEditModelList);
-        userPager.setTotalCount(mutableDataAccess.count(User.class));
+        userPager.setTotalCount(mutableDataAccess.count(User.class,condition));
         return userPager;
 	}
 
