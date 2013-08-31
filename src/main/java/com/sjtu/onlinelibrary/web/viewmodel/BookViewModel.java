@@ -30,13 +30,21 @@ public class BookViewModel {
 
     public String getLikeRate() {
         int total = getBook().getUserLikeAmount() + getBook().getUserUnlikeAmount();
-//        if(total==0){
-//            return 0;
-//        }
-        return LangUtil.covertDouble2((12.87 / 20.0) * 100);
+        if (total == 0) {
+            return "0";
+        }
+        return LangUtil.covertDouble2(((double) getBook().getUserLikeAmount()) / ((double) total) * 100);
     }
 
     public String getUnlikeRate() {
-        return LangUtil.covertDouble2(100 - (12.87 / 20.0) * 100);
+        int total = getBook().getUserLikeAmount() + getBook().getUserUnlikeAmount();
+        if (total == 0) {
+            return "0";
+        }
+        return LangUtil.covertDouble2(((double) getBook().getUserUnlikeAmount()) / ((double) total) * 100);
+    }
+
+    public int getTotalLikeUnlikeAmount() {
+        return getBook().getUserLikeAmount() + getBook().getUserUnlikeAmount();
     }
 }

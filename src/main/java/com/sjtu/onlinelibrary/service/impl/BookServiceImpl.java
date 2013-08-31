@@ -3,6 +3,7 @@ package com.sjtu.onlinelibrary.service.impl;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.entity.Book;
+import com.sjtu.onlinelibrary.service.AmountType;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.sjtu.onlinelibrary.service.AmountType.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,17 +66,41 @@ public class BookServiceImpl extends BaseService implements IBookService {
         }
     }
 
+    @Override
+    public void increaseAmount(String bookId, AmountType amountType) throws DataAccessException {
+        Book book = this.mutableDataAccess.findById(Book.class, bookId);
+        if (book == null) return;
+        switch (amountType) {
+            case clickAmount:
+                book.setClickAmount(book.getClickAmount() + 1);
+                break;
+            case userFavoriteAmount:
+                book.setUserFavoriteAmount(book.getUserFavoriteAmount() + 1);
+                break;
+            case userLikeAmount:
+                book.setUserLikeAmount(book.getUserLikeAmount() + 1);
+                break;
+            case userUnlikeAmount:
+                book.setUserUnlikeAmount(book.getUserUnlikeAmount() + 1);
+                break;
+            case sellAmount:
+                book.setSellAmount(book.getSellAmount() + 1);
+                break;
+        }
+        this.mutableDataAccess.save(book);
+    }
+
     /**
      * 根据类别查询所有的图书
      */
-	@Override
-	public Pager<BookEditModel> findBooksByType(int pageIndex, final String category) throws DataAccessException {
-		 if (pageIndex <= 0) {
-	            pageIndex = 1;
-	        }
-		 Map<String, Object> condition = new HashMap<String, Object>();
-	     condition.put("category", category );
-	     
+    @Override
+    public Pager<BookEditModel> findBooksByType(int pageIndex, final String category) throws DataAccessException {
+        if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("category", category);
+
         final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition);
         final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
         for (final Book book : books) {
@@ -83,21 +110,21 @@ public class BookServiceImpl extends BaseService implements IBookService {
         bookPager.setListObject(bookEditModelList);
         bookPager.setTotalCount(mutableDataAccess.count(Book.class));
         return bookPager;
-	}
+    }
 
-	/**
-	 * 判断是否有图书属于该类别
-	 */
-	@Override
-	public boolean findBookByType(String category) throws DataAccessException {
-		Map<String, Object> condition = new HashMap<String, Object>();
-	    condition.put("category", category );
-	     
-	    List<Book> books = mutableDataAccess.listByFilter(Book.class, condition);
-	    if(books!=null && books.size()>0){
-	    	return true;
-	    }
-		return false;
-	}
+    /**
+     * 判断是否有图书属于该类别
+     */
+    @Override
+    public boolean findBookByType(String category) throws DataAccessException {
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("category", category);
+
+        List<Book> books = mutableDataAccess.listByFilter(Book.class, condition);
+        if (books != null && books.size() > 0) {
+            return true;
+        }
+        return false;
+    }
 
 }

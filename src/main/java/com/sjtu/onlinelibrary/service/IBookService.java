@@ -17,15 +17,20 @@ public interface IBookService {
     void save(final Book book) throws DataAccessException;
 
     Pager<BookEditModel> findAll(int pageIndex) throws DataAccessException;
+
     BookEditModel findById(String id) throws DataAccessException;
+
     boolean delete(String id);
+
+    void increaseAmount(String bookId, AmountType amountType) throws DataAccessException;
     /**
      * 根据类别查询所有的图书
      */
-    Pager<BookEditModel> findBooksByType(int pageIndex,final String category) throws DataAccessException;
+    Pager<BookEditModel> findBooksByType(int pageIndex, final String category) throws DataAccessException;
+
     /**
      * 判断是否有图书属于该类别
      */
     boolean findBookByType(final String category) throws DataAccessException;
-    
+
 }

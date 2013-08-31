@@ -12,10 +12,12 @@
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
     <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-
-    </script>
-
+    <script type="text/javascript" src="/js/pages/common.js"></script>
+    <%
+        if (SpringSecurityUtils.isAuthenticated()) {
+            out.print("<script type=\"text/javascript\" src=\"/js/pages/book/bookDetail.js\"></script>\"");
+        }
+    %>
 </head>
 
 <body>
@@ -32,7 +34,8 @@
     </ul>
     <div class="row-fluid">
         <div class="span2">
-            <div class="span2"></div>
+            <div class="span2"><input type="hidden" id="bookId" value="${book.book.id}"/>
+            </div>
             <div class="span10">
                 <a href="/book/${book.book.id}/read.do">
                     <c:choose>
@@ -48,8 +51,8 @@
                 <div class="divider" style="height: 15px;"></div>
                 <ul class="nav nav-list">
                     <li><a href="/book/${book.book.id}/read.do" class="">点击阅读</a></li>
-                    <li><a href="#" class="">加入书架</a></li>
-                    <li><a href="#" class="">购买图书</a></li>
+                    <li><a href="#" class="${loginbtnClass}" id="btn-favorite">加入书架</a></li>
+                    <li><a href="#" class="${loginbtnClass}" id="btn-buy">购买图书</a></li>
                 </ul>
             </div>
 
@@ -133,7 +136,7 @@
                 <div class="controls">
                     <textarea hidefocus="true" class="span12" style=" height: 98px;;"
                               placeholder="评论内容"></textarea>
-                    <button type="submit" class="btn btn-primary">发表评论</button>
+                    <button type="submit" class="btn btn-primary ${loginbtnClass}">发表评论</button>
                 </div>
             </div>
         </form>
@@ -146,90 +149,101 @@
         </div>
         <div class="row-fluid">
             <div class="span10 btn-group span12 text-center">
-                <button class="btn"><i class="icon-arrow-up"></i> 送鲜花</button>
-                <button class="btn"><i class="icon-arrow-down"></i> 砸鸡蛋</button>
+                <button class="btn ${loginbtnClass}" id="btn-like" data-like-amount="${book.book.userLikeAmount}"><i
+                        class="icon-arrow-up"></i> 送鲜花
+                </button>
+                <button class="btn ${loginbtnClass}" id="btn-unlike" data-like-amount="${book.book.userUnlikeAmount}"><i
+                        class="icon-arrow-down"></i> 砸鸡蛋
+                </button>
             </div>
         </div>
-
         <div class="progress progress-success">
-            <div class="bar" style="width:${book.getLikeRate()}%;">
-                <span>鲜花率 ${book.getLikeRate()} %</span>
+
+            <c:choose>
+            <c:when test="${book.getTotalLikeUnlikeAmount()==0}">
+            <div class="bar" id="bar-like" style="width:100%;">
+                </c:when>
+                <c:otherwise>
+                <div class="bar" id="bar-like" style="width:${book.getLikeRate()}%;">
+                    </c:otherwise>
+                    </c:choose>
+                    <span>鲜花率 ${book.getLikeRate()} %</span>
+                </div>
+                <div class="bar bar-warning" id="bar-unlike" style="width:${book.getUnlikeRate()}%;">
+                    <span>鸡蛋 ${book.getUnlikeRate()}%</span>
+                </div>
             </div>
-            <div class="bar bar-warning" style="width:${book.getUnlikeRate()}%;">
-                <span>鸡蛋 ${book.getUnlikeRate()}%</span>
+            <div class="row-fluid">
+                <div class="controls-row">
+                    鲜花数：<span id="likeAmount">${book.book.userLikeAmount}</span>
+                    鸡蛋数：<span id="unlikeAmount">${book.book.userUnlikeAmount}</span>
+                </div>
             </div>
         </div>
         <div class="row-fluid">
-            <div class="controls-row">
-                <span>鲜花数：${book.book.userLikeAmount}</span>
-                <span>鸡蛋数：${book.book.userUnlikeAmount}</span>
+            <div class="row-fluid">
+                <div class="popover-title well-small"><i class="icon-book"></i> 推荐图书</div>
             </div>
+            <ul class="media-list">
+                <li class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading">Media heading</h4>
+
+                        <!-- Nested media object -->
+                        <div class="media">
+                            adfadsfasdasdfasdf
+                        </div>
+                    </div>
+                </li>
+                <li class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading">Media heading</h4>
+
+                        <!-- Nested media object -->
+                        <div class="media">
+                            adfadsfasdasdfasdf
+                        </div>
+                    </div>
+                </li>
+                <li class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading">Media heading</h4>
+
+                        <!-- Nested media object -->
+                        <div class="media">
+                            adfadsfasdasdfasdf
+                        </div>
+                    </div>
+                </li>
+                <li class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading">Media heading</h4>
+
+                        <!-- Nested media object -->
+                        <div class="media">
+                            adfadsfasdasdfasdf
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="row-fluid">
-        <div class="row-fluid">
-            <div class="popover-title well-small"><i class="icon-book"></i> 推荐图书</div>
-        </div>
-        <ul class="media-list">
-            <li class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
-                </a>
-
-                <div class="media-body">
-                    <h4 class="media-heading">Media heading</h4>
-
-                    <!-- Nested media object -->
-                    <div class="media">
-                        adfadsfasdasdfasdf
-                    </div>
-                </div>
-            </li>
-            <li class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
-                </a>
-
-                <div class="media-body">
-                    <h4 class="media-heading">Media heading</h4>
-
-                    <!-- Nested media object -->
-                    <div class="media">
-                        adfadsfasdasdfasdf
-                    </div>
-                </div>
-            </li>
-            <li class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
-                </a>
-
-                <div class="media-body">
-                    <h4 class="media-heading">Media heading</h4>
-
-                    <!-- Nested media object -->
-                    <div class="media">
-                        adfadsfasdasdfasdf
-                    </div>
-                </div>
-            </li>
-            <li class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" style="width: 64px;;" src="/img/fm_big.gif">
-                </a>
-
-                <div class="media-body">
-                    <h4 class="media-heading">Media heading</h4>
-
-                    <!-- Nested media object -->
-                    <div class="media">
-                        adfadsfasdasdfasdf
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
 </div>
 </div>
 <jsp:include page="../common/foot.jsp"></jsp:include>
