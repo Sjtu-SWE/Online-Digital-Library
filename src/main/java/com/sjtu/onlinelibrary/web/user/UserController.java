@@ -12,6 +12,7 @@ import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.RegisterModel;
 import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -205,5 +206,27 @@ public class UserController {
 	        return new ModelAndView("redirect:/register.do", mm);
 	    }
 	 
+	    /**
+		 * 保存修改的新密码
+		 * @return
+		 */
+		 @RequestMapping(value = "/savaPassword.do", method = RequestMethod.POST)
+		    public ModelAndView savePassword(@RequestParam(value = "password", required = false) String password, @RequestParam(value = "newPassword", required = false) String newPassword
+		    		,@RequestParam(value = "renewPassword", required = false) String renewPassword)  throws DataAccessException {
+		        ModelMap mm = new ModelMap();
+		        if (!newPassword.equals(renewPassword)) {
+		        	mm.put("message", "两次输入的新密码不一致，请重新输入!");
+		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
+		        }
+		        //检验原密码是否正确
+		        
+		        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		        User temp = userService.findByName(username);//当前登录用户
+		        temp.setPassword(newPassword);
+		        
+		        userService.save(temp);
+		        mm.put("message", "修改用户密码成功！");
+		        return new ModelAndView("redirect:/modifyPassword.jsp", mm);
+		    }
 	
 }
