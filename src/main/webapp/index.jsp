@@ -21,7 +21,7 @@
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         <c:forEach items="${classifications}" var="classification">
-                            <li><a href="#">${classification.classificationName}</a></li>
+                            <li><a href="/book/${classification.id}/list.do">${classification.classificationName}</a></li>
                         </c:forEach>
                     </ul>
                 </div>

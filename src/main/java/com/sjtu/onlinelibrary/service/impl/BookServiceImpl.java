@@ -81,7 +81,7 @@ public class BookServiceImpl extends BaseService implements IBookService {
         }
         final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
         bookPager.setListObject(bookEditModelList);
-        bookPager.setTotalCount(mutableDataAccess.count(Book.class));
+        bookPager.setTotalCount(mutableDataAccess.count(Book.class, condition));
         return bookPager;
 	}
 

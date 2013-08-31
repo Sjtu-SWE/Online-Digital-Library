@@ -71,5 +71,6 @@
         <property name="bookService"> <ref local="bookService"></ref></property>
         <property name="commentService" ref="commentService"></property>
         <property name="chapterService"> <ref local="chapterService"></ref> </property>
+        <property name="classificationService"> <ref local="classificationService"></ref></property>
     </bean>
 </beans>

@@ -3,11 +3,17 @@ package com.sjtu.onlinelibrary.web.book;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl;
+import com.sjtu.onlinelibrary.service.impl.ClassificationServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.CommentService;
+import com.sjtu.onlinelibrary.util.LangUtil;
+import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.BookViewModel;
+import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @RequestMapping("/book")
@@ -16,9 +22,12 @@ public class BookController {
     public static final String BOOK_CHAPTER_LIST = "book/chapterList";
     public static final String BOOK_BOOK_DETAIL = "book/bookDetail";
     public static final String BOOK_READER = "book/reader";
+    public static final String BOOK_LIST_BYTYPE = "book/bookListByType";
+    public static final String PAGE_DATE = "pageData";
     private BookServiceImpl bookService;
     private ChapterServiceImpl chapterService;
     private CommentService commentService;
+    private ClassificationServiceImpl classificationService;
 
     public void setBookService(BookServiceImpl bookService) {
         this.bookService = bookService;
@@ -32,7 +41,11 @@ public class BookController {
         this.commentService = commentService;
     }
 
-    @RequestMapping("/{id}.do")
+    public void setClassificationService(ClassificationServiceImpl classificationService) {
+		this.classificationService = classificationService;
+	}
+
+	@RequestMapping("/{id}.do")
     public ModelAndView book(@PathVariable("id") String id) throws DataAccessException {
         BookViewModel bookViewModel = new BookViewModel();
         bookViewModel.setBook(this.bookService.findById(id).innerBookEntity());
@@ -55,6 +68,22 @@ public class BookController {
         return new ModelAndView(BOOK_READER, map);
     }
 
+    /**
+     * 根据图书类别分页显示图书信息
+     * @param bookType
+     */
+    @RequestMapping("/{bookType}/list.do")
+    public ModelAndView listBooksByType(@PathVariable("bookType") String bookId,@RequestParam(value = "pageIndex", required = false) final String pageIndex)
+    		throws DataAccessException{
+    	int index = 0;
+        if (!LangUtil.isNullOrEmpty(pageIndex)) {
+            index = Integer.parseInt(pageIndex);
+        }
+    	String bookType = classificationService.findById(bookId).getClassificationName();
+    	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookType);
+    	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATE, books);
+    }
+    
     public ModelMap getMap(String bookId) throws DataAccessException {
         ModelMap map = new ModelMap();
         map.put("book", this.bookService.findById(bookId));
