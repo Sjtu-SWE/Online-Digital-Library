@@ -22,24 +22,41 @@
 <div class="container">
     <jsp:include page="../../../navigation.jsp"></jsp:include>
     <div class="row-fluid">
-        <div class="page-header text-center">
-            <h1>
-                <a href="/book/${book.id}.do">${book.name}</a>
-            </h1>
-            <div class="text-center"></div>
-
-        </div>
+<!--         <div class="page-header text-center"> -->
+<%--         	<h3>${category}</a></h3> --%>
+<!--             <div class="text-center"></div> -->
+<!--         </div> -->
         <div class="row-fluid span11">
-            
+            <ul class="breadcrumb ">
+                <li><a href="/">首页</a> <span class="divider">/</span></li>
+                <li><a href="/">书库</a> <span class="divider">/</span></li>
+                <li class="active">${category}</li>
+            </ul>
         </div>
         <div class="row-fluid span12">
 
-            <ul class="nav nav-pills text-center">   
-            	<c:forEach items="${pageData.getList()}" var="book">
-            		<li><a href="../${book.id}/read.do">${book.name}</a></li>
-                </c:forEach>          
-            </ul>
+			<table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>书名</th>
+                <th>作者</th>
+                <th>书号</th>
+                <th>出版社</th>
+                <th>封面</th>
+            </tr>
+            </thead>
+            <c:forEach items="${pageData.getList()}" var="book">
+                <tr>
+                    <td><a href="../${book.id}/read.do">${book.name}</a></td>
+                    <td>${book.author}</td>
+                    <td>${book.bookNumber}</td>
+                    <td>${book.publisher}</td>
+                    <td><img alt="${book.description}" src="../../img/cover.jpg"/></td>
+                </tr>
+            </c:forEach>
+        </table>
         </div>
+        <jsp:include page="../admin/pagination.jsp"></jsp:include>
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>

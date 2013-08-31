@@ -1,5 +1,7 @@
 package com.sjtu.onlinelibrary.web.book;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl;
@@ -73,14 +75,15 @@ public class BookController {
      * @param bookType
      */
     @RequestMapping("/{bookType}/list.do")
-    public ModelAndView listBooksByType(@PathVariable("bookType") String bookId,@RequestParam(value = "pageIndex", required = false) final String pageIndex)
-    		throws DataAccessException{
+    public ModelAndView listBooksByType(@PathVariable("bookType") String bookId,@RequestParam(value = "pageIndex", required = false) final String pageIndex
+    		,HttpServletRequest request) throws DataAccessException{
     	int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
             index = Integer.parseInt(pageIndex);
         }
     	String bookType = classificationService.findById(bookId).getClassificationName();
     	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookType);
+    	 request.setAttribute("category", bookType);
     	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATE, books);
     }
     
