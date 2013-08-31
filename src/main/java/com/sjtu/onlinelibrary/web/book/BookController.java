@@ -8,9 +8,7 @@ import com.sjtu.onlinelibrary.service.impl.ClassificationServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.CommentService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
-import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
-import com.sjtu.onlinelibrary.web.viewmodel.BookViewModel;
-import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.*;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,7 +70,8 @@ public class BookController {
     @RequestMapping("/{bookId}/chapter/{id}.do")
     public ModelAndView chapter(@PathVariable("bookId") String bookId, @PathVariable("id") String id) throws DataAccessException {
         ModelMap map = getMap(bookId);
-        map.put("chapter", this.chapterService.findById(id));
+        ChapterReaderModel chapter= this.chapterService.findForReader(bookId,id);
+        map.put("chapter",chapter);
         return new ModelAndView(BOOK_READER, map);
     }
 

@@ -6,6 +6,7 @@ import com.sjtu.onlinelibrary.entity.Chapter;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IChapterService;
 import com.sjtu.onlinelibrary.web.viewmodel.ChapterModel;
+import com.sjtu.onlinelibrary.web.viewmodel.ChapterReaderModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 
@@ -46,6 +47,29 @@ public class ChapterServiceImpl extends BaseService implements IChapterService {
     public ChapterModel findById(String id) throws DataAccessException {
         Chapter chapter = mutableDataAccess.findById(Chapter.class, id);
         return new ChapterModel("编辑章节", chapter);
+    }
+
+    @Override
+    public ChapterReaderModel findForReader(String bookId,String id) throws DataAccessException {
+        ChapterReaderModel chapterReaderModel=new ChapterReaderModel(this.findById(id).getChapterEntity());
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("bookId", bookId);
+        condition.put("orderNumber >",chapterReaderModel.getCurrent().getOrderNumber());
+        List<Chapter> chaptersNexts=this.mutableDataAccess.paging(Chapter.class,1,1,condition,"orderNumber");
+        chapterReaderModel.setHasNext(chaptersNexts.size()>0);
+
+        if(chapterReaderModel.isHasNext()){
+            chapterReaderModel.setNext(chaptersNexts.get(0));
+        }
+        condition.remove("orderNumber >");
+        condition.put("orderNumber <",chapterReaderModel.getCurrent().getOrderNumber());
+        List<Chapter> chaptersPrevious=this.mutableDataAccess.paging(Chapter.class,1,1,condition,"orderNumber");
+
+        chapterReaderModel.setHasPrevious(chaptersPrevious.size()>0);
+        if(chapterReaderModel.isHasPrevious()){
+            chapterReaderModel.setPrevious(chaptersPrevious.get(0));
+        }
+        return chapterReaderModel;
     }
 
     @Override

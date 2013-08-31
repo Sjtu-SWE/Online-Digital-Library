@@ -29,18 +29,27 @@
                 <li><a href="/">书库</a> <span class="divider">/</span></li>
                 <li><a href="/book/${book.categoryId}/list.do">${book.category}</a> <span class="divider">/</span></li>
                 <li><a href="/book/${book.id}.do">${book.name}</a><span class="divider">/</span></li>
-                <li class="active">${chapter.title}</li>
+                <li class="active">${chapter.current.title}</li>
             </ul>
             <div class="row-fluid page-header text-center">
                 <h1>
-                    ${chapter.title}
+                    ${chapter.current.title}
                 </h1>
             </div>
         </div>
 
-        <div id="chapter-content"  style="width:960px;margin: auto auto;">${chapter.content}</div>
+        <div id="chapter-content" style="width:960px;margin: auto auto;">${chapter.current.content}</div>
         <div class="text-center">
             <canvas id="canvas" width="960"></canvas>
+
+        </div>
+        <div class="offset1 span10">
+            <c:if test="${chapter.hasPrevious}">
+                <a class="pull-left" href="/book/${book.id}/chapter/${chapter.previous.id}.do">上一章</a>
+            </c:if>
+            <c:if test="${chapter.hasNext}">
+                <a class="pull-right" href="/book/${book.id}/chapter/${chapter.next.id}.do">下一章</a>
+            </c:if>
         </div>
     </div>
     <a id="scrollUp" title="回到顶部"></a>
