@@ -23,6 +23,7 @@
                     <form class="navbar-form pull-right">
                         <input type="text" name="name" class="span2" placeholder="书名" value="${name}">
                         <button type="submit" class="btn" formaction="/book/searchBook.do">搜索</button>
+                        <a href="/toSearch.do">高级搜索</a>
                     </form>
                 </ul>
                 <ul class="nav pull-right">

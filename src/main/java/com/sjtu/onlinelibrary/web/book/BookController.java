@@ -30,6 +30,7 @@ public class BookController {
     public static final String BOOK_READER = "book/reader";
     public static final String BOOK_LIST_BYTYPE = "book/bookListByType";
     public static final String BOOK_SEARCH_RESULT = "book/searchResult";
+    public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String PAGE_DATE = "pageData";
     private BookServiceImpl bookService;
     private ChapterServiceImpl chapterService;
@@ -110,7 +111,7 @@ public class BookController {
      * @param bookType
      */
     @RequestMapping("/searchBook.do")
-    public ModelAndView searchBooks(@RequestParam(required = true)  String name,@RequestParam(value = "pageIndex", required = false) final String pageIndex
+    public ModelAndView searchBook(@RequestParam(required = true)  String name,@RequestParam(value = "pageIndex", required = false) final String pageIndex
     		,HttpServletRequest request) throws DataAccessException{
     	int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
@@ -124,6 +125,53 @@ public class BookController {
     	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
     	 request.setAttribute("name", name);
     	return new ModelAndView(BOOK_SEARCH_RESULT , PAGE_DATE, books);
+    }
+    
+    /**
+     * 图书高级搜索
+     * @param bookType
+     */
+    @RequestMapping("/searchBooks.do")
+    public ModelAndView searchBooks(@RequestParam  String name,@RequestParam String author,@RequestParam String bookNumber,@RequestParam String publisher,
+    		@RequestParam String keywords,@RequestParam(value = "pageIndex", required = false) final String pageIndex ,HttpServletRequest request) throws DataAccessException{
+    	int index = 0;
+        if (!LangUtil.isNullOrEmpty(pageIndex)) {
+            index = Integer.parseInt(pageIndex);
+        }
+        Map<String, Object> condition = new HashMap<String, Object>();
+        Pattern pattern = null;
+        if( name!=null && !"".equals(name.trim()) ){
+        	pattern = Pattern.compile(".*" + name.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+        	condition.put("name", pattern);
+        }
+        if( author!=null && !"".equals(author.trim()) ){
+        	pattern = Pattern.compile(".*" + author.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+        	condition.put("author", pattern);
+        }
+        if( bookNumber!=null && !"".equals(bookNumber.trim()) ){
+        	pattern = Pattern.compile(".*" + bookNumber.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+        	condition.put("bookNumber", pattern);
+        }
+        if( publisher!=null && !"".equals(publisher.trim()) ){
+        	pattern = Pattern.compile(".*" + publisher.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+        	condition.put("publisher", pattern);
+        }
+        if( keywords!=null && !"".equals(keywords.trim()) ){
+        	pattern = Pattern.compile(".*" + keywords.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+        	condition.put("keywords", pattern);
+        }
+        if( (name==null || "".equals(name.trim()) ) && (author==null || "".equals(author.trim()) ) && (bookNumber==null || "".equals(bookNumber.trim()) )
+        		&& (publisher==null || "".equals(publisher.trim()) ) && (keywords==null || "".equals(keywords.trim()) )){
+        	return new ModelAndView(BOOK_SEARCH_BOOK );
+        }else{
+        	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
+        	 request.setAttribute("name", name);
+        	 request.setAttribute("author", author);
+        	 request.setAttribute("bookNumber", bookNumber);
+        	 request.setAttribute("publisher", publisher);
+        	 request.setAttribute("keywords", keywords);
+        	return new ModelAndView(BOOK_SEARCH_BOOK , PAGE_DATE, books);
+        }
     }
     
     public ModelMap getMap(String bookId) throws DataAccessException {

@@ -36,6 +36,7 @@ public class UserController {
 
 	public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
     public static final String ADMIN_USER_MGR_EDIT = "admin/userMgr/edit";
+    public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String PAGE_DATE = "pageData";
 
     private IUserService userService;
@@ -165,6 +166,11 @@ public class UserController {
         mm.put("classifications", classifications);
         return new ModelAndView("forward:/index.jsp", mm);
     }
+	
+	@RequestMapping("/toSearch.do")
+	public ModelAndView toSearchBook() throws Exception{
+		return new ModelAndView(BOOK_SEARCH_BOOK);
+	}
 	
 	/**
 	 * 跳转到注册页面
