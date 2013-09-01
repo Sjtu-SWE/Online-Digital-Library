@@ -38,5 +38,10 @@ public interface IBookService {
      * 判断是否有图书属于该类别
      */
     boolean findBookByType(final String category) throws DataAccessException;
-
+    
+    /**
+     * 根据点击量/鲜花/鸡蛋/购买量排序得到图书列表
+     */
+    Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException;
+    
 }

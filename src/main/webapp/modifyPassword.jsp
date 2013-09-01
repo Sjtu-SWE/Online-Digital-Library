@@ -76,7 +76,7 @@
         </td></tr>
     <tr><td colSpan="2" align="center">
     	<input type="submit" value="提交" class="submit"/>
-    	&nbsp;<input type="button" onclick="javascript:window.location('/index.do');" value="返回" class="btn"/> </td></tr>
+    	&nbsp;<a class="btn" href="/index.do">返回</a></td></tr>
 </table>
 </div>
 </div>

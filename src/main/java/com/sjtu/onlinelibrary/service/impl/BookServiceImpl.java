@@ -146,4 +146,20 @@ public class BookServiceImpl extends BaseService implements IBookService {
         return bookPager;
 	}
 
+	@Override
+	public Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException {
+		 if (pageIndex <= 0) {
+	            pageIndex = 1;
+	        }
+	        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, null, orderFields);
+	        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
+	        for (final Book book : books) {
+	            bookEditModelList.add(new BookEditModel("", book));
+	        }
+	        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
+	        bookPager.setListObject(bookEditModelList);
+	        bookPager.setTotalCount(mutableDataAccess.count(Book.class));
+	        return bookPager;
+	}
+
 }
