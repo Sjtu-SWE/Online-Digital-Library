@@ -7,6 +7,7 @@ import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.util.LangUtil;
+import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.RegisterModel;
@@ -37,6 +38,7 @@ public class UserController {
 	public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
     public static final String ADMIN_USER_MGR_EDIT = "admin/userMgr/edit";
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
+    public static final String USER_PERSONAL = "user/personal";
     public static final String PAGE_DATE = "pageData";
 
     private IUserService userService;
@@ -240,4 +242,16 @@ public class UserController {
 		        return new ModelAndView("redirect:/modifyPassword.jsp", mm);
 		    }
 	
+		 @RequestMapping("/personal.do")
+		 public ModelAndView personal() throws DataAccessException{
+			 String username = SpringSecurityUtils.getCurrentUserName();
+			 try{
+				    final User user = userService.findByName(username);
+		            final Map<String, Object> map = getMapForEdit();
+		            map.put("user", new UserEditModel("编辑用户",user));
+				 return new ModelAndView(USER_PERSONAL, map);
+			 }catch(DataAccessException ex){
+				 return new ModelAndView("error");
+			 }
+		 }
 }
