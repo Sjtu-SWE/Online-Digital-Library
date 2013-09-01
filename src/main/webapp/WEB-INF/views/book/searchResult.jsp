@@ -29,12 +29,12 @@
         <div class="row-fluid span11">
             <ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
-                <li><a href="/">书库</a> <span class="divider">/</span></li>
-                <li class="active">${category}</li>
+                <li><a href="/">书库</a></li>
             </ul>
         </div>
         <div class="row-fluid span12">
-       	<ul class="media-list">
+<c:if test="${!empty pageData.getList() }">
+			<ul class="media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
                     <a class="pull-left" href="#">
@@ -52,8 +52,9 @@
                 </li>
             </c:forEach>
             </ul>
-        </div>
         <jsp:include page="../admin/pagination.jsp"></jsp:include>
+       </c:if>
+        </div>
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>

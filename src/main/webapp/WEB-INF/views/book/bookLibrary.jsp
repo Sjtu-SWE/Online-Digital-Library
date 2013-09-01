@@ -22,19 +22,14 @@
 <div class="container">
     <jsp:include page="../../../navigation.jsp"></jsp:include>
     <div class="row-fluid">
-<!--         <div class="page-header text-center"> -->
-<%--         	<h3>${category}</a></h3> --%>
-<!--             <div class="text-center"></div> -->
-<!--         </div> -->
         <div class="row-fluid span11">
-            <ul class="breadcrumb ">
+        	<ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
-                <li><a href="/">书库</a> <span class="divider">/</span></li>
-                <li class="active">${category}</li>
+                <li><a href="/">书库</a></li>
             </ul>
         </div>
         <div class="row-fluid span12">
-       	<ul class="media-list">
+			<ul class="media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
                     <a class="pull-left" href="#">
@@ -52,8 +47,9 @@
                 </li>
             </c:forEach>
             </ul>
-        </div>
         <jsp:include page="../admin/pagination.jsp"></jsp:include>
+        </div>
+        
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>

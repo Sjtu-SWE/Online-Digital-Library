@@ -16,13 +16,14 @@
                 <p class="navbar-text pull-right"></p>
                 <ul class="nav">
                     <li class="active"><a href="/">首页</a></li>
-                    <li class=""><a href="/">书库</a></li>
+                    <li class=""><a href="/book/bookLibrary.do">书库</a></li>
                     <li class=""><a href="/">我的书架</a></li>
                     <li><a href="/admin/dashboard.do">后台管理</a></li>
 
                     <form class="navbar-form pull-right">
-                        <input type="text" class="span2">
-                        <button type="submit" class="btn">搜索</button>
+                        <input type="text" name="name" class="span2" placeholder="书名" value="${name}">
+                        <button type="submit" class="btn" formaction="/book/searchBook.do">搜索</button>
+                        <a href="/toSearch.do">高级搜索</a>
                     </form>
                 </ul>
                 <ul class="nav pull-right">
