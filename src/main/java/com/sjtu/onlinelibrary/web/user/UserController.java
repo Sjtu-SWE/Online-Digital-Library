@@ -113,7 +113,7 @@ public class UserController {
         if(userEditModel.getEditType().equals("创建用户")){
         	 //判断用户名是否已存在
             if( temp != null ){
-            	mm.put("message", "保存用户失败,此用户名已存�?");
+            	mm.put("message", "保存用户失败,此用户名已存�?");
             	mm.put("url", "/admin/user/create.do");
             	return new ModelAndView("forward:/success.jsp", mm);
             }
@@ -149,7 +149,7 @@ public class UserController {
     public ModelAndView login(HttpServletResponse response,
                               @RequestParam(value = "j_username", required = false) String username,
                               @RequestParam(value = "j_password", required = false) String password) throws Exception {
-        //在请求ogin.do时，执行该方法验证登�?
+        //在请求ogin.do时，执行该方法验证登�?
         if (userService.checkLogin(username, password) != null) {
             return new ModelAndView("forward:/index.jsp", "user", userService.checkLogin(username, password));
         }
@@ -160,14 +160,14 @@ public class UserController {
         final Map<String, Object> map = new HashMap<String, Object>();
         final List<Category> types = new ArrayList<Category>();
         types.add(new Category("系统管理", Constants.ROLE_NAME_ADMIN));
-        types.add(new Category("普�?用户", Constants.ROLE_NAME_USER));
+        types.add(new Category("普�?用户", Constants.ROLE_NAME_USER));
         map.put("types", types);
         return map;
     }
 	
 	@RequestMapping("/index.do")
     public ModelAndView index() throws Exception{
-        //在访问首页面时，生成动�?菜单sidebar
+        //在访问首页面时，生成动�?菜单sidebar
 		List<Classification> classifications = classificationService.findAll();
 		ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
@@ -180,7 +180,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 跳转到注册页�?
+	 * 跳转到注册页�?
 	 */
 	
 	@RequestMapping("/register.do")
@@ -206,7 +206,7 @@ public class UserController {
 	        String nameTemp  = registerModel.getUsername();
 	        User temp = userService.findByName(nameTemp);
 	        if( temp != null ){
-	        	mm.put("message", "用户注册失败,此用户名已存�?");
+	        	mm.put("message", "用户注册失败,此用户名已存在");
 	        	return new ModelAndView("redirect:/register.do", mm);
 	        }
 	        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -216,7 +216,7 @@ public class UserController {
 	        registerModel.innerUserEntity().setRoleName("ROLE_USER");
 	        userService.save(registerModel.innerUserEntity());
 
-	        mm.put("message", "用户注册成功�?);
+	        mm.put("message", "用户注册成功");
 	        return new ModelAndView("redirect:/register.do", mm);
 	    }
 	 
@@ -229,13 +229,13 @@ public class UserController {
 		    		,@RequestParam(value = "renewPassword", required = false) String renewPassword)  throws DataAccessException {
 		        ModelMap mm = new ModelMap();
 		        if (!newPassword.equals(renewPassword)) {
-		        	mm.put("message", "两次输入的新密码不一致，请重新输�?");
+		        	mm.put("message", "两次输入的新密码不一致，请重新输入");
 		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
 		        }
 		        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		        User temp = userService.findByName(username);//当前登录用户
 		        
-		        //�?��原密码是否正�?
+		        //�?��原密码是否正�?
 		        if( !password.equals(temp.getPassword())){
 		        	mm.put("message", "原密码不正确，请重新输入!");
 		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
@@ -243,7 +243,7 @@ public class UserController {
 		        temp.setPassword(newPassword);
 		        
 		        userService.save(temp);
-		        mm.put("message", "修改用户密码成功�?);
+		        mm.put("message", "修改用户密码成功");
 		        return new ModelAndView("redirect:/modifyPassword.jsp", mm);
 		    }
 	
