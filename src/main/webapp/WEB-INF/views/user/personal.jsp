@@ -25,11 +25,11 @@
         <div class="row-fluid span11">
         	<ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
-                <li><a href="/">个人主页</a></li>
+                <li class="active">个人主页</li>
             </ul>
         </div>
         <div class="row-fluid span12">
-			<form method="post" class="form-horizontal" action="">
+			<form method="post" class="form-horizontal" action="/savePersonal.do">
 
             <form:hidden path="user.id"></form:hidden>
             <div class="control-group">
@@ -49,7 +49,7 @@
             <div class="control-group">
                 <label class="control-label" for="password">密码：</label>
                 <div class="controls">
-                    <form:password path="user.password" cssClass="input-xlarge" readonly="true"></form:password>
+                    <input name="password" type="password" value="${user.password }" readonly="true"/>
                     <form:errors cssClass="error text-error" path="user.password"></form:errors>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="control-group">
                 <label class="control-label" for="credits">信用值：</label>
                 <div class="controls">
-                    <form:input path="user.credits" cssClass="input-xlarge" placeholder=""></form:input>
+                    <form:input path="user.credits" cssClass="input-xlarge" readonly="true"></form:input>
                     <form:errors cssClass="error text-error" path="user.credits"></form:errors>
                 </div>
             </div>
@@ -82,7 +82,7 @@
             </div>
             <c:if test="${user.id!=null&&!''.equals(user.id)}">
             <div class="control-group">
-                <label class="control-label" for="createDate">创建日期：</label>
+                <label class="control-label" for="createDate">注册日期：</label>
                 <div class="controls">
                     <form:input path="user.createDate" cssClass="input-xlarge" placeholder="" readonly="true"></form:input>
                     <form:errors cssClass="error text-error" path="user.createDate"></form:errors>

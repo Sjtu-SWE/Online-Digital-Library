@@ -31,7 +31,6 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 	
 	@Override
 	public User checkLogin(String userName, String password) throws Exception{//前台页面登录用
-	    
 	    Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("username", userName);
         condition.put("password", password);

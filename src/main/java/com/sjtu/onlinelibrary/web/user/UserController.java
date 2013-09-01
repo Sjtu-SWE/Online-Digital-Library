@@ -10,6 +10,7 @@ import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.PersonalModel;
 import com.sjtu.onlinelibrary.web.viewmodel.RegisterModel;
 import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
@@ -92,7 +93,6 @@ public class UserController {
             final Map<String, Object> map = getMapForEdit();
             map.put("user", user);
             return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
-
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }
@@ -107,21 +107,25 @@ public class UserController {
             return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
         }
         ModelMap mm = new ModelMap();
+        String username  = userEditModel.getUsername();
+        User temp = userService.findByName(username);
         if(userEditModel.getEditType().equals("创建用户")){
         	 //判断用户名是否已存在
-            String nameTemp  = userEditModel.getUsername();
-            User temp = userService.findByName(nameTemp);
             if( temp != null ){
             	mm.put("message", "保存用户失败,此用户名已存在!");
             	mm.put("url", "/admin/user/create.do");
             	return new ModelAndView("forward:/success.jsp", mm);
             }
         }
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (userEditModel.innerUserEntity().getId() == null || "".equals(userEditModel.innerUserEntity().getId())) {
-            userEditModel.setCreateDate(dateformat.format(new Date()));
-        }
-        userService.save(userEditModel.innerUserEntity());
+        temp.setUsername(userEditModel.getUsername());
+        temp.setRealName(userEditModel.getRealName());
+        temp.setPassword(userEditModel.getPassword());
+        temp.setEmail(userEditModel.getEmail());
+        temp.setPhone(userEditModel.getPhone());
+        temp.setRoleName(userEditModel.getRoleName());
+        temp.setCredits(userEditModel.getCredits());
+        temp.setNote(userEditModel.getNote());
+        userService.save(temp);
 
         mm.put("message", "保存用户成功");
         mm.put("url", "/admin/user/list.do");
@@ -254,4 +258,30 @@ public class UserController {
 				 return new ModelAndView("error");
 			 }
 		 }
+		 
+		 /**
+		  * 更新个人主页信息
+		  * @throws DataAccessException
+		  */
+		 @RequestMapping(value = "/savePersonal.do", method = RequestMethod.POST)
+		    public ModelAndView savePersonal(@Valid @ModelAttribute("user") final PersonalModel personalEditModel, final BindingResult bindingResult) throws DataAccessException {
+		        if (bindingResult.hasErrors()) {
+		            final Map<String, Object> map = getMapForEdit();
+		            map.put("message", "用户注册失败,请输入正确的格式!");
+		        	return new ModelAndView("forward:/personal.do", map);
+		        }
+		        ModelMap mm = new ModelMap();
+		        String username  = personalEditModel.getUsername();
+		        User temp = userService.findByName(username);
+		        temp.setRealName(personalEditModel.getRealName());
+		        temp.setEmail(personalEditModel.getEmail());
+		        temp.setPhone(personalEditModel.getPhone());
+		        temp.setNote(personalEditModel.getNote());
+		        userService.save(temp);
+
+		        mm.put("message", "保存个人信息成功");
+		        mm.put("url", "/personal.do");
+		        return new ModelAndView("forward:/success.jsp", mm);
+		    }
+		 
 }
