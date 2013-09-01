@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div class="control-group ">
-                        <label class="control-label" for="category">书籍分类：</label>
+                        <label class="control-label" for="categoryId">书籍分类：</label>
 
                         <div class="controls">
                             <form:select path="book.categoryId" items="${categories}" itemValue="id"

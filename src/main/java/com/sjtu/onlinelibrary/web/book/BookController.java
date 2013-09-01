@@ -1,6 +1,7 @@
 package com.sjtu.onlinelibrary.web.book;
 
 import com.sjtu.onlinelibrary.DataAccessException;
+import com.sjtu.onlinelibrary.entity.Comment;
 import com.sjtu.onlinelibrary.service.AmountType;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl;
@@ -10,10 +11,7 @@ import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.*;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +96,19 @@ public class BookController {
     	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookType);
     	 request.setAttribute("category", bookType);
     	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATE, books);
+    }
+
+    @RequestMapping(value = "/{bookId}/comment/add.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String addComment(@PathVariable("bookId") String bookId, @RequestParam(required = true) String content) throws DataAccessException {
+
+        Comment comment=new Comment();
+        comment.setContent(content);
+        comment.setBookId(bookId);
+        comment.setUserName(SpringSecurityUtils.getCurrentUser().getRealName());
+        comment.setUserId(SpringSecurityUtils.getCurrentUser().getId());
+        this.commentService.save(comment);
+        return "ok";
     }
 
     public ModelMap getMap(String bookId) throws DataAccessException {

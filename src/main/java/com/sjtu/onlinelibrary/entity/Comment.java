@@ -7,8 +7,9 @@ import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 @Entity
 public class Comment extends BasePersistable {
     private String bookId;
+    private String userId;
+    private String userName;
     private String content;
-    private Pager<Comment> comments;
 
     public String getContent() {
         return content;
@@ -18,19 +19,27 @@ public class Comment extends BasePersistable {
         this.content = content;
     }
 
-    public Pager<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Pager<Comment> comments) {
-        this.comments = comments;
-    }
-
     public String getBookId() {
         return bookId;
     }
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

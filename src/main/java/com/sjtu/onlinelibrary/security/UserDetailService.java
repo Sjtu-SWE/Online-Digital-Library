@@ -51,6 +51,10 @@ public class UserDetailService  implements UserDetailsService {
          User user = new User(name, password, true, true, true, true, grantedAuthorities);
          try {
 			User temp = userService.findByName(name);
+             user.setId(temp.getId());
+             user.setRealName(temp.getRealName());
+             user.setCredits(temp.getCredits());
+             user.setEmail(temp.getEmail());
 			temp.setLastLogonTime(new Date());
 			userService.save(temp);
 		} catch (com.sjtu.onlinelibrary.DataAccessException e) {

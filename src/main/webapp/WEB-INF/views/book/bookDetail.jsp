@@ -134,9 +134,9 @@
                 <span class="control-label">请输入内容：</span>
 
                 <div class="controls">
-                    <textarea hidefocus="true" class="span12" style=" height: 98px;;"
+                    <textarea hidefocus="true" id="comment-content" class="span12" style=" height: 98px;;"
                               placeholder="评论内容"></textarea>
-                    <button type="submit" class="btn btn-primary ${loginbtnClass}">发表评论</button>
+                    <a href="javascript:" id="btn-comment-submit" class="btn btn-primary ${loginbtnClass}">发表评论</a>
                 </div>
             </div>
         </form>

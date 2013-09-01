@@ -248,6 +248,12 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>8.1.8.v20121106</version>
                 <configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>org.eclipse.jetty.server.Request.maxFormContentSize</name>
+                            <value>-1</value>
+                        </systemProperty>
+                    </systemProperties>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <useTestClasspath>true</useTestClasspath>
                     <webApp>
