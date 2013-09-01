@@ -25,7 +25,7 @@ public interface IBookService {
 
     void increaseAmount(String bookId, AmountType amountType) throws DataAccessException;
     /**
-     * 根据类别查询所有的图书
+     * 根据类别查询�?��的图�?
      */
     Pager<BookEditModel> findBooksByType(int pageIndex, final String category) throws DataAccessException;
 
@@ -38,6 +38,10 @@ public interface IBookService {
      * 判断是否有图书属于该类别
      */
     boolean findBookByType(final String category) throws DataAccessException;
-
-
+    
+    /**
+     * 根据点击�?鲜花/鸡蛋/购买量排序得到图书列�?
+     */
+    Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException;
+    
 }

@@ -50,7 +50,7 @@
 
                         <p>各类图书排行</p>
 
-                        <p><a href="#">View details &raquo;</a></p>
+                        <p><a href="/book/listBooksByClick.do">View details &raquo;</a></p>
                     </div>
                     <div class="span5 main">
                         <h2>新书上榜</h2>

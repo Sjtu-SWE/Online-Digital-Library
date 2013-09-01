@@ -57,7 +57,8 @@
             <div class="control-group">
                 <label class="control-label" for="password">密码：</label>
                 <div class="controls">
-                    <form:password path="user.password" cssClass="input-xlarge" placeholder="密码：XXXXXX"></form:password>
+                		<input name="password" type="password" value="${user.password }"/>
+<%--                     <form:password path="user.password" cssClass="input-xlarge" placeholder="密码：XXXXXX"></form:password> --%>
                     <form:errors cssClass="error text-error" path="user.password"></form:errors>
                 </div>
             </div>
@@ -92,7 +93,7 @@
             <div class="control-group">
                 <label class="control-label" for="createDate">创建日期：</label>
                 <div class="controls">
-                    <form:input path="user.createDate" cssClass="input-xlarge" placeholder="创建日期：" readonly="true"></form:input>
+                    <form:input path="user.createDate" cssClass="input-xlarge" placeholder="" readonly="true"></form:input>
                     <form:errors cssClass="error text-error" path="user.createDate"></form:errors>
                 </div>
             </div>
@@ -100,7 +101,7 @@
             <div class="control-group">
                 <label class="control-label" for="note">备注：</label>
                 <div class="controls">
-                    <form:input path="user.note" cssClass="input-xlarge" placeholder="备注：无"></form:input>
+                    <form:input path="user.note" cssClass="input-xlarge" placeholder=""></form:input>
                 </div>
             </div>
             <div class="form-actions">

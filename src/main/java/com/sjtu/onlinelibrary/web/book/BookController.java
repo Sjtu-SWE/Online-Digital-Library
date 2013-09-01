@@ -11,6 +11,7 @@ import com.sjtu.onlinelibrary.service.impl.*;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.*;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +28,7 @@ public class BookController {
     public static final String BOOK_SEARCH_RESULT = "book/searchResult";
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String BOOK_BOOKLIBRARY = "book/bookLibrary";
+    public static final String BOOK_LISTBOOKSBYCLICK = "book/listBooksByClick";
     public static final String PAGE_DATA = "pageData";
     private IBookService bookService;
     private IChapterService chapterService;
@@ -224,4 +226,23 @@ public class BookController {
         map.put("book", this.bookService.findById(bookId));
         return map;
     }
+    
+    /**
+     * 按照点击量得到图书排行榜
+     */
+    @RequestMapping("/listBooksByClick.do")
+    public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+        try {
+            int index = 0;
+            if (!LangUtil.isNullOrEmpty(pageIndex)) {
+                index = Integer.parseInt(pageIndex);
+            }
+            final Pager<BookEditModel> books = this.bookService.findAll(index,"-clickAmount");
+            return new ModelAndView(BOOK_LISTBOOKSBYCLICK, PAGE_DATA, books);
+        } catch (DataAccessException e) {
+            return new ModelAndView("error");
+        }
+    }
+    
+    
 }

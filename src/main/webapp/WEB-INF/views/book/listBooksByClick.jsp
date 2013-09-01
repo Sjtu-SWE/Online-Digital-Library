@@ -11,6 +11,8 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/book.css" rel="stylesheet">
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
     </script>
@@ -21,12 +23,10 @@
     <jsp:include page="../../../navigation.jsp"></jsp:include>
     <div class="row-fluid">
         <div class="row-fluid span11">
-        	<ul class="breadcrumb ">
-                <li><a href="/">首页</a> <span class="divider">/</span></li>
-                <li class="active">书库</li>
-            </ul>
+        <h3>点击量排行榜</h3>
         </div>
         <div class="row-fluid span12">
+        
 			<ul class="media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
@@ -39,7 +39,6 @@
 					                            作者：${book.author}<p>
 					                            书号：${book.bookNumber}<p>
 					                           出版社：${book.publisher}<p>
-					                           类别：${book.category }<p>
 					                           简介：${book.description}
                         </div>
                     </div>
