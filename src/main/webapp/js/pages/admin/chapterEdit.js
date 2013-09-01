@@ -1,9 +1,11 @@
 $(function () {
     var editor = KindEditor.create("textarea[issimplerichedit='true']", {
         resizeType: 0,
-        allowPreviewEmoticons: false,
-        allowImageUpload: false,
-        allowFileManager: false,
-        items: ['source', 'preview', 'plainpaste']
+        allowPreviewEmoticons: true,
+        allowImageUpload: true,
+        allowFileManager: true,
+        uploadJson: '/kindeditor/fileUpload.do',
+        fileManagerJson: '/kindeditor/fileManager.do',
+        items: ['source', 'preview', 'plainpaste', 'image', 'multiimage',]
     });
 })
