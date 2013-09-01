@@ -11,11 +11,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/book.css" rel="stylesheet">
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <%
-        if (SpringSecurityUtils.isAuthenticated()) {
-            out.print("<script type=\"text/javascript\" src=\"/js/pages/book/bookDetail.js\"></script>\"");
-        }
-    %>
+
 </head>
 
 <body>
@@ -236,5 +232,10 @@
 <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>
 <!-- /container -->
+    <%
+        if (SpringSecurityUtils.isAuthenticated()) {
+            out.print("<script type=\"text/javascript\" src=\"/js/pages/book/bookDetail.js\"></script>\"");
+        }
+    %>
 </body>
 </html>
