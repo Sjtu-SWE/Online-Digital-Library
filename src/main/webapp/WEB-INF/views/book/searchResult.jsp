@@ -41,7 +41,7 @@
                         <img class="media-object" style="width: 100px;;" src="../../img/cover.jpg" alt="${book.description}">
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading"><a href="../${book.id}.do">${book.name}</a></h4>
+                        <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
                         <div class="media">
 					                            作者：${book.author}<p>
 					                            书号：${book.bookNumber}<p>
