@@ -29,14 +29,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- *  @author Crystal
- *
+ * @author Crystal
  */
 
 @Controller
 public class UserController {
 
-	public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
+    public static final String ADMIN_USER_MGR_LIST = "admin/userMgr/list";
     public static final String ADMIN_USER_MGR_EDIT = "admin/userMgr/edit";
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String USER_PERSONAL = "user/personal";
@@ -45,34 +44,34 @@ public class UserController {
 
     private IUserService userService;
     private IClassificationService classificationService;
-    
-	public IUserService getUserService() {
-		return userService;
-	}
+
+    public IUserService getUserService() {
+        return userService;
+    }
 
     public void setUserService(IUserService userService) {
         this.userService = userService;
     }
 
-	public void setClassificationService(IClassificationService classificationService) {
-		this.classificationService = classificationService;
-	}
+    public void setClassificationService(IClassificationService classificationService) {
+        this.classificationService = classificationService;
+    }
 
-	@RequestMapping("/admin/user/list.do")
+    @RequestMapping("/admin/user/list.do")
     public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex
-    		,@RequestParam(value="username" ,required = false) final String username) {
+            , @RequestParam(value = "username", required = false) final String username) {
         try {
             int index = 0;
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
             Map<String, Object> condition = new HashMap<String, Object>();
-            if( username!=null && !"".equals(username.trim()) ){
-            	Pattern pattern = Pattern.compile(".*" + username.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-            	condition.put("username", pattern);
+            if (username != null && !"".equals(username.trim())) {
+                Pattern pattern = Pattern.compile(".*" + username.trim() + ".*", Pattern.CASE_INSENSITIVE);
+                condition.put("username", pattern);
             }
-            final Pager<UserEditModel> users = this.userService.findAll(index,condition);
-            
+            final Pager<UserEditModel> users = this.userService.findAll(index, condition);
+
             return new ModelAndView(ADMIN_USER_MGR_LIST, PAGE_DATE, users);
 
         } catch (DataAccessException e) {
@@ -108,14 +107,14 @@ public class UserController {
             return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
         }
         ModelMap mm = new ModelMap();
-        String username  = userEditModel.getUsername();
+        String username = userEditModel.getUsername();
         User temp = userService.findByName(username);
-        if(userEditModel.getEditType().equals("创建用户")){
-        	 //判断用户名是否已存在
-            if( temp != null ){
-            	mm.put("message", "保存用户失败,此用户名已存�?");
-            	mm.put("url", "/admin/user/create.do");
-            	return new ModelAndView("forward:/success.jsp", mm);
+        if (userEditModel.getEditType().equals("创建用户")) {
+            //判断用户名是否已存在
+            if (temp != null) {
+                mm.put("message", "保存用户失败,此用户名已存在");
+                mm.put("url", "/admin/user/create.do");
+                return new ModelAndView("forward:/success.jsp", mm);
             }
         }
         temp.setUsername(userEditModel.getUsername());
@@ -160,134 +159,137 @@ public class UserController {
         final Map<String, Object> map = new HashMap<String, Object>();
         final List<Category> types = new ArrayList<Category>();
         types.add(new Category("系统管理", Constants.ROLE_NAME_ADMIN));
-        types.add(new Category("普�?用户", Constants.ROLE_NAME_USER));
+        types.add(new Category("普通用户", Constants.ROLE_NAME_USER));
         map.put("types", types);
         return map;
     }
-	
-	@RequestMapping("/index.do")
-    public ModelAndView index() throws Exception{
+
+    @RequestMapping("/index.do")
+    public ModelAndView index() throws Exception {
         //在访问首页面时，生成动�?菜单sidebar
-		List<Classification> classifications = classificationService.findAll();
-		ModelMap mm = new ModelMap();
+        List<Classification> classifications = classificationService.findAll();
+        ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
         return new ModelAndView("forward:/index.jsp", mm);
     }
-	
-	@RequestMapping("/toSearch.do")
-	public ModelAndView toSearchBook() throws Exception{
-		return new ModelAndView(BOOK_SEARCH_BOOK);
-	}
-	
-	/**
-	 * 跳转到注册页�?
-	 */
-	
-	@RequestMapping("/register.do")
+
+    @RequestMapping("/toSearch.do")
+    public ModelAndView toSearchBook() throws Exception {
+        return new ModelAndView(BOOK_SEARCH_BOOK);
+    }
+
+    /**
+     * 跳转到注册页�?
+     */
+
+    @RequestMapping("/register.do")
     public ModelAndView register() {
         final Map<String, Object> map = getMapForEdit();
-        map.put("user", new RegisterModel( new User() ));
+        map.put("user", new RegisterModel(new User()));
         return new ModelAndView("forward:/register.jsp", map);
     }
-	
-	/**
-	 * 提交注册请求
-	 * @return
-	 */
-	 @RequestMapping(value = "/saveUser.do", method = RequestMethod.POST)
-	    public ModelAndView saveUser(@Valid @ModelAttribute("user") final RegisterModel registerModel, final BindingResult bindingResult) 
-	    		throws DataAccessException {
-	        ModelMap mm = new ModelMap();
-	        if (bindingResult.hasErrors()) {
-	        	mm.put("message", "用户注册失败,请输入正确的格式!");
-	        	return new ModelAndView("forward:/register.jsp", mm);
-	        }
-	        //判断用户名是否已存在
-	        String nameTemp  = registerModel.getUsername();
-	        User temp = userService.findByName(nameTemp);
-	        if( temp != null ){
-	        	mm.put("message", "用户注册失败,此用户名已存在");
-	        	return new ModelAndView("redirect:/register.do", mm);
-	        }
-	        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	        if (registerModel.innerUserEntity().getId() == null || "".equals(registerModel.innerUserEntity().getId())) {
-	        	registerModel.setCreateDate(dateformat.format(new Date()));
-	        }
-	        registerModel.innerUserEntity().setRoleName("ROLE_USER");
-	        userService.save(registerModel.innerUserEntity());
 
-	        mm.put("message", "用户注册成功");
-	        return new ModelAndView("redirect:/register.do", mm);
-	    }
-	 
-	    /**
-		 * 保存修改的新密码
-		 * @return
-		 */
-		 @RequestMapping(value = "/savePassword.do", method = RequestMethod.POST)
-		    public ModelAndView savePassword(@RequestParam(value = "password", required = false) String password, @RequestParam(value = "newPassword", required = false) String newPassword
-		    		,@RequestParam(value = "renewPassword", required = false) String renewPassword)  throws DataAccessException {
-		        ModelMap mm = new ModelMap();
-		        if (!newPassword.equals(renewPassword)) {
-		        	mm.put("message", "两次输入的新密码不一致，请重新输入");
-		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
-		        }
-		        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		        User temp = userService.findByName(username);//当前登录用户
-		        
-		        //�?��原密码是否正�?
-		        if( !password.equals(temp.getPassword())){
-		        	mm.put("message", "原密码不正确，请重新输入!");
-		        	return new ModelAndView("redirect:/modifyPassword.jsp", mm);
-		        }
-		        temp.setPassword(newPassword);
-		        
-		        userService.save(temp);
-		        mm.put("message", "修改用户密码成功");
-		        return new ModelAndView("redirect:/modifyPassword.jsp", mm);
-		    }
-	
-		 @RequestMapping("/personal.do")
-		 public ModelAndView personal() throws DataAccessException{
-			 String username = SpringSecurityUtils.getCurrentUserName();
-			 try{
-				    final User user = userService.findByName(username);
-		            final Map<String, Object> map = getMapForEdit();
-		            map.put("user", new UserEditModel("编辑用户",user));
-				 return new ModelAndView(USER_PERSONAL, map);
-			 }catch(DataAccessException ex){
-				 return new ModelAndView("error");
-			 }
-		 }
-		 
+    /**
+     * 提交注册请求
+     *
+     * @return
+     */
+    @RequestMapping(value = "/saveUser.do", method = RequestMethod.POST)
+    public ModelAndView saveUser(@Valid @ModelAttribute("user") final RegisterModel registerModel, final BindingResult bindingResult)
+            throws DataAccessException {
+        ModelMap mm = new ModelMap();
+        if (bindingResult.hasErrors()) {
+            mm.put("message", "用户注册失败,请输入正确的格式!");
+            return new ModelAndView("forward:/register.jsp", mm);
+        }
+        //判断用户名是否已存在
+        String nameTemp = registerModel.getUsername();
+        User temp = userService.findByName(nameTemp);
+        if (temp != null) {
+            mm.put("message", "用户注册失败,此用户名已存在");
+            return new ModelAndView("redirect:/register.do", mm);
+        }
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (registerModel.innerUserEntity().getId() == null || "".equals(registerModel.innerUserEntity().getId())) {
+            registerModel.setCreateDate(dateformat.format(new Date()));
+        }
+        registerModel.innerUserEntity().setRoleName("ROLE_USER");
+        userService.save(registerModel.innerUserEntity());
+
+        mm.put("message", "用户注册成功");
+        return new ModelAndView("redirect:/register.do", mm);
+    }
+
+    /**
+     * 保存修改的新密码
+     *
+     * @return
+     */
+    @RequestMapping(value = "/savePassword.do", method = RequestMethod.POST)
+    public ModelAndView savePassword(@RequestParam(value = "password", required = false) String password, @RequestParam(value = "newPassword", required = false) String newPassword
+            , @RequestParam(value = "renewPassword", required = false) String renewPassword) throws DataAccessException {
+        ModelMap mm = new ModelMap();
+        if (!newPassword.equals(renewPassword)) {
+            mm.put("message", "两次输入的新密码不一致，请重新输入");
+            return new ModelAndView("redirect:/modifyPassword.jsp", mm);
+        }
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User temp = userService.findByName(username);//当前登录用户
+
+        //�?��原密码是否正�?
+        if (!password.equals(temp.getPassword())) {
+            mm.put("message", "原密码不正确，请重新输入!");
+            return new ModelAndView("redirect:/modifyPassword.jsp", mm);
+        }
+        temp.setPassword(newPassword);
+
+        userService.save(temp);
+        mm.put("message", "修改用户密码成功");
+        return new ModelAndView("redirect:/modifyPassword.jsp", mm);
+    }
+
+    @RequestMapping("/personal.do")
+    public ModelAndView personal() throws DataAccessException {
+        String username = SpringSecurityUtils.getCurrentUserName();
+        try {
+            final User user = userService.findByName(username);
+            final Map<String, Object> map = getMapForEdit();
+            map.put("user", new UserEditModel("编辑用户", user));
+            return new ModelAndView(USER_PERSONAL, map);
+        } catch (DataAccessException ex) {
+            return new ModelAndView("error");
+        }
+    }
+
     @RequestMapping("/user/myBookShelf")
-    public ModelAndView myBookShelf(){
+    public ModelAndView myBookShelf() {
         return new ModelAndView(USER_BOOK_SHELF);
     }
 
-		 
-		 /**
-		  * 更新个人主页信息
-		  * @throws DataAccessException
-		  */
-		 @RequestMapping(value = "/savePersonal.do", method = RequestMethod.POST)
-		    public ModelAndView savePersonal(@Valid @ModelAttribute("user") final PersonalModel personalEditModel, final BindingResult bindingResult) throws DataAccessException {
-		        if (bindingResult.hasErrors()) {
-		            final Map<String, Object> map = getMapForEdit();
-		            map.put("message", "用户注册失败,请输入正确的格式!");
-		        	return new ModelAndView("forward:/personal.do", map);
-		        }
-		        ModelMap mm = new ModelMap();
-		        String username  = personalEditModel.getUsername();
-		        User temp = userService.findByName(username);
-		        temp.setRealName(personalEditModel.getRealName());
-		        temp.setEmail(personalEditModel.getEmail());
-		        temp.setPhone(personalEditModel.getPhone());
-		        temp.setNote(personalEditModel.getNote());
-		        userService.save(temp);
 
-		        mm.put("message", "保存个人信息成功");
-		        mm.put("url", "/personal.do");
-		        return new ModelAndView("forward:/success.jsp", mm);
-		    }
+    /**
+     * 更新个人主页信息
+     *
+     * @throws DataAccessException
+     */
+    @RequestMapping(value = "/savePersonal.do", method = RequestMethod.POST)
+    public ModelAndView savePersonal(@Valid @ModelAttribute("user") final PersonalModel personalEditModel, final BindingResult bindingResult) throws DataAccessException {
+        if (bindingResult.hasErrors()) {
+            final Map<String, Object> map = getMapForEdit();
+            map.put("message", "用户注册失败,请输入正确的格式!");
+            return new ModelAndView("forward:/personal.do", map);
+        }
+        ModelMap mm = new ModelMap();
+        String username = personalEditModel.getUsername();
+        User temp = userService.findByName(username);
+        temp.setRealName(personalEditModel.getRealName());
+        temp.setEmail(personalEditModel.getEmail());
+        temp.setPhone(personalEditModel.getPhone());
+        temp.setNote(personalEditModel.getNote());
+        userService.save(temp);
+
+        mm.put("message", "保存个人信息成功");
+        mm.put("url", "/personal.do");
+        return new ModelAndView("forward:/success.jsp", mm);
+    }
 }
