@@ -43,6 +43,7 @@ public class UserController {
     public static final String USER_BOOK_SHELF = "user/bookShelf";
 
     private IUserService userService;
+    private BookServiceImpl bookService;
     private IClassificationService classificationService;
 
     public IUserService getUserService() {
@@ -57,6 +58,10 @@ public class UserController {
         this.classificationService = classificationService;
     }
 
+    public void setBookService(BookServiceImpl bookService) {
+	    this.bookService = bookService;
+	}
+	
     @RequestMapping("/admin/user/list.do")
     public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex
             , @RequestParam(value = "username", required = false) final String username) {
@@ -170,6 +175,8 @@ public class UserController {
         List<Classification> classifications = classificationService.findAll();
         ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
+        final List<BookEditModel> books = this.bookService.findTop("-clickAmount");
+        mm.put("books", books.subList(0, books.size()<5?books.size():5));//取点击量前五的图书在首页显示
         return new ModelAndView("forward:/index.jsp", mm);
     }
 
