@@ -34,27 +34,24 @@
             </ul>
         </div>
         <div class="row-fluid span12">
-
-			<table class="table table-condensed">
-            <thead>
-            <tr>
-                <th>书名</th>
-                <th>作者</th>
-                <th>书号</th>
-                <th>出版社</th>
-                <th>封面</th>
-            </tr>
-            </thead>
+       	<ul class="media-list">
             <c:forEach items="${pageData.getList()}" var="book">
-                <tr>
-                    <td><a href="../${book.id}.do">${book.name}</a></td>
-                    <td>${book.author}</td>
-                    <td>${book.bookNumber}</td>
-                    <td>${book.publisher}</td>
-                    <td><img alt="${book.description}" src="../../img/cover.jpg"/></td>
-                </tr>
+            	<li class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style="width: 100px;;" src="../../img/cover.jpg" alt="${book.description}">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading"><a href="../${book.id}.do">${book.name}</a></h4>
+                        <div class="media">
+					                            作者：${book.author}<p>
+					                            书号：${book.bookNumber}<p>
+					                           出版社：${book.publisher}<p>
+					                           简介：${book.description}
+                        </div>
+                    </div>
+                </li>
             </c:forEach>
-        </table>
+            </ul>
         </div>
         <jsp:include page="../admin/pagination.jsp"></jsp:include>
     </div>
