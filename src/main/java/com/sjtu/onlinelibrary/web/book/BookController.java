@@ -31,6 +31,7 @@ public class BookController {
     public static final String BOOK_LIST_BYTYPE = "book/bookListByType";
     public static final String BOOK_SEARCH_RESULT = "book/searchResult";
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
+    public static final String BOOK_BOOKLIBRARY = "book/bookLibrary";
     public static final String PAGE_DATE = "pageData";
     private BookServiceImpl bookService;
     private ChapterServiceImpl chapterService;
@@ -176,6 +177,20 @@ public class BookController {
         	 request.setAttribute("keywords", keywords);
         	return new ModelAndView(BOOK_SEARCH_BOOK , PAGE_DATE, books);
         }
+    }
+    
+    /**
+     * 书库
+     */
+    @RequestMapping("/bookLibrary.do")
+    public ModelAndView bookLibrary(@RequestParam(value = "pageIndex", required = false) final String pageIndex ,HttpServletRequest request) throws DataAccessException{
+    	int index = 0;
+        if (!LangUtil.isNullOrEmpty(pageIndex)) {
+            index = Integer.parseInt(pageIndex);
+        }
+    	 final Pager<BookEditModel> books = this.bookService.findAll(index);
+//    	 request.setAttribute("", );
+    	return new ModelAndView(BOOK_BOOKLIBRARY , PAGE_DATE, books);
     }
     
     public ModelMap getMap(String bookId) throws DataAccessException {
