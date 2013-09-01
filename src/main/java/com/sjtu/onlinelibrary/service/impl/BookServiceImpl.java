@@ -3,6 +3,7 @@ package com.sjtu.onlinelibrary.service.impl;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.entity.Book;
+import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.AmountType;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBookService;
@@ -10,6 +11,7 @@ import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.BookViewModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
+import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,5 +128,22 @@ public class BookServiceImpl extends BaseService implements IBookService {
         }
         return false;
     }
+
+	@Override
+	public Pager<BookEditModel> findBooksByName(int pageIndex, Map<String, Object> condition) throws DataAccessException {
+		if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+		//根据书名进行排序
+        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition , "name");
+        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
+        for (final Book book : books) {
+        	bookEditModelList.add(new BookEditModel("", book));
+        }
+        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
+        bookPager.setListObject(bookEditModelList);
+        bookPager.setTotalCount(mutableDataAccess.count(Book.class, condition));
+        return bookPager;
+	}
 
 }

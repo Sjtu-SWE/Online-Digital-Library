@@ -1,5 +1,9 @@
 package com.sjtu.onlinelibrary.web.book;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.service.AmountType;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
@@ -25,6 +29,7 @@ public class BookController {
     public static final String BOOK_BOOK_DETAIL = "book/bookDetail";
     public static final String BOOK_READER = "book/reader";
     public static final String BOOK_LIST_BYTYPE = "book/bookListByType";
+    public static final String BOOK_SEARCH_RESULT = "book/searchResult";
     public static final String PAGE_DATE = "pageData";
     private BookServiceImpl bookService;
     private ChapterServiceImpl chapterService;
@@ -100,6 +105,27 @@ public class BookController {
     	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATE, books);
     }
 
+    /**
+     * 显示搜索图书的结果
+     * @param bookType
+     */
+    @RequestMapping("/searchBook.do")
+    public ModelAndView searchBooks(@RequestParam(required = true)  String name,@RequestParam(value = "pageIndex", required = false) final String pageIndex
+    		,HttpServletRequest request) throws DataAccessException{
+    	int index = 0;
+        if (!LangUtil.isNullOrEmpty(pageIndex)) {
+            index = Integer.parseInt(pageIndex);
+        }
+        Map<String, Object> condition = new HashMap<String, Object>();
+        if( name!=null && !"".equals(name.trim()) ){
+        	Pattern pattern = Pattern.compile(".*" + name.trim()+ ".*", Pattern.CASE_INSENSITIVE);
+        	condition.put("name", pattern);
+        }
+    	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
+    	 request.setAttribute("name", name);
+    	return new ModelAndView(BOOK_SEARCH_RESULT , PAGE_DATE, books);
+    }
+    
     public ModelMap getMap(String bookId) throws DataAccessException {
         ModelMap map = new ModelMap();
         map.put("book", this.bookService.findById(bookId));

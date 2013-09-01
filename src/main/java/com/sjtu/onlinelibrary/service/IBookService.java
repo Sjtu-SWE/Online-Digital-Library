@@ -1,6 +1,7 @@
 package com.sjtu.onlinelibrary.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Book;
@@ -28,6 +29,11 @@ public interface IBookService {
      */
     Pager<BookEditModel> findBooksByType(int pageIndex, final String category) throws DataAccessException;
 
+    /**
+     * 根据条件查询图书
+     */
+    Pager<BookEditModel> findBooksByName(int pageIndex, Map<String, Object> condition) throws DataAccessException;
+    
     /**
      * 判断是否有图书属于该类别
      */
