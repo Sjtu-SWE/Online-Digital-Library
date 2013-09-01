@@ -21,7 +21,7 @@
                     <li><a href="/admin/dashboard.do">后台管理</a></li>
 
                     <form class="navbar-form pull-right">
-                        <input type="text" class="span2">
+                        <input type="text" class="span2" placeholder="书名">
                         <button type="submit" class="btn">搜索</button>
                     </form>
                 </ul>

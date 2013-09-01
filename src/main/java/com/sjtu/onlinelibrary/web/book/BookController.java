@@ -95,7 +95,7 @@ public class BookController {
             index = Integer.parseInt(pageIndex);
         }
     	String bookType = classificationService.findById(bookId).getClassificationName();
-    	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookType);
+    	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookId);
     	 request.setAttribute("category", bookType);
     	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATE, books);
     }

@@ -99,7 +99,7 @@ public class BookServiceImpl extends BaseService implements IBookService {
             pageIndex = 1;
         }
         Map<String, Object> condition = new HashMap<String, Object>();
-        condition.put("category", category);
+        condition.put("categoryId", category);
 
         final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition);
         final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
