@@ -8,6 +8,7 @@ import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.ClassificationEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class BookMgrController {
     public static final String PAGE_DATA = "pageData";
     private IBookService bookService;
     private IClassificationService classificationService;
+    private Logger logger = Logger.getLogger(BookMgrController.class);
 
     public void setClassificationService(final IClassificationService classificationService) {
         this.classificationService = classificationService;
@@ -85,9 +87,11 @@ public class BookMgrController {
             return new ModelAndView(ADMIN_BOOK_MGR_EDIT, map);
         }
         ClassificationEditModel classificationEditModel = this.classificationService.findById(bookEditModel.getCategoryId());
-        final BookEditModel book = this.bookService.findById(bookEditModel.getId());
-        book.setCategoryId(classificationEditModel.getId());
-        book.setCategory(classificationEditModel.getClassificationName());
+
+        BookEditModel book = this.bookService.findById(bookEditModel.getId());
+        if (book.innerBookEntity() == null) {
+            book = new BookEditModel("", new Book());
+        }
         book.setCategoryId(classificationEditModel.getId());
         book.setCategory(classificationEditModel.getClassificationName());
         book.setAuthor(bookEditModel.getAuthor());
