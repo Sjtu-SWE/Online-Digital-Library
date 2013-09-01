@@ -122,9 +122,13 @@ public class BookController {
         	Pattern pattern = Pattern.compile(".*" + name.trim()+ ".*", Pattern.CASE_INSENSITIVE);
         	condition.put("name", pattern);
         }
-    	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
-    	 request.setAttribute("name", name);
-    	return new ModelAndView(BOOK_SEARCH_RESULT , PAGE_DATE, books);
+        if(name==null || "".equals(name.trim())){
+        	return new ModelAndView(BOOK_SEARCH_RESULT);
+        }else{
+        	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
+        	 request.setAttribute("name", name);
+        	return new ModelAndView(BOOK_SEARCH_RESULT , PAGE_DATE, books);
+        }
     }
     
     /**
