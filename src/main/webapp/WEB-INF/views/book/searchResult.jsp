@@ -29,7 +29,7 @@
         <div class="row-fluid span11">
             <ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
-                <li><a href="/">书库</a></li>
+                <li><a href="/book/bookLibrary.do">书库</a></li>
             </ul>
         </div>
         <div class="row-fluid span12">

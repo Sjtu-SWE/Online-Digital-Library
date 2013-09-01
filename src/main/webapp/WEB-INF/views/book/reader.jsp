@@ -26,7 +26,7 @@
         <div class="row-fluid span12">
             <ul class="breadcrumb ">
                 <li><a href="/">首页</a> <span class="divider">/</span></li>
-                <li><a href="/">书库</a> <span class="divider">/</span></li>
+                <li><a href="/book/bookLibrary.do">书库</a> <span class="divider">/</span></li>
                 <li><a href="/book/${book.categoryId}/list.do">${book.category}</a> <span class="divider">/</span></li>
                 <li><a href="/book/${book.id}.do">${book.name}</a><span class="divider">/</span></li>
                 <li class="active">${chapter.current.title}</li>
