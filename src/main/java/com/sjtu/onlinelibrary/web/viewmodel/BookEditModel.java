@@ -153,4 +153,11 @@ public class BookEditModel {
     public void setCategoryId(String categoryId) {
         innerBookEntity().setCategoryId(categoryId);
     }
+    public int getClickAmount() {
+        return innerBookEntity().getClickAmount();
+    }
+
+    public void setClickAmount(int clickAmount) {
+        innerBookEntity().setClickAmount(clickAmount);
+    }
 }

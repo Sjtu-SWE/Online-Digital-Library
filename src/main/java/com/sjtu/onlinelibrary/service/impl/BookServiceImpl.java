@@ -162,4 +162,13 @@ public class BookServiceImpl extends BaseService implements IBookService {
 	        return bookPager;
 	}
 
+	@Override
+	public List<BookEditModel> findTop(String orderFields) throws DataAccessException {
+		final List<Book> books = mutableDataAccess.listByFilter(Book.class, new HashMap<String, Object>(),orderFields);
+        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
+        for (final Book book : books) {
+            bookEditModelList.add(new BookEditModel("", book));
+        }
+        return bookEditModelList;
+	}
 }

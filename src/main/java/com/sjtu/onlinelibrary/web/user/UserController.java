@@ -6,8 +6,10 @@ import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.service.IUserService;
+import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
+import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Category;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.PersonalModel;
@@ -171,7 +173,7 @@ public class UserController {
 
     @RequestMapping("/index.do")
     public ModelAndView index() throws Exception {
-        //在访问首页面时，生成动�?菜单sidebar
+        //在访问首页面时，生成动态菜单sidebar
         List<Classification> classifications = classificationService.findAll();
         ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
