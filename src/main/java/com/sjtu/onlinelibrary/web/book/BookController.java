@@ -23,7 +23,7 @@ public class BookController {
     public static final String BOOK_BOOK_DETAIL = "book/bookDetail";
     public static final String BOOK_READER = "book/reader";
     public static final String BOOK_LIST_BYTYPE = "book/bookListByType";
-    public static final String PAGE_DATE = "pageData";
+    public static final String PAGE_DATA = "pageData";
     private BookServiceImpl bookService;
     private ChapterServiceImpl chapterService;
     private CommentService commentService;
@@ -46,14 +46,17 @@ public class BookController {
 	}
 
 	@RequestMapping("/{id}.do")
-    public ModelAndView book(@PathVariable("id") String id) throws DataAccessException {
+    public ModelAndView book(@PathVariable("id") String id,@RequestParam(value = "pageIndex", required = false) final String pageIndex) throws DataAccessException {
+        int index = 0;
+        if (!LangUtil.isNullOrEmpty(pageIndex)) {
+            index = Integer.parseInt(pageIndex);
+        }
         BookViewModel bookViewModel = new BookViewModel();
         bookViewModel.setBook(this.bookService.findById(id).innerBookEntity());
-        bookViewModel.setComments(this.commentService.findAll(id, 1));
 //        return bookViewModel;
         ModelMap map = new ModelMap();
         map.put("book", bookViewModel);
-
+        map.put(PAGE_DATA,this.commentService.findAll(id, index));
         map.put("loginbtnClass", SpringSecurityUtils.isAuthenticated() ? "" : "unlogined");
         return new ModelAndView(BOOK_BOOK_DETAIL, map);
     }
@@ -95,7 +98,7 @@ public class BookController {
     	String bookType = classificationService.findById(bookId).getClassificationName();
     	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookType);
     	 request.setAttribute("category", bookType);
-    	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATE, books);
+    	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATA, books);
     }
 
     @RequestMapping(value = "/{bookId}/comment/add.do", method = RequestMethod.POST)

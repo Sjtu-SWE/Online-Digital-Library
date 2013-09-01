@@ -60,7 +60,9 @@ $(function () {
                 commentAlert($this, "添加评论失败，请重试");
             } else {
                 commentAlert($this, "添加评论成功", "success");
-                location = location;
+                setTimeout(function(){
+                    location = location;
+                },3000);
             }
         })
     });

@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -29,7 +30,8 @@
     <ul class="breadcrumb">
         <li><a href="/">首页</a> <span class="divider">/</span></li>
         <li><a href="">书库</a> <span class="divider">/</span></li>
-        <li><a href="/book/${book.book.categoryId}/list.do">${book.book.category}</a> <span class="divider">/</span></li>
+        <li><a href="/book/${book.book.categoryId}/list.do">${book.book.category}</a> <span class="divider">/</span>
+        </li>
         <li class="active"> ${book.book.name}</li>
     </ul>
     <div class="row-fluid">
@@ -93,43 +95,30 @@
     </div>
     <div class="row-fluid">
         <div class="popover-title">
-            <span style="padding: 5px 5px;"> 评论区</span><i class="icon-comment"></i>
+            <span style="padding: 5px 5px;"> 评论区 (共${pageData.totalCount} 条评论) </span><i class="icon-comment"></i>
         </div>
         <div class="row-fluid">
             <ul class="comment-list">
-                <li class="comment-body comment-odd">
-                    <div class="comment-author">
-                        张三
-                    </div>
-                    <div class="comment-meta">2010-1-1</div>
-                    <p>内容内容</p>
-                </li>
-                <li class="comment-body comment-even">
-                    <div class="comment-author">
-                        张三三
-                    </div>
-                    <div class="comment-meta">2010-1-1</div>
-                    <p>内容内容是是</p>
-                </li>
+                <c:forEach items="${pageData.getList()}" var="comment">
+                    <li class="comment-body comment-odd">
+                        <div class="comment-author">
+                            ${comment.userName}
+                        </div>
+                        <div class="comment-meta">
+                           ${comment.getFormatedCreateDate()}
+                        </div>
+                        <p>${comment.content}</p>
+                    </li>
+                </c:forEach>
             </ul>
-            <div class="pagination pagination-centered">
-                <ul>
-                    <li><a href="#"><</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#"> > </a></li>
-                </ul>
-            </div>
+            <jsp:include page="../admin/pagination.jsp"></jsp:include>
         </div>
     </div>
 
     <div class="row-fluid" style="height: 15px;">
     </div>
     <div class="row-fluid">
-        <form action="" method="post" class="form-horizontal">
+        <div class="form-horizontal">
             <div class="control-group">
                 <span class="control-label">请输入内容：</span>
 
@@ -139,7 +128,7 @@
                     <a href="javascript:" id="btn-comment-submit" class="btn btn-primary ${loginbtnClass}">发表评论</a>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 <div class="span4  right-panle">

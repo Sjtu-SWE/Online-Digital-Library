@@ -10,7 +10,6 @@ import java.util.List;
 
 public class BookViewModel {
     private Book book;
-    private Pager<Comment> comments;
 
     public Book getBook() {
         return book;
@@ -18,14 +17,6 @@ public class BookViewModel {
 
     public void setBook(Book book) {
         this.book = book;
-    }
-
-    public Pager<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Pager<Comment> comments) {
-        this.comments = comments;
     }
 
     public String getLikeRate() {

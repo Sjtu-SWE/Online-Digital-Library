@@ -35,7 +35,7 @@ public class CommentService extends BaseService implements ICommentServcie {
         }
         Map<String, Object> condition = new HashMap<String, Object>();
         condition.put("bookId", bookId);
-        final List<Comment> comments = mutableDataAccess.paging(Comment.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition);
+        final List<Comment> comments = mutableDataAccess.paging(Comment.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition,"-createdOn");
 
         final Pager<Comment> commentPager = new Pager<Comment>(pageIndex);
         commentPager.setListObject(comments);

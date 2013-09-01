@@ -3,7 +3,7 @@ $(function () {
         resizeType: 0,
         allowPreviewEmoticons: true,
         allowImageUpload: true,
-        allowFileManager: true,
+        allowFileManager: false,
         uploadJson: '/kindeditor/fileUpload.do',
         fileManagerJson: '/kindeditor/fileManager.do',
         items: ['source', 'preview', 'plainpaste', 'image', 'multiimage',]

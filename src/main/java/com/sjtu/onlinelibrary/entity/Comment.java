@@ -2,6 +2,7 @@ package com.sjtu.onlinelibrary.entity;
 
 import com.google.code.morphia.annotations.Entity;
 import com.sjtu.onlinelibrary.BasePersistable;
+import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 
 @Entity
@@ -41,5 +42,9 @@ public class Comment extends BasePersistable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getFormatedCreateDate() {
+        return LangUtil.getDefaultTimeFormat().format(this.getCreatedOn());
     }
 }
