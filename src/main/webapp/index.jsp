@@ -69,15 +69,12 @@
                 </div>
 
                 <hr>
-                <footer>
-                    <p>@SJTU 2013</p>
-                </footer>
+                <jsp:include page="WEB-INF/views/common/foot.jsp"></jsp:include>
             </div>
         </div>
     </div>
     <!-- /container -->
-    <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
+
 </div>
 </body>
 </html>

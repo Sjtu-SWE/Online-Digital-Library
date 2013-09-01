@@ -40,6 +40,7 @@ public class UserController {
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String USER_PERSONAL = "user/personal";
     public static final String PAGE_DATE = "pageData";
+    public static final String USER_BOOK_SHELF = "user/bookShelf";
 
     private IUserService userService;
     private IClassificationService classificationService;
@@ -254,4 +255,9 @@ public class UserController {
 				 return new ModelAndView("error");
 			 }
 		 }
+    @RequestMapping("/user/myBookShelf")
+    public ModelAndView myBookShelf(){
+        return new ModelAndView(USER_BOOK_SHELF);
+    }
+
 }

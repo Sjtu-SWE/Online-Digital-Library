@@ -6,11 +6,8 @@ import java.util.regex.Pattern;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Comment;
-import com.sjtu.onlinelibrary.service.AmountType;
-import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
-import com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl;
-import com.sjtu.onlinelibrary.service.impl.ClassificationServiceImpl;
-import com.sjtu.onlinelibrary.service.impl.CommentService;
+import com.sjtu.onlinelibrary.service.*;
+import com.sjtu.onlinelibrary.service.impl.*;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.*;
@@ -31,26 +28,31 @@ public class BookController {
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String BOOK_BOOKLIBRARY = "book/bookLibrary";
     public static final String PAGE_DATA = "pageData";
-    private BookServiceImpl bookService;
-    private ChapterServiceImpl chapterService;
-    private CommentService commentService;
-    private ClassificationServiceImpl classificationService;
+    private IBookService bookService;
+    private IChapterService chapterService;
+    private ICommentServcie commentService;
+    private IClassificationService classificationService;
+    private IBusinessService businessService;
 
-    public void setBookService(BookServiceImpl bookService) {
+    public void setBookService(IBookService bookService) {
         this.bookService = bookService;
     }
 
-    public void setChapterService(ChapterServiceImpl chapterService) {
+    public void setChapterService(IChapterService chapterService) {
         this.chapterService = chapterService;
     }
 
-    public void setCommentService(CommentService commentService) {
+    public void setCommentService(ICommentServcie commentService) {
         this.commentService = commentService;
     }
 
-    public void setClassificationService(ClassificationServiceImpl classificationService) {
+    public void setClassificationService(IClassificationService classificationService) {
 		this.classificationService = classificationService;
 	}
+
+    public void setBusinessService(IBusinessService businessService) {
+        this.businessService = businessService;
+    }
 
 	@RequestMapping("/{id}.do")
     public ModelAndView book(@PathVariable("id") String id,@RequestParam(value = "pageIndex", required = false) final String pageIndex) throws DataAccessException {
@@ -75,14 +77,14 @@ public class BookController {
         return new ModelAndView(BOOK_CHAPTER_LIST, map);
     }
 
+
     @RequestMapping("/{bookId}/chapter/{id}.do")
     public ModelAndView chapter(@PathVariable("bookId") String bookId, @PathVariable("id") String id) throws DataAccessException {
         ModelMap map = getMap(bookId);
         ChapterReaderModel chapter= this.chapterService.findForReader(bookId,id);
-        map.put("chapter",chapter);
+        map.put("chapter", chapter);
         return new ModelAndView(BOOK_READER, map);
     }
-
 
     @RequestMapping("/increase.do")
     @ResponseBody
@@ -145,7 +147,7 @@ public class BookController {
         	return new ModelAndView(BOOK_SEARCH_RESULT , PAGE_DATA, books);
         }
     }
-    
+
     /**
      * 图书高级搜索
      * @param bookType
@@ -192,7 +194,7 @@ public class BookController {
         	return new ModelAndView(BOOK_SEARCH_BOOK , PAGE_DATA, books);
         }
     }
-    
+
     /**
      * 书库
      */
@@ -206,7 +208,17 @@ public class BookController {
 //    	 request.setAttribute("", );
     	return new ModelAndView(BOOK_BOOKLIBRARY , PAGE_DATA, books);
     }
-    
+
+    @RequestMapping(value = "/{bookId}/addToBookshelf.do",method = RequestMethod.POST)
+    @ResponseBody
+    public BusinessResult addToBookshelf(@PathVariable("bookId") String bookId) throws DataAccessException {
+        return this.businessService.addToBookshelf(SpringSecurityUtils.getCurrentUser().getId(),bookId);
+    }
+    @RequestMapping(value = "/{bookId}/buy.do",method = RequestMethod.POST)
+    @ResponseBody
+    public BusinessResult buy(@PathVariable("bookId") String bookId) throws DataAccessException {
+        return this.businessService.buy(SpringSecurityUtils.getCurrentUser().getId(),bookId);
+    }
     public ModelMap getMap(String bookId) throws DataAccessException {
         ModelMap map = new ModelMap();
         map.put("book", this.bookService.findById(bookId));

@@ -60,6 +60,9 @@
     <bean id="chapterService" class="com.sjtu.onlinelibrary.service.impl.ChapterServiceImpl">
         <constructor-arg ref="mutableDataAccess"></constructor-arg>
     </bean>
+    <bean id="businessService" class="com.sjtu.onlinelibrary.service.impl.BusinessServiceImpl">
+        <constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
     <bean name="ClassificationController" class="com.sjtu.onlinelibrary.web.admin.ClassificationController" >
         <property name="classificationService"> <ref local="classificationService"></ref></property>
         <property name="bookService"> <ref local="bookService"></ref></property>
@@ -72,5 +75,6 @@
         <property name="commentService" ref="commentService"></property>
         <property name="chapterService"> <ref local="chapterService"></ref> </property>
         <property name="classificationService"> <ref local="classificationService"></ref></property>
+        <property name="businessService"> <ref local="businessService"></ref></property>
     </bean>
 </beans>

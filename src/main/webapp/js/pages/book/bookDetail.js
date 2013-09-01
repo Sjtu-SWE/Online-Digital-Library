@@ -60,11 +60,25 @@ $(function () {
                 commentAlert($this, "添加评论失败，请重试");
             } else {
                 commentAlert($this, "添加评论成功", "success");
-                setTimeout(function(){
+                setTimeout(function () {
                     location = location;
-                },3000);
+                }, 3000);
             }
-        })
+        });
     });
 
+    $("#btn-favorite").click(function () {
+        $.post("/book/" + $("#bookId").val() + "/addToBookshelf.do", function (data) {
+            modelAlert("加入书架", data.message, "确认");
+        });
+    });
+    $("#btn-buy").click(function () {
+        confirmModel("图书购买", "确认要购买该书吗，您将花费<span>" + $("#lbl-credits").text() + "</span>信用值", "取消", "确认", function () {
+            $.post("/book/" + $("#bookId").val() + "/buy.do", function (data) {
+                setTimeout(function () {
+                    modelAlert("图书购买", data.message, "确认");
+                }, 500);
+            });
+        });
+    });
 });

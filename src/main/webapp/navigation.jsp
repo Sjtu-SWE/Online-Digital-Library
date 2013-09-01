@@ -17,7 +17,15 @@
                 <ul class="nav">
                     <li class="active"><a href="/">首页</a></li>
                     <li class=""><a href="/book/bookLibrary.do">书库</a></li>
-                    <li class=""><a href="/">我的书架</a></li>
+                    <li class="">
+                            <%
+                          if(SpringSecurityUtils.isAuthenticated()){
+                              out.print(" <a href=\"/user/myBookShelf.do\">我的书架</a></li>");
+                          }else {
+                              out.print(" <a class=\"unlogined\" href=\"javascript:void(0);\">我的书架</a></li>");
+                          }
+                        %>
+
                     <li><a href="/admin/dashboard.do">后台管理</a></li>
 
                     <form class="navbar-form pull-right">
@@ -45,7 +53,7 @@
                                     out.print("<li><a href='/modifyPassword.jsp'>修改密码</a></li>");
                                     out.print("<li><a href='/personal.do'>我的主页</a></li>");
                                     out.print("<li><a href='/j_spring_security_logout'>退出</a></li>");
-                                }else {
+                                } else {
                                     out.print("<li><a href=\"/login.jsp\">登录</a></li>");
                                     out.print(" <li><a href=\"/register.do\">注册</a></li>");
                                 }

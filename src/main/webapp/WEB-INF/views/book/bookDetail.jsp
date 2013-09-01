@@ -11,9 +11,6 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/book.css" rel="stylesheet">
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/pages/common.js"></script>
     <%
         if (SpringSecurityUtils.isAuthenticated()) {
             out.print("<script type=\"text/javascript\" src=\"/js/pages/book/bookDetail.js\"></script>\"");
@@ -53,8 +50,9 @@
                 <div class="divider" style="height: 15px;"></div>
                 <ul class="nav nav-list">
                     <li><a href="/book/${book.book.id}/read.do" class="">点击阅读</a></li>
-                    <li><a href="#" class="${loginbtnClass}" id="btn-favorite">加入书架</a></li>
-                    <li><a href="#" class="${loginbtnClass}" id="btn-buy">购买图书</a></li>
+                    <li><a href="javascript:void(0);" class="${loginbtnClass}" id="btn-favorite">加入书架</a></li>
+                    <c:if test="${book.book.price>0}">
+                    <li><a href="javascript:void(0);" class="${loginbtnClass}" id="btn-buy">购买图书</a></li></c:if>
                 </ul>
             </div>
 
@@ -82,7 +80,7 @@
                                 <span>点击次数：</span>${book.book.clickAmount}
                             </div>
                             <div class="span4">
-                                <span>作品售价：</span>${book.book.price}
+                                <span>作品售价：</span><span id="lbl-credits">${book.book.price}</span> 信用值<c:if test="${book.book.price==0}">（免费）</c:if>
                             </div>
                             <div class="span4">
                                 <span>收藏数：</span>${book.book.userFavoriteAmount}
