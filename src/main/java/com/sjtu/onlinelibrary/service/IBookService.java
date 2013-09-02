@@ -4,6 +4,7 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.entity.UserBook;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
+import com.sjtu.onlinelibrary.web.viewmodel.BusinessResult;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public interface IBookService {
 
     boolean delete(String id);
 
-    void increaseAmount(String bookId, AmountType amountType) throws DataAccessException;
+    BusinessResult increaseAmount(String bookId,String userId, AmountType amountType) throws DataAccessException;
     void decreaseAmount(String bookId, AmountType amountType) throws DataAccessException;
+    BusinessResult hasVoted(String bookId, String userId) throws DataAccessException ;
     /**
      * 根据类别查询该类别的图书
      */

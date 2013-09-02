@@ -75,7 +75,7 @@ public class BookController {
         map.put("book", bookViewModel);
         map.put(PAGE_DATA, this.commentService.findAll(id, index));
         map.put("loginbtnClass", SpringSecurityUtils.isAuthenticated() ? "" : "unlogined");
-        map.put("recommendBooks",this.bookService.findAll(index,"-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount").getList().subList(0,4));
+        map.put("recommendBooks", this.bookService.findAll(index, "-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount").getList().subList(0, 5));
         return new ModelAndView(BOOK_BOOK_DETAIL, map);
     }
 
@@ -97,9 +97,9 @@ public class BookController {
 
     @RequestMapping("/increase.do")
     @ResponseBody
-    public String increase(@RequestParam(required = true) String bookId, @RequestParam(required = true) AmountType amountType) throws DataAccessException {
-        this.bookService.increaseAmount(bookId, amountType);
-        return "ok";
+    public BusinessResult increase(@RequestParam(required = true) String bookId, @RequestParam(required = true) AmountType amountType) throws DataAccessException {
+        BusinessResult businessResult = this.bookService.increaseAmount(bookId, SpringSecurityUtils.getCurrentUser().getId(), amountType);
+        return businessResult;
     }
 
     /**
@@ -307,7 +307,7 @@ public class BookController {
         }
     }
 
-   
+
     /**
      * 图书的系统推荐
      */
@@ -318,7 +318,7 @@ public class BookController {
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
-            final Pager<BookEditModel> books = this.bookService.findAll(index,"-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount");
+            final Pager<BookEditModel> books = this.bookService.findAll(index, "-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount");
             return new ModelAndView(BOOK_LISTBOOKSBYRECOMMEND, PAGE_DATA, books);
         } catch (DataAccessException e) {
             return new ModelAndView("error");

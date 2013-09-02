@@ -4,10 +4,12 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.entity.UserBook;
+import com.sjtu.onlinelibrary.entity.UserVoteBook;
 import com.sjtu.onlinelibrary.service.AmountType;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
+import com.sjtu.onlinelibrary.web.viewmodel.BusinessResult;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 
@@ -65,9 +67,28 @@ public class BookServiceImpl extends BaseService implements IBookService {
     }
 
     @Override
-    public void increaseAmount(String bookId, AmountType amountType) throws DataAccessException {
+    public BusinessResult hasVoted(String bookId, String userId) throws DataAccessException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("bookId", bookId);
+        map.put("userId", userId);
+        List<UserVoteBook> userVoteBooks = mutableDataAccess.paging(UserVoteBook.class, 1, 1, map);
+        if (userVoteBooks.size() > 0) {
+            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "您已经投过鲜花或者鸡蛋了");
+        }
+        return new BusinessResult(BusinessResult.ResultStatus.OK, "");
+    }
+    private void createVote(String bookId,String userId) throws DataAccessException {
+        UserVoteBook userVoteBook=new UserVoteBook();
+        userVoteBook.setBookId(bookId);
+        userVoteBook.setUserId(userId);
+        mutableDataAccess.save(userVoteBook);
+    }
+
+    @Override
+    public BusinessResult increaseAmount(String bookId, String userId, AmountType amountType) throws DataAccessException {
         Book book = this.mutableDataAccess.findById(Book.class, bookId);
-        if (book == null) return;
+        if (book == null) return new BusinessResult(BusinessResult.ResultStatus.FAIL, "不存在该书");
+        BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, "");
         switch (amountType) {
             case clickAmount:
                 book.setClickAmount(book.getClickAmount() + 1);
@@ -76,16 +97,25 @@ public class BookServiceImpl extends BaseService implements IBookService {
                 book.setUserFavoriteAmount(book.getUserFavoriteAmount() + 1);
                 break;
             case userLikeAmount:
-                book.setUserLikeAmount(book.getUserLikeAmount() + 1);
+                result = hasVoted(bookId, userId);
+                if (result.getResultStatus() == BusinessResult.ResultStatus.OK) {
+                    book.setUserLikeAmount(book.getUserLikeAmount() + 1);
+                    createVote(bookId,userId);
+                }
                 break;
             case userUnlikeAmount:
-                book.setUserUnlikeAmount(book.getUserUnlikeAmount() + 1);
+                result = hasVoted(bookId, userId);
+                if (result.getResultStatus() == BusinessResult.ResultStatus.OK) {
+                    book.setUserUnlikeAmount(book.getUserUnlikeAmount() + 1);
+                    createVote(userId,bookId);
+                }
                 break;
             case sellAmount:
                 book.setSellAmount(book.getSellAmount() + 1);
                 break;
         }
         this.mutableDataAccess.save(book);
+        return result;
     }
 
     @Override

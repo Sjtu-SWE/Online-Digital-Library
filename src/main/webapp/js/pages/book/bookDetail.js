@@ -3,23 +3,31 @@ $(function () {
         var request = "bookId=" + $("#bookId").val() + "&amountType=" + amountType;
         $.post("/book/increase.do", request, function (data) {
             if ((typeof callback) == "function") {
-                callback();
+                callback(data);
             }
         });
     };
     increasAmount("clickAmount");
     $("#btn-like").click(function () {
-        var like = new Number($("#likeAmount").text()), unlikeAmount = new Number($("#unlikeAmount").text());
-        like++;
-        increasAmount("userLikeAmount", function () {
-            resetBar(like, unlikeAmount);
+        increasAmount("userLikeAmount", function (data) {
+            if (data.resultStatus == "OK") {
+                var like = new Number($("#likeAmount").text()), unlikeAmount = new Number($("#unlikeAmount").text());
+                like++;
+                resetBar(like, unlikeAmount);
+            } else {
+                modelAlert("鲜花&鸡蛋", data.message, "确认");
+            }
         });
     });
     $("#btn-unlike").click(function () {
-        increasAmount("userUnlikeAmount", function () {
-            var like = new Number($("#likeAmount").text()), unlikeAmount = new Number($("#unlikeAmount").text());
-            unlikeAmount++;
-            resetBar(like, unlikeAmount);
+        increasAmount("userUnlikeAmount", function (data) {
+            if (data.resultStatus == "OK") {
+                var like = new Number($("#likeAmount").text()), unlikeAmount = new Number($("#unlikeAmount").text());
+                unlikeAmount++;
+                resetBar(like, unlikeAmount);
+            } else {
+                modelAlert("鲜花&鸡蛋", data.message, "确认");
+            }
 
         });
     });
@@ -81,4 +89,5 @@ $(function () {
             });
         });
     });
-});
+})
+;
