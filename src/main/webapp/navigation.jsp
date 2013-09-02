@@ -20,7 +20,7 @@
                     <li class="">
                             <%
                           if(SpringSecurityUtils.isAuthenticated()){
-                              out.print(" <a href=\"/user/myBookShelf.do\">我的书架</a></li>");
+                              out.print(" <a href=\"/book/myBookShelf.do\">我的书架</a></li>");
                           }else {
                               out.print(" <a class=\"unlogined\" href=\"javascript:void(0);\">我的书架</a></li>");
                           }

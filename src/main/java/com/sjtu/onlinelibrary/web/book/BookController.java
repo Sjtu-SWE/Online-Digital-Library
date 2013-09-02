@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Comment;
+import com.sjtu.onlinelibrary.entity.UserBook;
 import com.sjtu.onlinelibrary.service.*;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
@@ -31,6 +32,8 @@ public class BookController {
     public static final String BOOK_LISTBOOKSBYSELL = "book/listBooksBySell";
     public static final String BOOK_LISTBOOKSBYLIKE = "book/listBooksByUserLike";
     public static final String BOOK_LISTBOOKSBYFAVORITE = "book/listBooksByUserFavorite";
+    public static final String USER_BOOK_SHELF = "user/bookShelf";
+
     public static final String PAGE_DATA = "pageData";
     private IBookService bookService;
     private IChapterService chapterService;
@@ -51,15 +54,15 @@ public class BookController {
     }
 
     public void setClassificationService(IClassificationService classificationService) {
-		this.classificationService = classificationService;
-	}
+        this.classificationService = classificationService;
+    }
 
     public void setBusinessService(IBusinessService businessService) {
         this.businessService = businessService;
     }
 
-	@RequestMapping("/{id}.do")
-    public ModelAndView book(@PathVariable("id") String id,@RequestParam(value = "pageIndex", required = false) final String pageIndex) throws DataAccessException {
+    @RequestMapping("/{id}.do")
+    public ModelAndView book(@PathVariable("id") String id, @RequestParam(value = "pageIndex", required = false) final String pageIndex) throws DataAccessException {
         int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
             index = Integer.parseInt(pageIndex);
@@ -69,7 +72,7 @@ public class BookController {
 //        return bookViewModel;
         ModelMap map = new ModelMap();
         map.put("book", bookViewModel);
-        map.put(PAGE_DATA,this.commentService.findAll(id, index));
+        map.put(PAGE_DATA, this.commentService.findAll(id, index));
         map.put("loginbtnClass", SpringSecurityUtils.isAuthenticated() ? "" : "unlogined");
         return new ModelAndView(BOOK_BOOK_DETAIL, map);
     }
@@ -85,7 +88,7 @@ public class BookController {
     @RequestMapping("/{bookId}/chapter/{id}.do")
     public ModelAndView chapter(@PathVariable("bookId") String bookId, @PathVariable("id") String id) throws DataAccessException {
         ModelMap map = getMap(bookId);
-        ChapterReaderModel chapter= this.chapterService.findForReader(bookId,id);
+        ChapterReaderModel chapter = this.chapterService.findForReader(bookId, id);
         map.put("chapter", chapter);
         return new ModelAndView(BOOK_READER, map);
     }
@@ -99,26 +102,27 @@ public class BookController {
 
     /**
      * 根据图书类别分页显示图书信息
+     *
      * @param bookType
      */
     @RequestMapping("/{bookType}/list.do")
-    public ModelAndView listBooksByType(@PathVariable("bookType") String bookId,@RequestParam(value = "pageIndex", required = false) final String pageIndex
-    		,HttpServletRequest request) throws DataAccessException{
-    	int index = 0;
+    public ModelAndView listBooksByType(@PathVariable("bookType") String bookId, @RequestParam(value = "pageIndex", required = false) final String pageIndex
+            , HttpServletRequest request) throws DataAccessException {
+        int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
             index = Integer.parseInt(pageIndex);
         }
-    	String bookType = classificationService.findById(bookId).getClassificationName();
-    	 final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookId);
-    	 request.setAttribute("category", bookType);
-    	return new ModelAndView(BOOK_LIST_BYTYPE , PAGE_DATA, books);
+        String bookType = classificationService.findById(bookId).getClassificationName();
+        final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookId);
+        request.setAttribute("category", bookType);
+        return new ModelAndView(BOOK_LIST_BYTYPE, PAGE_DATA, books);
     }
 
     @RequestMapping(value = "/{bookId}/comment/add.do", method = RequestMethod.POST)
     @ResponseBody
     public String addComment(@PathVariable("bookId") String bookId, @RequestParam(required = true) String content) throws DataAccessException {
 
-        Comment comment=new Comment();
+        Comment comment = new Comment();
         comment.setContent(content);
         comment.setBookId(bookId);
         comment.setUserName(SpringSecurityUtils.getCurrentUser().getRealName());
@@ -129,73 +133,75 @@ public class BookController {
 
     /**
      * 显示搜索图书的结果
+     *
      * @param bookType
      */
     @RequestMapping("/searchBook.do")
-    public ModelAndView searchBook(@RequestParam(required = true)  String name,@RequestParam(value = "pageIndex", required = false) final String pageIndex
-    		,HttpServletRequest request) throws DataAccessException{
-    	int index = 0;
+    public ModelAndView searchBook(@RequestParam(required = true) String name, @RequestParam(value = "pageIndex", required = false) final String pageIndex
+            , HttpServletRequest request) throws DataAccessException {
+        int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
             index = Integer.parseInt(pageIndex);
         }
         Map<String, Object> condition = new HashMap<String, Object>();
-        if( name!=null && !"".equals(name.trim()) ){
-        	Pattern pattern = Pattern.compile(".*" + name.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-        	condition.put("name", pattern);
+        if (name != null && !"".equals(name.trim())) {
+            Pattern pattern = Pattern.compile(".*" + name.trim() + ".*", Pattern.CASE_INSENSITIVE);
+            condition.put("name", pattern);
         }
-        if(name==null || "".equals(name.trim())){
-        	return new ModelAndView(BOOK_SEARCH_RESULT);
-        }else{
-        	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
-        	 request.setAttribute("name", name);
-        	return new ModelAndView(BOOK_SEARCH_RESULT , PAGE_DATA, books);
+        if (name == null || "".equals(name.trim())) {
+            return new ModelAndView(BOOK_SEARCH_RESULT);
+        } else {
+            final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
+            request.setAttribute("name", name);
+            return new ModelAndView(BOOK_SEARCH_RESULT, PAGE_DATA, books);
         }
     }
 
     /**
      * 图书高级搜索
+     *
      * @param bookType
      */
     @RequestMapping("/searchBooks.do")
-    public ModelAndView searchBooks(@RequestParam  String name,@RequestParam String author,@RequestParam String bookNumber,@RequestParam String publisher,
-    		@RequestParam String keywords,@RequestParam(value = "pageIndex", required = false) final String pageIndex ,HttpServletRequest request) throws DataAccessException{
-    	int index = 0;
+    public ModelAndView searchBooks(@RequestParam String name, @RequestParam String author, @RequestParam String bookNumber, @RequestParam String publisher,
+                                    @RequestParam String keywords, @RequestParam(value = "pageIndex", required = false) final String pageIndex, HttpServletRequest request) throws DataAccessException {
+        int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
             index = Integer.parseInt(pageIndex);
         }
         Map<String, Object> condition = new HashMap<String, Object>();
         Pattern pattern = null;
-        if( name!=null && !"".equals(name.trim()) ){
-        	pattern = Pattern.compile(".*" + name.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-        	condition.put("name", pattern);
+        if (name != null && !"".equals(name.trim())) {
+            pattern = Pattern.compile(".*" + name.trim() + ".*", Pattern.CASE_INSENSITIVE);
+            condition.put("name", pattern);
         }
-        if( author!=null && !"".equals(author.trim()) ){
-        	pattern = Pattern.compile(".*" + author.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-        	condition.put("author", pattern);
+        if (author != null && !"".equals(author.trim())) {
+            pattern = Pattern.compile(".*" + author.trim() + ".*", Pattern.CASE_INSENSITIVE);
+            condition.put("author", pattern);
         }
-        if( bookNumber!=null && !"".equals(bookNumber.trim()) ){
-        	pattern = Pattern.compile(".*" + bookNumber.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-        	condition.put("bookNumber", pattern);
+        if (bookNumber != null && !"".equals(bookNumber.trim())) {
+            pattern = Pattern.compile(".*" + bookNumber.trim() + ".*", Pattern.CASE_INSENSITIVE);
+            condition.put("bookNumber", pattern);
         }
-        if( publisher!=null && !"".equals(publisher.trim()) ){
-        	pattern = Pattern.compile(".*" + publisher.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-        	condition.put("publisher", pattern);
+        if (publisher != null && !"".equals(publisher.trim())) {
+            pattern = Pattern.compile(".*" + publisher.trim() + ".*", Pattern.CASE_INSENSITIVE);
+            condition.put("publisher", pattern);
         }
-        if( keywords!=null && !"".equals(keywords.trim()) ){
-        	pattern = Pattern.compile(".*" + keywords.trim()+ ".*", Pattern.CASE_INSENSITIVE);
-        	condition.put("keywords", pattern);
+        if (keywords != null && !"".equals(keywords.trim())) {
+            pattern = Pattern.compile(".*" + keywords.trim() + ".*", Pattern.CASE_INSENSITIVE);
+            condition.put("keywords", pattern);
         }
-        if( (name==null || "".equals(name.trim()) ) && (author==null || "".equals(author.trim()) ) && (bookNumber==null || "".equals(bookNumber.trim()) )
-        		&& (publisher==null || "".equals(publisher.trim()) ) && (keywords==null || "".equals(keywords.trim()) )){
-        	return new ModelAndView(BOOK_SEARCH_BOOK );
-        }else{
-        	 final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
-        	 request.setAttribute("name", name);
-        	 request.setAttribute("author", author);
-        	 request.setAttribute("bookNumber", bookNumber);
-        	 request.setAttribute("publisher", publisher);
-        	 request.setAttribute("keywords", keywords);
-        	return new ModelAndView(BOOK_SEARCH_BOOK , PAGE_DATA, books);
+        if ((name == null || "".equals(name.trim())) && (author == null || "".equals(author.trim())) && (bookNumber == null || "".equals(bookNumber.trim()))
+                && (publisher == null || "".equals(publisher.trim())) && (keywords == null || "".equals(keywords.trim()))) {
+            return new ModelAndView(BOOK_SEARCH_BOOK);
+        } else {
+            final Pager<BookEditModel> books = this.bookService.findBooksByName(index, condition);
+            request.setAttribute("name", name);
+            request.setAttribute("author", author);
+            request.setAttribute("bookNumber", bookNumber);
+            request.setAttribute("publisher", publisher);
+            request.setAttribute("keywords", keywords);
+            return new ModelAndView(BOOK_SEARCH_BOOK, PAGE_DATA, books);
         }
     }
 
@@ -203,32 +209,34 @@ public class BookController {
      * 书库
      */
     @RequestMapping("/bookLibrary.do")
-    public ModelAndView bookLibrary(@RequestParam(value = "pageIndex", required = false) final String pageIndex ,HttpServletRequest request) throws DataAccessException{
-    	int index = 0;
+    public ModelAndView bookLibrary(@RequestParam(value = "pageIndex", required = false) final String pageIndex, HttpServletRequest request) throws DataAccessException {
+        int index = 0;
         if (!LangUtil.isNullOrEmpty(pageIndex)) {
             index = Integer.parseInt(pageIndex);
         }
-    	 final Pager<BookEditModel> books = this.bookService.findAll(index);
+        final Pager<BookEditModel> books = this.bookService.findAll(index);
 //    	 request.setAttribute("", );
-    	return new ModelAndView(BOOK_BOOKLIBRARY , PAGE_DATA, books);
+        return new ModelAndView(BOOK_BOOKLIBRARY, PAGE_DATA, books);
     }
 
-    @RequestMapping(value = "/{bookId}/addToBookshelf.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/{bookId}/addToBookshelf.do", method = RequestMethod.POST)
     @ResponseBody
     public BusinessResult addToBookshelf(@PathVariable("bookId") String bookId) throws DataAccessException {
-        return this.businessService.addToBookshelf(SpringSecurityUtils.getCurrentUser().getId(),bookId);
+        return this.businessService.addToBookshelf(SpringSecurityUtils.getCurrentUser().getId(), bookId);
     }
-    @RequestMapping(value = "/{bookId}/buy.do",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/{bookId}/buy.do", method = RequestMethod.POST)
     @ResponseBody
     public BusinessResult buy(@PathVariable("bookId") String bookId) throws DataAccessException {
-        return this.businessService.buy(SpringSecurityUtils.getCurrentUser().getId(),bookId);
+        return this.businessService.buy(SpringSecurityUtils.getCurrentUser().getId(), bookId);
     }
+
     public ModelMap getMap(String bookId) throws DataAccessException {
         ModelMap map = new ModelMap();
         map.put("book", this.bookService.findById(bookId));
         return map;
     }
-    
+
     /**
      * 按照点击量得到图书排行榜
      */
@@ -239,13 +247,13 @@ public class BookController {
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
-            final Pager<BookEditModel> books = this.bookService.findAll(index,"-clickAmount");
+            final Pager<BookEditModel> books = this.bookService.findAll(index, "-clickAmount");
             return new ModelAndView(BOOK_LISTBOOKSBYCLICK, PAGE_DATA, books);
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }
     }
-    
+
     /**
      * 按照购买量得到图书排行榜
      */
@@ -256,13 +264,13 @@ public class BookController {
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
-            final Pager<BookEditModel> books = this.bookService.findAll(index,"-sellAmount");
+            final Pager<BookEditModel> books = this.bookService.findAll(index, "-sellAmount");
             return new ModelAndView(BOOK_LISTBOOKSBYSELL, PAGE_DATA, books);
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }
     }
-    
+
     /**
      * 按照鲜花量得到图书排行榜
      */
@@ -273,13 +281,13 @@ public class BookController {
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
-            final Pager<BookEditModel> books = this.bookService.findAll(index,"-userLikeAmount");
+            final Pager<BookEditModel> books = this.bookService.findAll(index, "-userLikeAmount");
             return new ModelAndView(BOOK_LISTBOOKSBYLIKE, PAGE_DATA, books);
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }
     }
-    
+
     /**
      * 按照收藏量得到图书排行榜
      */
@@ -290,10 +298,27 @@ public class BookController {
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
                 index = Integer.parseInt(pageIndex);
             }
-            final Pager<BookEditModel> books = this.bookService.findAll(index,"-userFavoriteAmount");
+            final Pager<BookEditModel> books = this.bookService.findAll(index, "-userFavoriteAmount");
             return new ModelAndView(BOOK_LISTBOOKSBYFAVORITE, PAGE_DATA, books);
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }
+    }
+
+
+    @RequestMapping("/myBookShelf.do")
+    public ModelAndView myBookShelf() throws DataAccessException {
+        ModelMap map = new ModelMap();
+        map.put("favoriteBooks", bookService.findUserBook(SpringSecurityUtils.getCurrentUser().getId(), false));
+        map.put("purchasedBooks", bookService.findUserBook(SpringSecurityUtils.getCurrentUser().getId(), true));
+        return new ModelAndView(USER_BOOK_SHELF, map);
+    }
+
+    @RequestMapping("/myBookShelf/{id}/delete.do")
+    @ResponseBody
+    public Object removeUserBook(@PathVariable("id") String id) throws DataAccessException {
+        UserBook userBook = bookService.deleteUserBook(id);
+        bookService.decreaseAmount(userBook.getBookId(), AmountType.userFavoriteAmount);
+        return new BusinessResult(BusinessResult.ResultStatus.OK, "移除成功！");
     }
 }

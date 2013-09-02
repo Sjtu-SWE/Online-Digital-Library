@@ -133,10 +133,10 @@
         <div class="row-fluid">
             <div class="span10 btn-group span12 text-center">
                 <button class="btn ${loginbtnClass}" id="btn-like" data-like-amount="${book.book.userLikeAmount}"><i
-                        class="icon-arrow-up"></i> 送鲜花
+                        class="icon-thumbs-up"></i> 送鲜花
                 </button>
                 <button class="btn ${loginbtnClass}" id="btn-unlike" data-like-amount="${book.book.userUnlikeAmount}"><i
-                        class="icon-arrow-down"></i> 砸鸡蛋
+                        class="icon-thumbs-down"></i> 砸鸡蛋
                 </button>
             </div>
         </div>
@@ -153,7 +153,7 @@
                     <span>鲜花率 ${book.getLikeRate()} %</span>
                 </div>
                 <div class="bar bar-warning" id="bar-unlike" style="width:${book.getUnlikeRate()}%;">
-                    <span>鸡蛋 ${book.getUnlikeRate()}%</span>
+                    <span>鸡蛋率 ${book.getUnlikeRate()}%</span>
                 </div>
             </div>
             <div class="row-fluid">

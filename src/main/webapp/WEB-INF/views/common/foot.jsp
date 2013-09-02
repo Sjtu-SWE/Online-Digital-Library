@@ -1,4 +1,4 @@
-<footer>
+<footer class="row-fluid">
     <p>@SJTU 2013</p>
 </footer>
 <script src="/js/jquery-1.10.2.js"></script>

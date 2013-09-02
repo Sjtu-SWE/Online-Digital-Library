@@ -9,12 +9,7 @@ import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
-import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
-import com.sjtu.onlinelibrary.web.viewmodel.Category;
-import com.sjtu.onlinelibrary.web.viewmodel.Pager;
-import com.sjtu.onlinelibrary.web.viewmodel.PersonalModel;
-import com.sjtu.onlinelibrary.web.viewmodel.RegisterModel;
-import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
+import com.sjtu.onlinelibrary.web.viewmodel.*;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,7 +37,6 @@ public class UserController {
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String USER_PERSONAL = "user/personal";
     public static final String PAGE_DATE = "pageData";
-    public static final String USER_BOOK_SHELF = "user/bookShelf";
 
     private IUserService userService;
     private BookServiceImpl bookService;
@@ -277,15 +271,6 @@ public class UserController {
             return new ModelAndView("error");
         }
     }
-
-    @RequestMapping("/user/myBookShelf")
-    public ModelAndView myBookShelf() throws DataAccessException {
-        ModelMap map=new ModelMap();
-        map.put("favoriteBooks",bookService.findUserBook(SpringSecurityUtils.getCurrentUser().getId(),false));
-        map.put("PurchasedBooks",bookService.findUserBook(SpringSecurityUtils.getCurrentUser().getId(),true));
-        return new ModelAndView(USER_BOOK_SHELF,map);
-    }
-
 
     /**
      * 更新个人主页信息

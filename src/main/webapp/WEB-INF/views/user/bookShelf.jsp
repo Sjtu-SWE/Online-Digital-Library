@@ -26,9 +26,63 @@
             </ul>
         </div>
         <div class="row-fluid span12">
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">我的收藏</a></li>
+                    <li class=""><a href="#tab2" data-toggle="tab">已购买书籍</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <th class="span2"></th>
+                                <th class="span2">书名</th>
+                                <th class="span2">作者</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${favoriteBooks}" var="favoriteBook">
+                                <tr>
+                                    <td><a href="/book/${favoriteBook.book.id}.do"> [阅读]</a></td>
+                                    <td><a href="/book/${favoriteBook.book.id}.do" class="tooltip-shelf" data-toggle="tooltip" data-placement="right" data-original-title="介绍：${favoriteBook.book.description}"> ${favoriteBook.book.name}</a></td>
+                                    <td>${favoriteBook.book.author}</td>
+                                    <td><a class="btn-remove" href="javascript:void(0);" data-id="${favoriteBook.id}">从书架中移除</a> </td>
+
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <th class="span2"></th>
+                                <th class="span2">书名</th>
+                                <th class="span2">作者</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${purchasedBooks}" var="purchasedBook">
+                                <tr>
+                                    <td><a href="/book/${purchasedBook.book.id}.do"> [阅读]</a></td>
+                                    <td><a href="/book/${purchasedBook.book.id}.do" class="tooltip-shelf" data-toggle="tooltip" data-placement="right" data-original-title="介绍：${purchasedBook.book.description}"> ${purchasedBook.book.name}</a></td>
+                                    <td>${purchasedBook.book.author}</td>
+                                    <td></td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
+    <script type="text/javascript" src="/js/pages/book/myBookShelf.js"></script>
 </div>
 <!-- /container -->
 </body>

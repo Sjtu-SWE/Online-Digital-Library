@@ -25,6 +25,7 @@ public interface IBookService {
     boolean delete(String id);
 
     void increaseAmount(String bookId, AmountType amountType) throws DataAccessException;
+    void decreaseAmount(String bookId, AmountType amountType) throws DataAccessException;
     /**
      * 根据类别查询该类别的图书
      */
@@ -48,5 +49,5 @@ public interface IBookService {
 
     List<UserBook> findUserBook(String userId,boolean purchased) throws DataAccessException;
 
-    void deleteUserBook(String userBookId) throws DataAccessException;
+    UserBook deleteUserBook(String userBookId) throws DataAccessException;
 }

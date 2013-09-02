@@ -88,6 +88,30 @@ public class BookServiceImpl extends BaseService implements IBookService {
         this.mutableDataAccess.save(book);
     }
 
+    @Override
+    public void decreaseAmount(String bookId, AmountType amountType) throws DataAccessException {
+        Book book = this.mutableDataAccess.findById(Book.class, bookId);
+        if (book == null) return;
+        switch (amountType) {
+            case clickAmount:
+                book.setClickAmount(book.getClickAmount() - 1);
+                break;
+            case userFavoriteAmount:
+                book.setUserFavoriteAmount(book.getUserFavoriteAmount() - 1);
+                break;
+            case userLikeAmount:
+                book.setUserLikeAmount(book.getUserLikeAmount() - 1);
+                break;
+            case userUnlikeAmount:
+                book.setUserUnlikeAmount(book.getUserUnlikeAmount() - 1);
+                break;
+            case sellAmount:
+                book.setSellAmount(book.getSellAmount() - 1);
+                break;
+        }
+        this.mutableDataAccess.save(book);
+    }
+
     /**
      * 根据类别查询所有的图书
      */
@@ -125,58 +149,61 @@ public class BookServiceImpl extends BaseService implements IBookService {
         return false;
     }
 
-	@Override
-	public Pager<BookEditModel> findBooksByName(int pageIndex, Map<String, Object> condition) throws DataAccessException {
-		if (pageIndex <= 0) {
+    @Override
+    public Pager<BookEditModel> findBooksByName(int pageIndex, Map<String, Object> condition) throws DataAccessException {
+        if (pageIndex <= 0) {
             pageIndex = 1;
         }
-		//根据书名进行排序
-        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition , "name");
+        //根据书名进行排序
+        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, condition, "name");
         final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
         for (final Book book : books) {
-        	bookEditModelList.add(new BookEditModel("", book));
+            bookEditModelList.add(new BookEditModel("", book));
         }
         final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
         bookPager.setListObject(bookEditModelList);
         bookPager.setTotalCount(mutableDataAccess.count(Book.class, condition));
         return bookPager;
-	}
+    }
 
-	@Override
-	public Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException {
-		 if (pageIndex <= 0) {
-	            pageIndex = 1;
-	        }
-	        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, null, orderFields);
-	        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
-	        for (final Book book : books) {
-	            bookEditModelList.add(new BookEditModel("", book));
-	        }
-	        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
-	        bookPager.setListObject(bookEditModelList);
-	        bookPager.setTotalCount(mutableDataAccess.count(Book.class));
-	        return bookPager;
-	}
+    @Override
+    public Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException {
+        if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+        final List<Book> books = mutableDataAccess.paging(Book.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, null, orderFields);
+        final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
+        for (final Book book : books) {
+            bookEditModelList.add(new BookEditModel("", book));
+        }
+        final Pager<BookEditModel> bookPager = new Pager<BookEditModel>(pageIndex);
+        bookPager.setListObject(bookEditModelList);
+        bookPager.setTotalCount(mutableDataAccess.count(Book.class));
+        return bookPager;
+    }
 
-	@Override
-	public List<BookEditModel> findTop(String orderFields) throws DataAccessException {
-		final List<Book> books = mutableDataAccess.listByFilter(Book.class, new HashMap<String, Object>(),orderFields);
+    @Override
+    public List<BookEditModel> findTop(String orderFields) throws DataAccessException {
+        final List<Book> books = mutableDataAccess.listByFilter(Book.class, new HashMap<String, Object>(), orderFields);
         final List<BookEditModel> bookEditModelList = new ArrayList<BookEditModel>();
         for (final Book book : books) {
             bookEditModelList.add(new BookEditModel("", book));
         }
         return bookEditModelList;
-	}
-
-    @Override
-    public List<UserBook> findUserBook(final String userId, final boolean purchased) throws DataAccessException {
-        Map<String,Object> map=new HashMap<String, Object>();
-        map.put("hasBuyed",purchased);
-        return mutableDataAccess.listByFilter(UserBook.class,map);
     }
 
     @Override
-    public void deleteUserBook(String userBookId) throws DataAccessException {
-        mutableDataAccess.delete(UserBook.class,userBookId);
+    public List<UserBook> findUserBook(final String userId, final boolean purchased) throws DataAccessException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("hasBuyed", purchased);
+        map.put("userId", userId);
+        return mutableDataAccess.listByFilter(UserBook.class, map);
+    }
+
+    @Override
+    public UserBook deleteUserBook(String userBookId) throws DataAccessException {
+        UserBook userBook = mutableDataAccess.findById(UserBook.class, userBookId);
+        mutableDataAccess.delete(UserBook.class, userBookId);
+        return userBook;
     }
 }
