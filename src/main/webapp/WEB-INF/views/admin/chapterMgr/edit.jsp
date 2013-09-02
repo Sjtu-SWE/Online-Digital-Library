@@ -29,7 +29,7 @@
         <h1 class="page-title">${book.name}:${chapter.editType}</h1>
     </div>
     <ul class="breadcrumb">
-        <li><a href="/admin/book/chapter/${book.id}/list.do">章节列表</a><span class="divider">/</span></li>
+        <li><a href="/admin/book/${book.id}/chapter/list.do">章节列表</a><span class="divider">/</span></li>
         <li class="active">${chapter.editType}</li>
     </ul>
     <div class="container-fluid">

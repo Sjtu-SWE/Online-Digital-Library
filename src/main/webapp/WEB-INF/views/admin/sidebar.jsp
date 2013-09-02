@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="sidebar-nav">
     <form class="search form-inline">
-        <input type="text" placeholder="Search...">
+        <a class="btn-link" href="/">返回前台</a>
     </form>
     <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>Dashboard</a>
     <ul id="dashboard-menu" class="nav nav-list collapse in">
