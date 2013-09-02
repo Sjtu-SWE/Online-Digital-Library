@@ -30,7 +30,7 @@
 			<ul class="media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
-                    <a class="pull-left" href="#">
+                    <a class="pull-left" href="/book/${book.id}/read.do">
                         <c:choose>
                     		<c:when test="${book.bookCoverImgPath==''||book.bookCoverImgPath==null}">
                         		<img class="media-object" style="width: 100px;;" src="/img/fm_big.gif" alt="${book.description}"/>

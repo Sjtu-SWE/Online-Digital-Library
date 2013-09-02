@@ -100,7 +100,7 @@
 				            </ul>
                         <p><a href="/book/listBooksBySell.do">更多 &raquo;</a></p>
                     </div>
-                    <div>
+                    <div class="span5 main">
                         <h2>图书鲜花榜</h2>
 <!--                         <p>Donec id elit non mi porta gravida at eget metus.</p> -->
 						<ul class="media-list">

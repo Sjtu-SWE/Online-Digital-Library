@@ -35,8 +35,15 @@
 			<ul class="media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" style="width: 100px;;" src="../../img/cover.jpg" alt="${book.description}">
+                    <a class="pull-left" href="/book/${book.id}/read.do">
+                        <c:choose>
+                     		<c:when test="${book.bookCoverImgPath==''||book.bookCoverImgPath==null}">
+                        		<img class="media-object" style="width: 100px;;" src="/img/fm_big.gif" alt="${book.description}"/>
+					  		</c:when>
+					    	<c:otherwise>
+					        	<img class="media-object" style="width: 100px;;" src="${book.bookCoverImgPath}" alt="${book.description}"/>
+					    	</c:otherwise>
+                    	</c:choose>
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
