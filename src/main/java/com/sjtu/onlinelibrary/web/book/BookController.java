@@ -32,6 +32,7 @@ public class BookController {
     public static final String BOOK_LISTBOOKSBYSELL = "book/listBooksBySell";
     public static final String BOOK_LISTBOOKSBYLIKE = "book/listBooksByUserLike";
     public static final String BOOK_LISTBOOKSBYFAVORITE = "book/listBooksByUserFavorite";
+    public static final String BOOK_LISTBOOKSBYRECOMMEND = "book/listBooksByRecommend";
     public static final String USER_BOOK_SHELF = "user/bookShelf";
 
     public static final String PAGE_DATA = "pageData";
@@ -132,7 +133,7 @@ public class BookController {
     }
 
     /**
-     * 显示搜索图书的结果
+     * 显示搜索图书的结�?
      *
      * @param bookType
      */
@@ -300,6 +301,24 @@ public class BookController {
             }
             final Pager<BookEditModel> books = this.bookService.findAll(index, "-userFavoriteAmount");
             return new ModelAndView(BOOK_LISTBOOKSBYFAVORITE, PAGE_DATA, books);
+        } catch (DataAccessException e) {
+            return new ModelAndView("error");
+        }
+    }
+
+   
+    /**
+     * 图书的系统推�?
+     */
+    @RequestMapping("/listBooksByRecommend.do")
+    public ModelAndView listByRecommend(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+        try {
+            int index = 0;
+            if (!LangUtil.isNullOrEmpty(pageIndex)) {
+                index = Integer.parseInt(pageIndex);
+            }
+            final Pager<BookEditModel> books = this.bookService.findAll(index,"-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount");
+            return new ModelAndView(BOOK_LISTBOOKSBYRECOMMEND, PAGE_DATA, books);
         } catch (DataAccessException e) {
             return new ModelAndView("error");
         }

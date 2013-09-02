@@ -45,8 +45,8 @@
 
                 <!-- Example row of columns -->
                 <div class='row-fluid'>
-                    <div class="span4">
-                        <h2>点击量排行</h2>
+                    <div class="span4 well">
+                        <h3>点击量排行</h3>
 <!--                         <p>各类图书排行</p> -->
                         <ul class="media-list">
 				            <c:forEach items="${books}" var="book">
@@ -63,7 +63,7 @@
 				            </ul>
                         <p><a href="/book/listBooksByClick.do">更多 &raquo;</a></p>
                     </div>
-                    <div class="span4">
+                    <div class="span4 well">
                         <h2>畅销图书排行</h2>
 <!--                         <p>Donec id elit non mi porta gravida at eget metus.</p> -->
 						<ul class="media-list">
@@ -82,7 +82,7 @@
 				            </ul>
                         <p><a href="/book/listBooksBySell.do">更多 &raquo;</a></p>
                     </div>
-                    <div class="span4">
+                    <div class="span4 well">
                         <h2>图书鲜花榜</h2>
 						<ul class="media-list">
 				            <c:forEach items="${books3}" var="book">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
 				<div class='row-fluid'>
-					<div class="span4">
+					<div class="span4 well">
                         <h2>图书收藏榜</h2>
 						<ul class="media-list">
 				            <c:forEach items="${books4}" var="book">
@@ -120,9 +120,9 @@
 				                </li>
 				            </c:forEach>
 				            </ul>
-                        <p><a href="/book/listBooksByUserLike.do">更多 &raquo;</a></p>
+                        <p><a href="/booklistBooksByUserFavorite.do">更多 &raquo;</a></p>
                     </div>
-                    <div class="span8">
+                    <div class="span8 well">
                         <h2>图书推荐</h2>
 						<ul class="media-list">
 				            <c:forEach items="${books5}" var="book">
@@ -142,7 +142,7 @@
 				                </li>
 				            </c:forEach>
 				            </ul>
-                        <p><a href="/book/listBooksByUserLike.do">更多 &raquo;</a></p>
+                        <p><a href="/book/listBooksByRecommend.do">更多 &raquo;</a></p>
                     </div>
 				</div>
                 <hr>
