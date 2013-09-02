@@ -1,5 +1,6 @@
 package com.sjtu.onlinelibrary.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.sjtu.onlinelibrary.DataAccessException;
@@ -16,5 +17,6 @@ public interface IUserService {
 	boolean delete(String id);
 	 
 	User checkLogin(String userName, String password) throws Exception;
+	List<User> findByEmail(String email) throws DataAccessException;
 	
 }

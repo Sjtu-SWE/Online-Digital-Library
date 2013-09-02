@@ -83,5 +83,16 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 		}
         return null;
 	}
+
+	@Override
+	public List<User> findByEmail(String email) throws DataAccessException {
+		Map<String,Object> condition = new HashMap<String, Object>();
+		condition.put("email", email);
+		List<User> users = mutableDataAccess.listByFilter(User.class, condition);
+		if(users!=null && users.size()>0){
+			return users;
+		}
+		return null;
+	}
 	
 }

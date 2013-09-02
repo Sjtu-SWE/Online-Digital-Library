@@ -4,6 +4,8 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.common.Constants;
 import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.entity.User;
+import com.sjtu.onlinelibrary.mail.MailSenderInfo;
+import com.sjtu.onlinelibrary.mail.SimpleMailSender;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
@@ -24,6 +26,7 @@ import java.util.regex.Pattern;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 
 /**
  * @author Crystal
@@ -297,4 +300,69 @@ public class UserController {
         mm.put("url", "/personal.do");
         return new ModelAndView("forward:/success.jsp", mm);
     }
+    
+    /**
+     * 忘记密码
+     */
+    @RequestMapping(value = "/forgetPassword.do", method = RequestMethod.POST)
+    public ModelAndView forgetPassword(@RequestParam(value = "email", required = false) String email) throws DataAccessException{
+    	ModelMap mm = new ModelMap();
+    	String newPassword = GeneratePassword();
+    	
+    	//判断是否有用户是此邮箱
+    	List<User> users = userService.findByEmail(email);
+    	if( users==null || users.size()==0 ){
+    		mm.put("message", "没有用户使用此邮箱，请重新输入。");
+            mm.put("url", "/modifyPassword.jsp");
+            return new ModelAndView("forward:/success.jsp", mm);
+    	}
+    	
+       MailSenderInfo mailInfo = new MailSenderInfo(); 
+   	   mailInfo.setMailServerHost("smtp.126.com"); 
+   	   mailInfo.setMailServerPort("25"); 
+   	   mailInfo.setValidate(true); 
+   	   mailInfo.setUserName("chenmj4444@126.com"); 
+   	   mailInfo.setPassword("4360449");//您的邮箱密码 
+   	   mailInfo.setFromAddress("chenmj4444@126.com"); 
+   	   mailInfo.setToAddress(email); //用户邮箱
+   	   mailInfo.setSubject("在线数字图书馆系统新密码"); 
+   	   mailInfo.setContent("这是您的新密码："+ newPassword +"，请登录后尽快修改。"); 
+           //这个类主要来发送邮件
+   	   SimpleMailSender sms = new SimpleMailSender();
+       boolean result = sms.sendTextMail(mailInfo);//发送文体格式 
+       
+       if(result){
+    	   //更新用户的密码
+    	   for(User user : users){
+    		   user.setPassword(newPassword);
+    		   userService.save(user);
+    	   }
+    	   
+    	   mm.put("message", "重置密码成功！");
+           mm.put("url", "/index.do");
+           return new ModelAndView("forward:/success.jsp", mm);
+       }else{
+    	   mm.put("message", "重置密码邮件发送失败");
+           mm.put("url", "/modifyPassword.jsp");
+           return new ModelAndView("forward:/success.jsp", mm);
+       }
+    }
+    
+    /**
+     * 生成随机密码
+     */
+    public String GeneratePassword(){
+    	Random rd=new Random();
+    	int m=rd.nextInt(24);//生成0-23的随机数
+    	int m2=rd.nextInt(34);//生成0-33的随机数
+    	String s="abcdeghijklmnopqrstuvwxyz";
+    	String s2="abcdeghijklmnopqrstuvwxyz0123456789";
+    	char [] pw = new char[8];
+    	pw[0] = s.charAt(m);
+    	for(int i = 1; i < 8; i++){
+    		pw[i] =  s2.charAt(m2);
+    	}
+    	return new String(pw);
+    }
+    
 }
