@@ -185,7 +185,7 @@ public class UserController {
         mm.put("books3", books3.subList(0, books3.size()<10?books3.size():10));//取鲜花前五的图书
         final List<BookEditModel> books4 = this.bookService.findTop("-userFavoriteAmount");
         mm.put("books4", books4.subList(0, books4.size()<10?books4.size():10));//取收藏前五的图书
-        final List<BookEditModel> books5 = this.bookService.findTop("-sellAmount -userFavoriteAmount -clickAmount -userLikeAmount");
+        final List<BookEditModel> books5 = this.bookService.findTop("-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount");
         mm.put("books5", books5.subList(0, books5.size()<10?books5.size():10));//系统推荐的图书（购买量、收藏、点击、鲜花）
         return new ModelAndView("forward:/index.jsp", mm);
     }
