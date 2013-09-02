@@ -102,6 +102,7 @@ public class BookMgrController {
         book.setPublishDate(bookEditModel.getPublishDate());
         book.setKeywords(bookEditModel.getKeywords());
         book.setDescription(bookEditModel.getDescription());
+        book.setName(bookEditModel.getName());
         bookService.save(book.innerBookEntity());
         final Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", "保存书籍成功！");
