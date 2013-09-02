@@ -313,7 +313,7 @@ public class UserController {
     	List<User> users = userService.findByEmail(email);
     	if( users==null || users.size()==0 ){
     		mm.put("message", "没有用户使用此邮箱，请重新输入。");
-            mm.put("url", "/modifyPassword.jsp");
+            mm.put("url", "/resetPassword.jsp");
             return new ModelAndView("forward:/success.jsp", mm);
     	}
     	
@@ -343,7 +343,7 @@ public class UserController {
            return new ModelAndView("forward:/success.jsp", mm);
        }else{
     	   mm.put("message", "重置密码邮件发送失败");
-           mm.put("url", "/modifyPassword.jsp");
+           mm.put("url", "/resetPassword.jsp");
            return new ModelAndView("forward:/success.jsp", mm);
        }
     }

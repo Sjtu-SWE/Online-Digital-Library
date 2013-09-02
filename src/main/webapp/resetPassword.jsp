@@ -13,14 +13,14 @@
 <script src="/js/bootstrap.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.error').hide();
+// 		$('.error').hide();
 		$('.submit').click(function(event){
 			var email=$('.email').val();
 			
 			if(valid_email(email)) {
-				$('.error').hide();
+// 				$('.error').hide();
 			} else {
-				$('.error').show();
+// 				$('.error').show();
 				event.preventDefault();
 			}
 		});
@@ -41,7 +41,7 @@
     <tr>
     	<td>邮箱</td>
     	<td><input type="text" class="email" name="email" />
-    		<span class="error"><font color="red">请输入邮箱正确格式！</font></span>
+    		<span class="hidden" type="text"><font color="red">请输入邮箱正确格式！</font></span>
 		</td></tr>
     <tr><td colSpan="2" align="center">
     		<input type="submit" value="重置密码" class="btn"/>
