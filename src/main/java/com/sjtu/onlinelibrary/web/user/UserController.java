@@ -178,13 +178,15 @@ public class UserController {
         ModelMap mm = new ModelMap();
         mm.put("classifications", classifications);
         final List<BookEditModel> books = this.bookService.findTop("-clickAmount");
-        mm.put("books", books.subList(0, books.size()<5?books.size():5));//取点击量前五的图书在首页显示
+        mm.put("books", books.subList(0, books.size()<10?books.size():10));//取点击量前五的图书
         final List<BookEditModel> books2 = this.bookService.findTop("-sellAmount");
-        mm.put("books2", books2.subList(0, books2.size()<5?books2.size():5));//取购买量前五的图书在首页显示
+        mm.put("books2", books2.subList(0, books2.size()<10?books2.size():10));//取购买量前五的图书
         final List<BookEditModel> books3 = this.bookService.findTop("-userLikeAmount");
-        mm.put("books3", books3.subList(0, books3.size()<5?books3.size():5));//取鲜花前五的图书在首页显示
+        mm.put("books3", books3.subList(0, books3.size()<10?books3.size():10));//取鲜花前五的图书
         final List<BookEditModel> books4 = this.bookService.findTop("-userFavoriteAmount");
-        mm.put("books4", books4.subList(0, books4.size()<5?books4.size():5));//取收藏前五的图书在首页显示
+        mm.put("books4", books4.subList(0, books4.size()<10?books4.size():10));//取收藏前五的图书
+        final List<BookEditModel> books5 = this.bookService.findTop("-sellAmount -userFavoriteAmount -clickAmount -userLikeAmount");
+        mm.put("books5", books5.subList(0, books5.size()<10?books5.size():10));//系统推荐的图书（购买量、收藏、点击、鲜花）
         return new ModelAndView("forward:/index.jsp", mm);
     }
 
