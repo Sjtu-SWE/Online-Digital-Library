@@ -46,5 +46,7 @@ public interface IBookService {
     Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException;
     List<BookEditModel> findTop(String orderFields) throws DataAccessException;
 
-    List<UserBook> findUserBook(int userId,boolean purchased) throws DataAccessException;
+    List<UserBook> findUserBook(String userId,boolean purchased) throws DataAccessException;
+
+    void deleteUserBook(String userBookId) throws DataAccessException;
 }

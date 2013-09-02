@@ -279,11 +279,11 @@ public class UserController {
     }
 
     @RequestMapping("/user/myBookShelf")
-    public ModelAndView myBookShelf() {
+    public ModelAndView myBookShelf() throws DataAccessException {
         ModelMap map=new ModelMap();
-//        map.put("favoriteBooks",bookService.f);
-        map.put("PurchasedBooks",null);
-        return new ModelAndView(USER_BOOK_SHELF);
+        map.put("favoriteBooks",bookService.findUserBook(SpringSecurityUtils.getCurrentUser().getId(),false));
+        map.put("PurchasedBooks",bookService.findUserBook(SpringSecurityUtils.getCurrentUser().getId(),true));
+        return new ModelAndView(USER_BOOK_SHELF,map);
     }
 
 

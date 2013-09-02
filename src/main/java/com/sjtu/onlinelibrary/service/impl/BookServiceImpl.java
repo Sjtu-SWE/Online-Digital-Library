@@ -169,9 +169,14 @@ public class BookServiceImpl extends BaseService implements IBookService {
 	}
 
     @Override
-    public List<UserBook> findUserBook(final int userId, final boolean purchased) throws DataAccessException {
+    public List<UserBook> findUserBook(final String userId, final boolean purchased) throws DataAccessException {
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("hasBuyed",purchased);
         return mutableDataAccess.listByFilter(UserBook.class,map);
+    }
+
+    @Override
+    public void deleteUserBook(String userBookId) throws DataAccessException {
+        mutableDataAccess.delete(UserBook.class,userBookId);
     }
 }
