@@ -6,6 +6,7 @@
     <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>Dashboard</a>
     <ul id="dashboard-menu" class="nav nav-list collapse in">
         <li><a href="/admin/dashboard.do">Home</a></li>
+        <li><a href="/admin/pointCard/list.do">点卡管理</a></li>
     </ul>
 
     <a href="#accounts-menu" class="nav-header" data-toggle="collapse"><i class="icon-user"></i>用户管理</a>

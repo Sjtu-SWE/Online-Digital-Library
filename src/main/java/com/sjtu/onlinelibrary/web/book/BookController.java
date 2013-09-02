@@ -341,4 +341,11 @@ public class BookController {
         bookService.decreaseAmount(userBook.getBookId(), AmountType.userFavoriteAmount);
         return new BusinessResult(BusinessResult.ResultStatus.OK, "移除成功！");
     }
+
+    @RequestMapping(value = "/recharge.do",method = RequestMethod.POST)
+    @ResponseBody
+    public BusinessResult recharge(@RequestParam(required = true) String serialNumber) throws DataAccessException {
+        if(!SpringSecurityUtils.isAuthenticated()) return new BusinessResult(BusinessResult.ResultStatus.FAIL,"您还没有登陆，请登陆");
+        return businessService.recharge(SpringSecurityUtils.getCurrentUser().getId(),serialNumber);
+    }
 }

@@ -9,6 +9,8 @@ import com.sjtu.onlinelibrary.entity.UserBook;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBusinessService;
 import com.sjtu.onlinelibrary.web.viewmodel.BusinessResult;
+import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,10 +68,10 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
     public BusinessResult recharge(String userId, String serialNumber) throws DataAccessException {
         PointCard pointCard = mutableDataAccess.findById(PointCard.class, serialNumber);
         if (pointCard == null) {
-            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "信用值卡序列号错误");
+            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "充值失败，信用值卡序列号错误");
         }
         if (pointCard.isUsed()) {
-            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "该信用值卡已经使用过了");
+            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "充值失败，该信用值卡已经使用过了");
         }
 
         User user = mutableDataAccess.findById(User.class, userId);
@@ -77,7 +79,7 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
         pointCard.setUsed(true);
         mutableDataAccess.save(user);
         mutableDataAccess.save(pointCard);
-        BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, "充值成功");
+        BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, String.format("充值成功，您成功的在账号里充值<small>%s</small>信用值",pointCard.getCredits()));
         return result;
     }
 
@@ -112,5 +114,18 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
             mutableDataAccess.save(pointCard);
         }
         return new BusinessResult(BusinessResult.ResultStatus.OK, "信用值卡生成成功");
+    }
+
+    @Override
+    public Pager<PointCard> pagingAll(int pageIndex) throws DataAccessException {
+        if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+
+        final List<PointCard> pointCards = mutableDataAccess.paging(PointCard.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE,null,"used,createdOn");
+        final Pager<PointCard> pointCardPager = new Pager<PointCard>(pageIndex);
+        pointCardPager.setListObject(pointCards);
+        pointCardPager.setTotalCount(mutableDataAccess.count(PointCard.class));
+        return pointCardPager;
     }
 }

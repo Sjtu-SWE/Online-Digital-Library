@@ -1,7 +1,9 @@
 package com.sjtu.onlinelibrary.service;
 
 import com.sjtu.onlinelibrary.DataAccessException;
+import com.sjtu.onlinelibrary.entity.PointCard;
 import com.sjtu.onlinelibrary.web.viewmodel.BusinessResult;
+import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 
 public interface IBusinessService {
     /**
@@ -35,4 +37,6 @@ public interface IBusinessService {
      * @param value 面值
      */
     BusinessResult generatePointCord(int count,final int value) throws DataAccessException;
+
+    Pager<PointCard> pagingAll(int pageIndex) throws DataAccessException;
 }

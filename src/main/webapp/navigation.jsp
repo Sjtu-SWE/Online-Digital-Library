@@ -52,6 +52,7 @@
                                 if (SpringSecurityUtils.isAuthenticated()) {
                                     out.print("<li><a href='/modifyPassword.jsp'>修改密码</a></li>");
                                     out.print("<li><a href='/personal.do'>我的主页</a></li>");
+                                    out.print("<li><a href='javascript:void(0);' class='recharge'>充值</a></li>");
                                     out.print("<li><a href='/j_spring_security_logout'>退出</a></li>");
                                 } else {
                                     out.print("<li><a href=\"/login.jsp\">登录</a></li>");
