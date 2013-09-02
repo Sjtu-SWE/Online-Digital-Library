@@ -75,6 +75,7 @@ public class BookController {
         map.put("book", bookViewModel);
         map.put(PAGE_DATA, this.commentService.findAll(id, index));
         map.put("loginbtnClass", SpringSecurityUtils.isAuthenticated() ? "" : "unlogined");
+        map.put("recommendBooks",this.bookService.findAll(index,"-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount").getList().subList(0,4));
         return new ModelAndView(BOOK_BOOK_DETAIL, map);
     }
 
@@ -308,7 +309,7 @@ public class BookController {
 
    
     /**
-     * 图书的系统推�?
+     * 图书的系统推荐
      */
     @RequestMapping("/listBooksByRecommend.do")
     public ModelAndView listByRecommend(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
