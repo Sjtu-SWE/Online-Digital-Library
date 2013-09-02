@@ -12,36 +12,39 @@
 <script src="/js/jquery-1.10.2.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-// 		$('.error').hide();
-		$('.submit').click(function(event){
-			var email=$('.email').val();
-			
-			if(valid_email(email)) {
-// 				$('.error').hide();
-			} else {
-// 				$('.error').show();
-				event.preventDefault();
-			}
-		});
-	});
-	
-	function valid_email(email) {
-		var patten = new RegExp(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/);
-		return patten.test(email);
-	}
+  function checkemail()
+    {
+        var temp = document.getElementById("email");
+        var myreg = /(\S)+[@]{1}(\S)+[.]{1}(\w)+/;
+        if(temp.value!="")
+        {
+            if(!myreg.test(temp.value))
+            {
+                document.getElementById("mail").innerHTML="请输入邮箱正确格式！";
+                document.getElementById("mail").style.color="red";
+                temp.value="";
+                temp.focus();
+                return false;
+            }
+            else{
+                document.getElementById("mail").innerHTML="email可以使用";
+                document.getElementById("mail").style.color="green";
+            }
+        }
+    }
 </script> 
 <body>
 <div class="container">
 <jsp:include page="navigation.jsp"></jsp:include> 
-<form method="post" action="/forgetPassword.do">
+<form method="post" action="/forgetPassword.do" onsubmit="return checkemail()">
 <div class="hero-unit">
 <h3>重置密码</h3>
 <table>
     <tr>
     	<td>邮箱</td>
-    	<td><input type="text" class="email" name="email" />
-    		<span class="hidden" type="text"><font color="red">请输入邮箱正确格式！</font></span>
+    	<td>
+    		<input id="email" name="email" type="text" />
+    		<span id="mail"></span>&nbsp;<br>
 		</td></tr>
     <tr><td colSpan="2" align="center">
     		<input type="submit" value="重置密码" class="btn"/>
