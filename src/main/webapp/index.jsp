@@ -104,9 +104,9 @@
                 </div>
 				<div class='row-fluid'>
 					<div class="span4">
-                        <h2>图书鲜花榜</h2>
+                        <h2>图书收藏榜</h2>
 						<ul class="media-list">
-				            <c:forEach items="${books3}" var="book">
+				            <c:forEach items="${books4}" var="book">
 				            	<li class="media">
 				                    <a class="pull-left" href="/book/${book.id}/read.do">
 <%-- 				                        <img class="media-object" style="width: 50px;;" src="../../img/cover.jpg" alt="${book.description}"> --%>
@@ -114,7 +114,7 @@
 				                    <div class="media-body">
 				                        <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
 				                        <div class="media">
-									                            鲜花量：${book.userLikeAmount}
+									                            收藏数：${book.userFavoriteAmount}
 				                        </div>
 				                    </div>
 				                </li>
@@ -122,10 +122,10 @@
 				            </ul>
                         <p><a href="/book/listBooksByUserLike.do">更多 &raquo;</a></p>
                     </div>
-                    <div class="span4">
-                        <h2>图书鲜花榜</h2>
+                    <div class="span8">
+                        <h2>图书推荐</h2>
 						<ul class="media-list">
-				            <c:forEach items="${books3}" var="book">
+				            <c:forEach items="${books5}" var="book">
 				            	<li class="media">
 				                    <a class="pull-left" href="/book/${book.id}/read.do">
 <%-- 				                        <img class="media-object" style="width: 50px;;" src="../../img/cover.jpg" alt="${book.description}"> --%>
@@ -133,7 +133,10 @@
 				                    <div class="media-body">
 				                        <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
 				                        <div class="media">
+				                                                                                                  点击量：${book.clickAmount}
+				                                                                                                  销售量：${book.sellAmount}
 									                            鲜花量：${book.userLikeAmount}
+									                            收藏数：${book.userFavoriteAmount}
 				                        </div>
 				                    </div>
 				                </li>
