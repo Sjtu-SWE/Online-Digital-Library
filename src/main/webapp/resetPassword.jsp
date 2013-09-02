@@ -55,6 +55,7 @@
 </form>  
 </body>
 <script type="text/javascript">
+	
    if(${!empty param.message})
 		alert('${param.message}');
 </script> 

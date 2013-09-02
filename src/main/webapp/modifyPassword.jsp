@@ -81,9 +81,14 @@
 </div>
 </div>
 
+<!-- <div class="alert"> -->
+<!--   <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+<%--   <strong>${param.message}</strong> --%>
+<!-- </div> -->
 </form>
 </body>
 <script type="text/javascript">
+
    if(${!empty param.message})
 		alert('${param.message}');
    
