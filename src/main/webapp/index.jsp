@@ -53,7 +53,14 @@
 				            <c:forEach items="${books}" var="book">
 				            	<li class="media">
 				                    <a class="pull-left" href="#">
-				                        <img class="media-object" style="width: 50px;;" src="../../img/cover.jpg" alt="${book.description}">
+										<c:choose>
+                        					<c:when test="${book.bookCoverImgPath==''||book.bookCoverImgPath==null}">
+                            					<img class="media-object" style="width: 50px;;" src="/img/fm_big.gif" alt="${book.description}"/>
+					                        </c:when>
+					                        <c:otherwise>
+					                            <img class="media-object" style="width: 50px;;" src="${book.bookCoverImgPath}" alt="${book.description}"/>
+					                        </c:otherwise>
+                    					</c:choose>
 				                    </a>
 				                    <div class="media-body">
 				                        <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
@@ -67,18 +74,59 @@
                         <p><a href="/book/listBooksByClick.do">更多 &raquo;</a></p>
                     </div>
                     <div class="span5 main">
-                        <h2>新书上榜</h2>
-
-                        <p>Donec id elit non mi porta gravida at eget metus.</p>
-
-                        <p><a href="#">View details &raquo;</a></p>
+                        <h2>畅销图书排行</h2>
+<!--                         <p>Donec id elit non mi porta gravida at eget metus.</p> -->
+						<ul class="media-list">
+				            <c:forEach items="${books2}" var="book">
+				            	<li class="media">
+				                    <a class="pull-left" href="#">
+				                        <c:choose>
+                        					<c:when test="${book.bookCoverImgPath==''||book.bookCoverImgPath==null}">
+                            					<img class="media-object" style="width: 50px;;" src="/img/fm_big.gif" alt="${book.description}"/>
+					                        </c:when>
+					                        <c:otherwise>
+					                            <img class="media-object" style="width: 50px;;" src="${book.bookCoverImgPath}" alt="${book.description}"/>
+					                        </c:otherwise>
+                    					</c:choose>
+				                    </a>
+				                    <div class="media-body">
+				                        <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
+				                        <div class="media">
+									                            销售量：${book.sellAmount}
+				                        </div>
+				                    </div>
+				                </li>
+				            </c:forEach>
+				            </ul>
+                        <p><a href="/book/listBooksBySell.do">更多 &raquo;</a></p>
                     </div>
                     <div>
-                        <h2>图书</h2>
-
-                        <p>Donec id elit non mi porta gravida at eget metus.</p>
-
-                        <p><a href="#">View details &raquo;</a></p>
+                        <h2>图书鲜花榜</h2>
+<!--                         <p>Donec id elit non mi porta gravida at eget metus.</p> -->
+						<ul class="media-list">
+				            <c:forEach items="${books3}" var="book">
+				            	<li class="media">
+				                    <a class="pull-left" href="#">
+<%-- 				                        <img class="media-object" style="width: 50px;;" src="../../img/cover.jpg" alt="${book.description}"> --%>
+										<c:choose>
+                        					<c:when test="${book.bookCoverImgPath==''||book.bookCoverImgPath==null}">
+                            					<img class="media-object" style="width: 50px;;" src="/img/fm_big.gif" alt="${book.description}"/>
+					                        </c:when>
+					                        <c:otherwise>
+					                            <img class="media-object" style="width: 50px;;" src="${book.bookCoverImgPath}" alt="${book.description}"/>
+					                        </c:otherwise>
+                    					</c:choose>
+				                    </a>
+				                    <div class="media-body">
+				                        <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
+				                        <div class="media">
+									                            鲜花量：${book.userLikeAmount}
+				                        </div>
+				                    </div>
+				                </li>
+				            </c:forEach>
+				            </ul>
+                        <p><a href="/book/listBooksByUserLike.do">更多 &raquo;</a></p>
                     </div>
                 </div>
 

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Comment;
 import com.sjtu.onlinelibrary.service.*;
-import com.sjtu.onlinelibrary.service.impl.*;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.*;
@@ -29,6 +28,9 @@ public class BookController {
     public static final String BOOK_SEARCH_BOOK = "book/searchBook";
     public static final String BOOK_BOOKLIBRARY = "book/bookLibrary";
     public static final String BOOK_LISTBOOKSBYCLICK = "book/listBooksByClick";
+    public static final String BOOK_LISTBOOKSBYSELL = "book/listBooksBySell";
+    public static final String BOOK_LISTBOOKSBYLIKE = "book/listBooksByUserLike";
+    public static final String BOOK_LISTBOOKSBYFAVORITE = "book/listBooksByUserFavorite";
     public static final String PAGE_DATA = "pageData";
     private IBookService bookService;
     private IChapterService chapterService;
@@ -126,7 +128,7 @@ public class BookController {
     }
 
     /**
-     * 显示搜索图书的结�?
+     * 显示搜索图书的结果
      * @param bookType
      */
     @RequestMapping("/searchBook.do")
@@ -231,7 +233,7 @@ public class BookController {
      * 按照点击量得到图书排行榜
      */
     @RequestMapping("/listBooksByClick.do")
-    public ModelAndView list(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+    public ModelAndView listByClick(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
         try {
             int index = 0;
             if (!LangUtil.isNullOrEmpty(pageIndex)) {
@@ -244,5 +246,54 @@ public class BookController {
         }
     }
     
+    /**
+     * 按照购买量得到图书排行榜
+     */
+    @RequestMapping("/listBooksBySell.do")
+    public ModelAndView listBySell(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+        try {
+            int index = 0;
+            if (!LangUtil.isNullOrEmpty(pageIndex)) {
+                index = Integer.parseInt(pageIndex);
+            }
+            final Pager<BookEditModel> books = this.bookService.findAll(index,"-sellAmount");
+            return new ModelAndView(BOOK_LISTBOOKSBYSELL, PAGE_DATA, books);
+        } catch (DataAccessException e) {
+            return new ModelAndView("error");
+        }
+    }
     
+    /**
+     * 按照鲜花量得到图书排行榜
+     */
+    @RequestMapping("/listBooksByUserLike.do")
+    public ModelAndView listByUserLike(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+        try {
+            int index = 0;
+            if (!LangUtil.isNullOrEmpty(pageIndex)) {
+                index = Integer.parseInt(pageIndex);
+            }
+            final Pager<BookEditModel> books = this.bookService.findAll(index,"-userLikeAmount");
+            return new ModelAndView(BOOK_LISTBOOKSBYLIKE, PAGE_DATA, books);
+        } catch (DataAccessException e) {
+            return new ModelAndView("error");
+        }
+    }
+    
+    /**
+     * 按照收藏量得到图书排行榜
+     */
+    @RequestMapping("/listBooksByUserFavorite.do")
+    public ModelAndView listByUserFavorite(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
+        try {
+            int index = 0;
+            if (!LangUtil.isNullOrEmpty(pageIndex)) {
+                index = Integer.parseInt(pageIndex);
+            }
+            final Pager<BookEditModel> books = this.bookService.findAll(index,"-userFavoriteAmount");
+            return new ModelAndView(BOOK_LISTBOOKSBYFAVORITE, PAGE_DATA, books);
+        } catch (DataAccessException e) {
+            return new ModelAndView("error");
+        }
+    }
 }

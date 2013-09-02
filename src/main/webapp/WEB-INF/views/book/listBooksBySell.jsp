@@ -23,7 +23,7 @@
     <jsp:include page="../../../navigation.jsp"></jsp:include>
     <div class="row-fluid">
         <div class="row-fluid span11">
-        <h3>点击量排行榜</h3>
+        <h3>图书畅销排行榜</h3>
         </div>
         <div class="row-fluid span12">
         
@@ -43,7 +43,7 @@
                     <div class="media-body">
                         <h4 class="media-heading"><a href="../book/${book.id}.do">${book.name}</a></h4>
                         <div class="media">
-                        	点击量：${book.clickAmount}<p>
+                                                                                                  销售量：${book.sellAmount}<p>
 					                            作者：${book.author}<p>
 					                            书号：${book.bookNumber}<p>
 					                           出版社：${book.publisher}<p>

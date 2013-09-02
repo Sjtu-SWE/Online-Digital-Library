@@ -155,7 +155,7 @@ public class UserController {
     public ModelAndView login(HttpServletResponse response,
                               @RequestParam(value = "j_username", required = false) String username,
                               @RequestParam(value = "j_password", required = false) String password) throws Exception {
-        //在请求ogin.do时，执行该方法验证登�?
+        //在请求ogin.do时，执行该方法验证登录
         if (userService.checkLogin(username, password) != null) {
             return new ModelAndView("forward:/index.jsp", "user", userService.checkLogin(username, password));
         }
@@ -179,6 +179,12 @@ public class UserController {
         mm.put("classifications", classifications);
         final List<BookEditModel> books = this.bookService.findTop("-clickAmount");
         mm.put("books", books.subList(0, books.size()<5?books.size():5));//取点击量前五的图书在首页显示
+        final List<BookEditModel> books2 = this.bookService.findTop("-sellAmount");
+        mm.put("books2", books2.subList(0, books2.size()<5?books2.size():5));//取购买量前五的图书在首页显示
+        final List<BookEditModel> books3 = this.bookService.findTop("-userLikeAmount");
+        mm.put("books3", books3.subList(0, books3.size()<5?books3.size():5));//取鲜花前五的图书在首页显示
+        final List<BookEditModel> books4 = this.bookService.findTop("-userFavoriteAmount");
+        mm.put("books4", books4.subList(0, books4.size()<5?books4.size():5));//取收藏前五的图书在首页显示
         return new ModelAndView("forward:/index.jsp", mm);
     }
 
@@ -188,7 +194,7 @@ public class UserController {
     }
 
     /**
-     * 跳转到注册页�?
+     * 跳转到注册页面
      */
 
     @RequestMapping("/register.do")

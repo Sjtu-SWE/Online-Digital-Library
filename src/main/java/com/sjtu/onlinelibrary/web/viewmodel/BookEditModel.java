@@ -153,11 +153,33 @@ public class BookEditModel {
     public void setCategoryId(String categoryId) {
         innerBookEntity().setCategoryId(categoryId);
     }
+    
     public int getClickAmount() {
         return innerBookEntity().getClickAmount();
     }
 
     public void setClickAmount(int clickAmount) {
         innerBookEntity().setClickAmount(clickAmount);
+    }
+    public int getSellAmount() {
+        return innerBookEntity().getSellAmount();
+    }
+
+    public void setSellAmount(int sellAmount) {
+        innerBookEntity().setSellAmount(sellAmount);
+    }
+    public int getUserLikeAmount() {
+        return innerBookEntity().getUserLikeAmount();
+    }
+
+    public void setUserLikeAmount(int userLikeAmount) {
+        innerBookEntity().setUserLikeAmount(userLikeAmount);
+    }
+    public int getUserFavoriteAmount() {
+        return innerBookEntity().getUserFavoriteAmount();
+    }
+
+    public void setUserFavoriteAmount(int userFavoriteAmount) {
+        innerBookEntity().setUserFavoriteAmount(userFavoriteAmount);
     }
 }
