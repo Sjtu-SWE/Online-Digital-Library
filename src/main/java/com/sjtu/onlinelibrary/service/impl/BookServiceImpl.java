@@ -3,22 +3,18 @@ package com.sjtu.onlinelibrary.service.impl;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
 import com.sjtu.onlinelibrary.entity.Book;
-import com.sjtu.onlinelibrary.entity.User;
+import com.sjtu.onlinelibrary.entity.UserBook;
 import com.sjtu.onlinelibrary.service.AmountType;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBookService;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
-import com.sjtu.onlinelibrary.web.viewmodel.BookViewModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
-import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.sjtu.onlinelibrary.service.AmountType.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -171,4 +167,11 @@ public class BookServiceImpl extends BaseService implements IBookService {
         }
         return bookEditModelList;
 	}
+
+    @Override
+    public List<UserBook> findUserBook(final int userId, final boolean purchased) throws DataAccessException {
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("hasBuyed",purchased);
+        return mutableDataAccess.listByFilter(UserBook.class,map);
+    }
 }

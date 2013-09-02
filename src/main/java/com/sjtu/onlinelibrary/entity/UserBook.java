@@ -1,6 +1,7 @@
 package com.sjtu.onlinelibrary.entity;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Reference;
 import com.sjtu.onlinelibrary.BasePersistable;
 
 /**
@@ -12,7 +13,11 @@ import com.sjtu.onlinelibrary.BasePersistable;
 @Entity
 public class UserBook extends BasePersistable {
     private String userId;
+    @Reference
+    private User user;
     private String bookId;
+    @Reference
+    private Book book;
     private boolean hasBuyed;
     private String tags;
 
@@ -46,5 +51,21 @@ public class UserBook extends BasePersistable {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(final Book book) {
+        this.book = book;
     }
 }

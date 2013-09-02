@@ -34,7 +34,8 @@ public final class DataAccessMongoImpl implements MutableDataAccess {
     public DataAccessMongoImpl(final Mongo mongo, final String dbName, final String username, final String password) {
         final Morphia m = new Morphia();
         m.mapPackage(MutableDataAccess.class.getPackage().getName());
-        _ds = m.createDatastore(mongo, dbName, username, password == null ? null : password.toCharArray());
+        _ds=m.createDatastore(mongo,dbName);
+//        _ds = m.createDatastore(mongo, dbName, username, password == null ? null : password.toCharArray());
         _ds.ensureIndexes(); //creates all defined with @Indexed
         _ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
     }

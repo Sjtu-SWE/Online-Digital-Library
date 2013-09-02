@@ -55,7 +55,7 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
                 userBook.setHasBuyed(true);
                 mutableDataAccess.save(userBook);
                 mutableDataAccess.save(user);
-                book.setSellAmount(book.getSellAmount()+1);
+                book.setSellAmount(book.getSellAmount() + 1);
                 mutableDataAccess.save(book);
                 return new BusinessResult(BusinessResult.ResultStatus.OK, "购买成功，已经保存到书架上");
             }
@@ -94,10 +94,23 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
         userBook.setHasBuyed(false);
         userBook.setUserId(userId);
         userBook.setBookId(bookId);
+        userBook.setUser(mutableDataAccess.findById(User.class,userId));
+        userBook.setBook(mutableDataAccess.findById(Book.class,bookId));
         mutableDataAccess.save(userBook);
-        Book book=mutableDataAccess.findById(Book.class,bookId);
-        book.setUserFavoriteAmount(book.getUserFavoriteAmount()+1);
+        Book book = mutableDataAccess.findById(Book.class, bookId);
+        book.setUserFavoriteAmount(book.getUserFavoriteAmount() + 1);
         mutableDataAccess.save(book);
         return new BusinessResult(BusinessResult.ResultStatus.OK, "加入书架成功");
+    }
+
+    @Override
+    public BusinessResult generatePointCord(final int count, final int value) throws DataAccessException {
+        for (int i = 0; i < count; i++) {
+            PointCard pointCard = new PointCard();
+            pointCard.setCredits(value);
+            pointCard.setUsed(false);
+            mutableDataAccess.save(pointCard);
+        }
+        return new BusinessResult(BusinessResult.ResultStatus.OK, "信用值卡生成成功");
     }
 }

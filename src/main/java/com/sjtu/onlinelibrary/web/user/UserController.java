@@ -278,6 +278,9 @@ public class UserController {
 
     @RequestMapping("/user/myBookShelf")
     public ModelAndView myBookShelf() {
+        ModelMap map=new ModelMap();
+//        map.put("favoriteBooks",bookService.f);
+        map.put("PurchasedBooks",null);
         return new ModelAndView(USER_BOOK_SHELF);
     }
 

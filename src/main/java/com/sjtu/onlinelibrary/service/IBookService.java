@@ -1,12 +1,13 @@
 package com.sjtu.onlinelibrary.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Book;
+import com.sjtu.onlinelibrary.entity.UserBook;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,4 +45,6 @@ public interface IBookService {
      */
     Pager<BookEditModel> findAll(int pageIndex, String orderFields) throws DataAccessException;
     List<BookEditModel> findTop(String orderFields) throws DataAccessException;
+
+    List<UserBook> findUserBook(int userId,boolean purchased) throws DataAccessException;
 }
