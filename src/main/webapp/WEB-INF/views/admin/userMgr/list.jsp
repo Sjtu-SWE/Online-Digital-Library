@@ -76,7 +76,7 @@
                     </td>
                     <td>${user.createDate}</td>
                     <td><a class="btn btn-link" href="./${user.id}/edit.do">编辑</a>
-                        <a class="btn btn-link" id="btn-delete-user" href="/admin/user/${user.id}/delete.do">删除</a></td>
+                        <a class="btn btn-link" id="btn-delete-user" href="javascript:if(confirm('确定删除？')){window.location='/admin/user/${user.id}/delete.do';}">删除</a></td>
                 </tr>
             </c:forEach>
         </table>
