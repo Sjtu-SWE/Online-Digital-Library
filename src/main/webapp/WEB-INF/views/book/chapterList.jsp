@@ -36,15 +36,20 @@
 
             </div>
         </div>
-
-
-        <div class="row-fluid span12">
-
+        
+        <c:choose>
+            <c:when test="${purchased.resultStatus=='OK'}">
+            <div class="row-fluid span12">
             <ul class="nav nav-pills text-center">
                 <c:forEach items="${chapters}" var="chapter"><li class="chapter"><a href="./chapter/${chapter.id}.do">${chapter.title}</a></li>
                 </c:forEach>
             </ul>
-        </div>
+            </div>
+            </c:when>
+            <c:otherwise>
+                <jsp:include page="./purchaseAlert.jsp"></jsp:include>
+            </c:otherwise>
+        </c:choose>
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>

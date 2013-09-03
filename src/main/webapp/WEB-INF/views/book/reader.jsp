@@ -32,8 +32,9 @@
                 </h1>
             </div>
         </div>
-
-        <div id="chapter-content" style="width:960px;margin: auto auto;">${chapter.current.content}</div>
+        <c:choose>
+            <c:when test="${purchased.resultStatus=='OK'}">
+             <div id="chapter-content" style="width:960px;margin: auto auto;">${chapter.current.content}</div>
         <div class="text-center">
             <canvas id="canvas" width="960"></canvas>
 
@@ -46,6 +47,12 @@
                 <a class="pull-right" href="/book/${book.id}/chapter/${chapter.next.id}.do">下一章</a>
             </c:if>
         </div>
+            </c:when>
+            <c:otherwise>
+                <jsp:include page="./purchaseAlert.jsp"></jsp:include>
+            </c:otherwise>
+        </c:choose>
+       
     </div>
     <a id="scrollUp" title="回到顶部"></a>
     <jsp:include page="../common/foot.jsp"></jsp:include>

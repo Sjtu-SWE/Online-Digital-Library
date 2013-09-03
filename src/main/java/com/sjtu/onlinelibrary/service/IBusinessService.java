@@ -15,6 +15,14 @@ public interface IBusinessService {
     BusinessResult buy(String userId, String bookId) throws DataAccessException;
 
     /**
+     * 检验是否购买了书籍
+     * @param userId
+     * @param bookId
+     * @throws DataAccessException
+     */
+    BusinessResult hasPurchased(String userId, String bookId) throws DataAccessException;
+
+    /**
      * 给用户充值
      * @param userIdr
      * @param serialNumber 点卡序列号 (uuid)

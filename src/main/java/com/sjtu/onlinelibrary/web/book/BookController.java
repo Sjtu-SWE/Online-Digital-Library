@@ -1,9 +1,5 @@
 package com.sjtu.onlinelibrary.web.book;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Comment;
 import com.sjtu.onlinelibrary.entity.UserBook;
@@ -11,12 +7,14 @@ import com.sjtu.onlinelibrary.service.*;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.*;
-
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @RequestMapping("/book")
 public class BookController {
@@ -70,11 +68,19 @@ public class BookController {
         }
         BookViewModel bookViewModel = new BookViewModel();
         bookViewModel.setBook(this.bookService.findById(id).innerBookEntity());
-//        return bookViewModel;
         ModelMap map = new ModelMap();
         map.put("book", bookViewModel);
         map.put(PAGE_DATA, this.commentService.findAll(id, index));
         map.put("loginbtnClass", SpringSecurityUtils.isAuthenticated() ? "" : "unlogined");
+        BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, "");
+        if (bookViewModel.getBook().getPrice() > 0) {
+            if (SpringSecurityUtils.isAuthenticated()) {
+                result = this.businessService.hasPurchased(SpringSecurityUtils.getCurrentUser().getId(), id);
+            } else {
+                result = new BusinessResult(BusinessResult.ResultStatus.FAIL, "您还未登陆,请登录后阅读");
+            }
+        }
+        map.put("purchased", result);
         map.put("recommendBooks", this.bookService.findAll(index, "-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount").getList().subList(0, 5));
         return new ModelAndView(BOOK_BOOK_DETAIL, map);
     }
@@ -83,7 +89,21 @@ public class BookController {
     public ModelAndView read(@PathVariable("id") String id) throws DataAccessException {
         ModelMap map = getMap(id);
         map.put("chapters", this.chapterService.findAll(id));
+        checkPurchase(id, map);
         return new ModelAndView(BOOK_CHAPTER_LIST, map);
+    }
+
+    private void checkPurchase(final String id, final ModelMap map) throws DataAccessException {
+        BookEditModel bookViewModel = (BookEditModel) map.get("book");
+        BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, "");
+        if (bookViewModel.getPrice() > 0) {
+            if (SpringSecurityUtils.isAuthenticated()) {
+                result = this.businessService.hasPurchased(SpringSecurityUtils.getCurrentUser().getId(), id);
+            } else {
+                result = new BusinessResult(BusinessResult.ResultStatus.FAIL, "您还未登陆,请登录后阅读");
+            }
+        }
+        map.put("purchased", result);
     }
 
 
@@ -92,6 +112,7 @@ public class BookController {
         ModelMap map = getMap(bookId);
         ChapterReaderModel chapter = this.chapterService.findForReader(bookId, id);
         map.put("chapter", chapter);
+        checkPurchase(bookId,map);
         return new ModelAndView(BOOK_READER, map);
     }
 
@@ -342,10 +363,11 @@ public class BookController {
         return new BusinessResult(BusinessResult.ResultStatus.OK, "移除成功！");
     }
 
-    @RequestMapping(value = "/recharge.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/recharge.do", method = RequestMethod.POST)
     @ResponseBody
     public BusinessResult recharge(@RequestParam(required = true) String serialNumber) throws DataAccessException {
-        if(!SpringSecurityUtils.isAuthenticated()) return new BusinessResult(BusinessResult.ResultStatus.FAIL,"您还没有登陆，请登陆");
-        return businessService.recharge(SpringSecurityUtils.getCurrentUser().getId(),serialNumber);
+        if (!SpringSecurityUtils.isAuthenticated())
+            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "您还没有登陆，请登陆");
+        return businessService.recharge(SpringSecurityUtils.getCurrentUser().getId(), serialNumber);
     }
 }

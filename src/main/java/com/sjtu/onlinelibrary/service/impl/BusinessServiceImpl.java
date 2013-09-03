@@ -65,6 +65,16 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
     }
 
     @Override
+    public BusinessResult hasPurchased(final String userId, final String bookId) throws DataAccessException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userId", userId);
+        map.put("bookId", bookId);
+        List<UserBook> userBooks = mutableDataAccess.paging(UserBook.class, 1, 1, map);
+        if(userBooks.size()==0||!userBooks.get(0).isHasBuyed()) return new BusinessResult(BusinessResult.ResultStatus.FAIL,"您还未购买该书籍，不能阅读");
+        return new BusinessResult(BusinessResult.ResultStatus.OK,"");
+    }
+
+    @Override
     public BusinessResult recharge(String userId, String serialNumber) throws DataAccessException {
         PointCard pointCard = mutableDataAccess.findById(PointCard.class, serialNumber);
         if (pointCard == null) {
