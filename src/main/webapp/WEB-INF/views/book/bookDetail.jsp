@@ -158,8 +158,8 @@
                         </div>
                         <div class="row-fluid">
                             <div class="controls-row">
-                                鲜花数：<span class="label label-success" id="likeAmount">+ ${book.book.userLikeAmount}</span>
-                                鸡蛋数：<span class="label label-warning" id="unlikeAmount">+ ${book.book.userUnlikeAmount}</span>
+                                鲜花数：<span class="label label-success" id="likeAmount">${book.book.userLikeAmount}</span>
+                                鸡蛋数：<span class="label label-warning" id="unlikeAmount">${book.book.userUnlikeAmount}</span>
                             </div>
                         </div>
                     </div>
