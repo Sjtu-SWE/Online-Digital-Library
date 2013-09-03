@@ -24,6 +24,10 @@
     <ul id="tags-menu" class="nav nav-list collapse">
         <li><a href="/admin/classification/list.do">分类列表</a></li>
         <li><a href="/admin/classification/create.do">新建分类</a></li>
-
+    </ul>
+    
+    <a href="#statistics-menu" class="nav-header" data-toggle="collapse"><i class="icon-list-alt"></i>数据统计</a>
+    <ul id="statistics-menu" class="nav nav-list collapse">
+        <li><a href="/admin/statistics/book.do">书籍信息统计</a></li>
     </ul>
 </div>

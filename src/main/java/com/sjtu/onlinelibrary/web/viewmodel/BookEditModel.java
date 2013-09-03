@@ -175,6 +175,14 @@ public class BookEditModel {
     public void setUserLikeAmount(int userLikeAmount) {
         innerBookEntity().setUserLikeAmount(userLikeAmount);
     }
+    public int getUserUnlikeAmount() {
+        return innerBookEntity().getUserUnlikeAmount();
+    }
+
+    public void setUserUnlikeAmount(int userUnLikeAmount) {
+        innerBookEntity().setUserUnlikeAmount(userUnLikeAmount);
+    }
+    
     public int getUserFavoriteAmount() {
         return innerBookEntity().getUserFavoriteAmount();
     }

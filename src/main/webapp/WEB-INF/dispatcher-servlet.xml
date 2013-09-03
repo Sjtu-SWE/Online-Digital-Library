@@ -85,4 +85,8 @@
         <property name="businessService"> <ref local="businessService"></ref></property>
         <property name="activityStreamService"> <ref local="activityStreamService"></ref></property>
     </bean>
+    <bean name="StatisticsController" class="com.sjtu.onlinelibrary.web.admin.StatisticsController" >
+        <property name="bookService"> <ref local="bookService"></ref></property>
+    </bean>
+    
 </beans>
