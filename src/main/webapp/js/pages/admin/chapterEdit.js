@@ -6,6 +6,6 @@ $(function () {
         allowFileManager: false,
         uploadJson: '/kindeditor/fileUpload.do',
         fileManagerJson: '/kindeditor/fileManager.do',
-        items: ['source', 'preview', 'plainpaste', 'image', 'multiimage',]
+        items: ['source', 'preview','fullscreen', 'plainpaste', 'image', 'multiimage',]
     });
 })
