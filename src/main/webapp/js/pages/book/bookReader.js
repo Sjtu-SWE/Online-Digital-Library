@@ -29,7 +29,7 @@ $(function () {
         ignoreLeftClick();
         return;
     }
-    canvas.height = height + (height / 560) *30 ;
+    canvas.height = height + (height / 560) *50 ;
     console.log("canvas height:" + canvas.height);
     var data = "<svg xmlns='http://www.w3.org/2000/svg' width='" + canvas.width + "' height='" + canvas.height + "'>" +
         "<foreignObject width='100%' height='100%'>" +
