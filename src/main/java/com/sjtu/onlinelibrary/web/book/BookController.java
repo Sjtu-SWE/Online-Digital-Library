@@ -136,9 +136,12 @@ public class BookController {
             index = Integer.parseInt(pageIndex);
         }
         String bookType = classificationService.findById(bookId).getClassificationName();
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("category", bookType);
         final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookId);
-        request.setAttribute("category", bookType);
-        return new ModelAndView(BOOK_LIST_BYTYPE, PAGE_DATA, books);
+        map.put(PAGE_DATA, books);
+        map.put("classifications", this.classificationService.findAll());
+        return new ModelAndView(BOOK_LIST_BYTYPE, map);
     }
 
     @RequestMapping(value = "/{bookId}/comment/add.do", method = RequestMethod.POST)
@@ -239,7 +242,10 @@ public class BookController {
         }
         final Pager<BookEditModel> books = this.bookService.findAll(index);
 //    	 request.setAttribute("", );
-        return new ModelAndView(BOOK_BOOKLIBRARY, PAGE_DATA, books);
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put(PAGE_DATA, books);
+        map.put("classifications", this.classificationService.findAll());
+        return new ModelAndView(BOOK_BOOKLIBRARY, map);
     }
 
     @RequestMapping(value = "/{bookId}/addToBookshelf.do", method = RequestMethod.POST)
