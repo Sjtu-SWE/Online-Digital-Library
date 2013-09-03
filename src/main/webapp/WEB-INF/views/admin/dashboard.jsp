@@ -37,7 +37,6 @@
         <h1 class="page-title">Dashboard</h1>
     </div>
     <ul class="breadcrumb">
-        <li><a href="index.html">Home</a> <span class="divider">/</span></li>
         <li class="active">Dashboard</li>
     </ul>
 
