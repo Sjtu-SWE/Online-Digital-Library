@@ -2,6 +2,7 @@ package com.sjtu.onlinelibrary.web.user;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.common.Constants;
+import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.mail.MailSenderInfo;
@@ -113,25 +114,29 @@ public class UserController {
             return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
         }
         ModelMap mm = new ModelMap();
-        String username = userEditModel.getUsername();
-        User temp = userService.findByName(username);
-        if (userEditModel.getEditType().equals("创建用户")) {
-            //判断用户名是否已存在
-            if (temp != null) {
-                mm.put("message", "保存用户失败,此用户名已存在");
-                mm.put("url", "/admin/user/create.do");
-                return new ModelAndView("forward:/success.jsp", mm);
-            }
+//        String username = userEditModel.getUsername();
+//        User temp = userService.findByName(username);
+
+        UserEditModel user = this.userService.findById(userEditModel.getId());
+        if (user.innerUserEntity() == null) {
+            user = new UserEditModel("", new User());
         }
-        temp.setUsername(userEditModel.getUsername());
-        temp.setRealName(userEditModel.getRealName());
-        temp.setPassword(userEditModel.getPassword());
-        temp.setEmail(userEditModel.getEmail());
-        temp.setPhone(userEditModel.getPhone());
-        temp.setRoleName(userEditModel.getRoleName());
-        temp.setCredits(userEditModel.getCredits());
-        temp.setNote(userEditModel.getNote());
-        userService.save(temp);
+      //判断用户名是否已存在
+        User temp = userService.findByName(userEditModel.getUsername());
+        if (temp != null && !user.getUsername().equals(userEditModel.getUsername())) {
+            mm.put("message", "保存用户失败,此用户名已存在");
+            mm.put("url", "/admin/user/create.do");
+            return new ModelAndView("forward:/success.jsp", mm);
+        }
+        user.setUsername(userEditModel.getUsername());
+        user.setRealName(userEditModel.getRealName());
+        user.setPassword(userEditModel.getPassword());
+        user.setEmail(userEditModel.getEmail());
+        user.setPhone(userEditModel.getPhone());
+        user.setRoleName(userEditModel.getRoleName());
+        user.setCredits(userEditModel.getCredits());
+        user.setNote(userEditModel.getNote());
+        userService.save(user.innerUserEntity());
 
         mm.put("message", "保存用户成功");
         mm.put("url", "/admin/user/list.do");

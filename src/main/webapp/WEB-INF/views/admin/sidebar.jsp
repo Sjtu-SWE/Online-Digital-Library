@@ -29,5 +29,6 @@
     <a href="#statistics-menu" class="nav-header" data-toggle="collapse"><i class="icon-list-alt"></i>数据统计</a>
     <ul id="statistics-menu" class="nav nav-list collapse">
         <li><a href="/admin/statistics/book.do">书籍信息统计</a></li>
+        <li><a href="/admin/statistics/user.do">用户信息统计</a></li>
     </ul>
 </div>
