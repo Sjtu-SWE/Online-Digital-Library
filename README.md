@@ -1,9 +1,8 @@
 Online-Digital-Library
 ======================
 
-### How to open the prototype
+### 发布地址
 
-we used the prototyoe tool [Axure RP](http://www.axure.com/) and you can download [here](http://www.axure.com/download)
-* install the Axure RP 6.5
-* open prototype.rp by Axure RP 6.5
-* Press F5 then you can see the prototype thru the browser. 
+[http://ec2-46-137-198-225.ap-southeast-1.compute.amazonaws.com:8080/](http://ec2-46-137-198-225.ap-southeast-1.compute.amazonaws.com:8080/)
+
+
