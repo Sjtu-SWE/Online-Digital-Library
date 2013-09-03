@@ -307,7 +307,7 @@ public class UserController {
     @RequestMapping(value = "/forgetPassword.do", method = RequestMethod.POST)
     public ModelAndView forgetPassword(@RequestParam(value = "email", required = false) String email) throws DataAccessException{
     	ModelMap mm = new ModelMap();
-    	String newPassword = GeneratePassword();
+    	String newPassword = generatePassword();
     	
     	//判断是否有用户是此邮箱
     	List<User> users = userService.findByEmail(email);
@@ -351,18 +351,19 @@ public class UserController {
     /**
      * 生成随机密码
      */
-    public String GeneratePassword(){
+    public String generatePassword(){
+    	String s="abcdefghijklmnopqrstuvwxyz";
+    	String s2="abcdefghijklmnopqrstuvwxyz0123456789";
+    	char [] pw = new char[8];
+    	
     	Random rd=new Random();
     	int m=rd.nextInt(24);//生成0-23的随机数
-    	int m2=rd.nextInt(34);//生成0-33的随机数
-    	String s="abcdeghijklmnopqrstuvwxyz";
-    	String s2="abcdeghijklmnopqrstuvwxyz0123456789";
-    	char [] pw = new char[8];
     	pw[0] = s.charAt(m);
     	for(int i = 1; i < 8; i++){
+    		int m2=rd.nextInt(34);//生成0-33的随机数
     		pw[i] =  s2.charAt(m2);
     	}
     	return new String(pw);
     }
-    
+ 
 }
