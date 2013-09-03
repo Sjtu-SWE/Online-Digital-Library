@@ -30,9 +30,10 @@
                 <li><a href="/book/bookLibrary.do">书库</a></li>
             </ul>
         </div>
-        <div class="row-fluid span12">
+        <div class="row-fluid span11 block">
+                <p class="block-heading">查询结果：</p>
 <c:if test="${!empty pageData.getList() }">
-			<ul class="media-list">
+			<ul class="block-body media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
                     <a class="pull-left" href="/book/${book.id}/read.do">

@@ -19,13 +19,11 @@
 <body>
 <div class="container">
     <jsp:include page="../../../navigation.jsp"></jsp:include>
-    <div class="row-fluid">
-        <div class="row-fluid span11">
-        <h3>图书畅销排行榜</h3>
-        </div>
-        <div class="row-fluid span12">
-        
-			<ul class="media-list">
+      <div class="row-fluid">
+                 <jsp:include page="./listSidebar.jsp"></jsp:include>
+          <div class="row-fluid span8 block">
+        <p class="block-heading" >图书畅销排行榜</p>
+            <ul class="block-body media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
                     <a class="pull-left" href="/book/${book.id}/read.do">
@@ -53,8 +51,7 @@
             </ul>
         <jsp:include page="../admin/pagination.jsp"></jsp:include>
         </div>
-        
-    </div>
+        </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>
 <!-- /container -->

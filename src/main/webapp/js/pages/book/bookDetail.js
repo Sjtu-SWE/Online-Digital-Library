@@ -52,23 +52,28 @@ $(function () {
         }, 5000);
         submit.parent().append(alert.append($("<span>").text(message)));
     };
-    $("#btn-comment-submit").click(function () {
+    $("#btn-comment-submit").click(function (e) {
         var $content = $("#comment-content"), $this = $(this);
         if ($content.val().length == 0) {
             commentAlert($this, "评论不能为空")
+            e.pre
             return;
         }
         else if ($content.val().length < 10) {
             commentAlert($this, "评论字数不能少于10字");
             return;
         }
+        $this.addClass("disabled").attr("disabled","disabled");
         var request = "content=" + $content.val();
         $.post("/book/" + $("#bookId").val() + "/comment/add.do", request, function (data) {
             if (data != "ok") {
                 commentAlert($this, "添加评论失败，请重试");
+                $this.removeClass("disabled").removeAttr("disabled","");
+
             } else {
                 commentAlert($this, "添加评论成功", "success");
                 setTimeout(function () {
+                    $this.removeClass("disabled").removeAttr("disabled","");
                     location = location;
                 }, 3000);
             }

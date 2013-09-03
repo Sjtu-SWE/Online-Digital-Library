@@ -47,7 +47,7 @@ function modelAlert(heading, question, okButtonTxt, callback) {
             '</div>' +
 
             '<div class="modal-footer">' +
-            '<a href="#" id="okButton" class="btn btn-primary">' +
+            '<a href="javascript:void(0)" id="okButton" class="btn btn-primary">' +
             okButtonTxt +
             '</a>' +
             '</div>' +
@@ -58,6 +58,7 @@ function modelAlert(heading, question, okButtonTxt, callback) {
             callback();
         }
         alertModel.modal('hide');
+        event.preventDefault();
     });
     alertModel.modal('show');
 }

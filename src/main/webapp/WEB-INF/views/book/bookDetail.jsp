@@ -91,12 +91,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row-fluid">
-                    <div class="popover-title">
-                        <span style="padding: 5px 5px;"> 评论区 (共${pageData.totalCount} 条评论) </span><i
-                            class="icon-comment"></i>
-                    </div>
-                    <div class="row-fluid">
+                <div class="row-fluid block">
+                    <p class="block-heading">评论区 (共${pageData.totalCount} 条评论) <i class="icon-comment"></i></p>
+                    <div class="block-body">
                         <ul class="comment-list">
                             <c:forEach items="${pageData.getList()}" var="comment">
                                 <li class="comment-body comment-odd">
@@ -110,14 +107,11 @@
                                 </li>
                             </c:forEach>
                         </ul>
-                        <jsp:include page="../admin/pagination.jsp"></jsp:include>
+                        <c:if test="${pageData.totalPage>1}">
+                            <jsp:include page="../admin/pagination.jsp"></jsp:include>
+                        </c:if>
                     </div>
-                </div>
-
-                <div class="row-fluid" style="height: 15px;">
-                </div>
-                <div class="row-fluid">
-                    <div class="form-horizontal">
+                     <div class="form-horizontal">
                         <div class="control-group">
                             <span class="control-label">请输入内容：</span>
 
@@ -130,18 +124,17 @@
                     </div>
                 </div>
             </div>
-            <div class="span4  right-panle">
-                <div class="row-fluid">
-                    <div class="row-fluid">
-                        <div class="popover-title well-small"><i class="icon-hand-right"></i> 评价</div>
-                    </div>
+            <div class="span4 right-panle">
+                <div class="block">
+                    <p class="block-heading"><i class="icon-hand-right"></i> 评价</p>
+                    <div class="block-body">
                     <div class="row-fluid">
                         <div class="span10 btn-group span12 text-center">
-                            <button class="btn ${loginbtnClass}" id="btn-like"
+                            <button class="btn btn-success ${loginbtnClass}" id="btn-like"
                                     data-like-amount="${book.book.userLikeAmount}"><i
                                     class="icon-thumbs-up"></i> 送鲜花
                             </button>
-                            <button class="btn ${loginbtnClass}" id="btn-unlike"
+                            <button class="btn btn-warning ${loginbtnClass}" id="btn-unlike"
                                     data-like-amount="${book.book.userUnlikeAmount}"><i
                                     class="icon-thumbs-down"></i> 砸鸡蛋
                             </button>
@@ -160,21 +153,20 @@
                                 <span>鲜花率 ${book.getLikeRate()} %</span>
                             </div>
                             <div class="bar bar-warning" id="bar-unlike" style="width:${book.getUnlikeRate()}%;">
-                                <span>鸡蛋率 ${book.getUnlikeRate()}%</span>
+                                <span >鸡蛋率 ${book.getUnlikeRate()}%</span>
                             </div>
                         </div>
                         <div class="row-fluid">
                             <div class="controls-row">
-                                鲜花数：<span id="likeAmount">${book.book.userLikeAmount}</span>
-                                鸡蛋数：<span id="unlikeAmount">${book.book.userUnlikeAmount}</span>
+                                鲜花数：<span class="label label-success" id="likeAmount">+ ${book.book.userLikeAmount}</span>
+                                鸡蛋数：<span class="label label-warning" id="unlikeAmount">+ ${book.book.userUnlikeAmount}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid">
-                        <div class="row-fluid">
-                            <div class="popover-title well-small"><i class="icon-book"></i> 推荐图书<a class="pull-right" href="/book/listBooksByRecommend.do"> << 更多 </a></div>
-                        </div>
-                        <ul class="media-list">
+                    </div>
+                    <div class="block">
+                        <p class="block-heading"><i class="icon-book"></i> 推荐图书<a class="pull-right btn btn-small btn-link" href="/book/listBooksByRecommend.do"> 更多&raquo; </a></p>
+                        <ul class="block-body media-list">
                             <c:forEach items="${recommendBooks}" var="recommendBook">
                                 <li class="media">
                                     <a class="pull-left" href="/book/${recommendBook.id}.do">

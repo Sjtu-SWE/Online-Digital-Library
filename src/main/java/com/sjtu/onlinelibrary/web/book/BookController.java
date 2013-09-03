@@ -81,7 +81,7 @@ public class BookController {
             }
         }
         map.put("purchased", result);
-        map.put("recommendBooks", this.bookService.findAll(index, "-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount").getList().subList(0, 5));
+        map.put("recommendBooks", this.bookService.findAll(0, "-sellAmount,-userFavoriteAmount,-clickAmount,-userLikeAmount").getList().subList(0, 5));
         return new ModelAndView(BOOK_BOOK_DETAIL, map);
     }
 

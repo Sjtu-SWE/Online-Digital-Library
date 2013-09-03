@@ -19,26 +19,49 @@
 <body>
 <div class="container">
     <jsp:include page="../../../navigation.jsp"></jsp:include>
-    <div class="row-fluid">
-      <h3>高级搜索</h3>
-		
-        <div class="row-fluid span11">
-        <form class="navbar-form">
-    		<span>书名</span><input type="text" class="span2" name="name" value="${name}">
-    		<span>书号</span><input type="text" class="span2" name="bookNumber" value="${bookNumber}">
-    		<span>作者</span><input type="text" class="span2" name="author" value="${author}"><p>
-    		<span>出版社</span><input type="text" class="span2" name="publisher" value="${publisher}">
-    		<span>关键词</span><input type="text" class="span2" name="keywords" value="${keywords}">
-            <button type="submit" class="btn" formaction="/book/searchBooks.do" >搜索</button>
-        </form>
-<!--             <ul class="breadcrumb "> -->
-<!--                 <li><a href="/">首页</a> <span class="divider">/</span></li> -->
-<!--                 <li><a href="/">书库</a></li> -->
-<!--             </ul> -->
+    <div class="block">
+        <p class="block-heading">高级搜索</p>
+        <div class="block-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="name">书名：</label>
+                <div class="controls">
+                    <input type="text" class="input-large" name="name" value="${name}">
+                </div>
+            </div>
+            <div class="control-group">
+            <label class="control-label" for="bookNumber">书号：</label>
+            <div class="controls">
+               <input type="text" class="input-large" name="bookNumber" value="${bookNumber}">
+            </div>
+            </div>
+    		<div class="control-group">
+                <label class="control-label" for="author">作者：</label>
+                <div class="controls">
+                   <input type="text" class="input-large" name="author" value="${author}">
+                </div>
+            </div>
+    		<div class="control-group">
+                <label class="control-label" for="publisher">出版社：</label>
+                <div class="controls">
+                   <input type="text" class="input-large" name="publisher" value="${publisher}">
+                </div>
+            </div>
+            <div class="control-group">
+            <label class="control-label" for="keywords">关键词：</label>
+            <div class="controls">
+               <input type="text" class="input-large" name="keywords" value="${keywords}">
+            </div>
         </div>
-        <div class="row-fluid span12">
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" formaction="/book/searchBooks.do" >搜索</button>
+         </div>
+        </form>
+        </div>
 		  <c:if test="${!empty pageData.getList() }">
-			<ul class="media-list">
+		   <div class="block">
+                  <p class="block-heading">搜索结果</p>
+			<ul class="block-body media-list">
             <c:forEach items="${pageData.getList()}" var="book">
             	<li class="media">
                     <a class="pull-left" href="/book/${book.id}/read.do">
@@ -63,10 +86,9 @@
                 </li>
             </c:forEach>
             </ul>
-        <jsp:include page="../admin/pagination.jsp"></jsp:include>
+            <jsp:include page="../admin/pagination.jsp"></jsp:include>
+          </div>
        </c:if>
-        </div>
-        
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>
