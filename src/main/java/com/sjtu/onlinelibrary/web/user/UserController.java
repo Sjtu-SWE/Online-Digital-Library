@@ -8,6 +8,7 @@ import com.sjtu.onlinelibrary.mail.MailSenderInfo;
 import com.sjtu.onlinelibrary.mail.SimpleMailSender;
 import com.sjtu.onlinelibrary.service.IClassificationService;
 import com.sjtu.onlinelibrary.service.IUserService;
+import com.sjtu.onlinelibrary.service.impl.ActivityStreamServiceImpl;
 import com.sjtu.onlinelibrary.service.impl.BookServiceImpl;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
@@ -44,6 +45,7 @@ public class UserController {
     private IUserService userService;
     private BookServiceImpl bookService;
     private IClassificationService classificationService;
+    private ActivityStreamServiceImpl activityStreamService;
 
     public IUserService getUserService() {
         return userService;
@@ -269,6 +271,8 @@ public class UserController {
             final User user = userService.findByName(username);
             final Map<String, Object> map = getMapForEdit();
             map.put("user", new UserEditModel("编辑用户", user));
+            map.put("rechargeRecodes",this.activityStreamService.listRechargeRecords(SpringSecurityUtils.getCurrentUser().getId(),1));
+            map.put("purchaseRecodes",this.activityStreamService.listPurchaseRecords(SpringSecurityUtils.getCurrentUser().getId(),1));
             return new ModelAndView(USER_PERSONAL, map);
         } catch (DataAccessException ex) {
             return new ModelAndView("error");
@@ -365,5 +369,8 @@ public class UserController {
     	}
     	return new String(pw);
     }
- 
+
+    public void setActivityStreamService(ActivityStreamServiceImpl activityStreamService) {
+        this.activityStreamService = activityStreamService;
+    }
 }

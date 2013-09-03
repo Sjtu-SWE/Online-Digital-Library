@@ -37,8 +37,8 @@
                             <thead>
                             <tr>
                                 <th class="span2"></th>
-                                <th class="span2">书名</th>
-                                <th class="span2">作者</th>
+                                <th class="span3">书名</th>
+                                <th class="span4">作者</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -60,8 +60,8 @@
                             <thead>
                             <tr>
                                 <th class="span2"></th>
-                                <th class="span2">书名</th>
-                                <th class="span2">作者</th>
+                                <th class="span3">书名</th>
+                                <th class="span4">作者</th>
                                 <th></th>
                             </tr>
                             </thead>

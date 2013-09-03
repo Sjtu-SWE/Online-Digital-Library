@@ -27,7 +27,7 @@
                 <li class="active">${category}</li>
             </ul>
         </div>
-        <div class"row-fluid">
+        <div class="row-fluid">
         <jsp:include page="./categoryList.jsp"></jsp:include>
         <div class="row-fluid span8 block">
             <p class="block-heading" >${category}</p>
@@ -59,7 +59,7 @@
             </ul>
         </div>
         <jsp:include page="../admin/pagination.jsp"></jsp:include>
-    </div>
+        </div>
     </div>
     <jsp:include page="../common/foot.jsp"></jsp:include>
 </div>

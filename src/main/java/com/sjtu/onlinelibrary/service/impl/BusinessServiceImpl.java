@@ -2,10 +2,7 @@ package com.sjtu.onlinelibrary.service.impl;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
-import com.sjtu.onlinelibrary.entity.Book;
-import com.sjtu.onlinelibrary.entity.PointCard;
-import com.sjtu.onlinelibrary.entity.User;
-import com.sjtu.onlinelibrary.entity.UserBook;
+import com.sjtu.onlinelibrary.entity.*;
 import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IBusinessService;
 import com.sjtu.onlinelibrary.web.viewmodel.BusinessResult;
@@ -45,6 +42,7 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
 
         userBook.setBookId(bookId);
         userBook.setUserId(userId);
+
         if (book.getPrice() <= 0) {
             userBook.setHasBuyed(userBook.isHasBuyed());
             mutableDataAccess.save(userBook);
@@ -55,10 +53,12 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
             } else {
                 user.setCredits(user.getCredits() - book.getPrice());
                 userBook.setHasBuyed(true);
-                mutableDataAccess.save(userBook);
+                userBook.setUser(user);
+                userBook.setBook(book);
                 mutableDataAccess.save(user);
                 book.setSellAmount(book.getSellAmount() + 1);
                 mutableDataAccess.save(book);
+                mutableDataAccess.save(userBook);
                 return new BusinessResult(BusinessResult.ResultStatus.OK, "购买成功，已经保存到书架上");
             }
         }
@@ -89,6 +89,7 @@ public class BusinessServiceImpl extends BaseService implements IBusinessService
         pointCard.setUsed(true);
         mutableDataAccess.save(user);
         mutableDataAccess.save(pointCard);
+        //
         BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, String.format("充值成功，您成功的在账号里充值<small>%s</small>信用值",pointCard.getCredits()));
         return result;
     }

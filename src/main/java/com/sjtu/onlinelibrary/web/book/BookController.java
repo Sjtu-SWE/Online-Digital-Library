@@ -4,6 +4,7 @@ import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.entity.Comment;
 import com.sjtu.onlinelibrary.entity.UserBook;
 import com.sjtu.onlinelibrary.service.*;
+import com.sjtu.onlinelibrary.service.impl.UserServiceImpl;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.util.SpringSecurityUtils;
 import com.sjtu.onlinelibrary.web.viewmodel.*;
@@ -38,6 +39,7 @@ public class BookController {
     private IChapterService chapterService;
     private ICommentServcie commentService;
     private IClassificationService classificationService;
+    private IActivityStreamService activityStreamService;
     private IBusinessService businessService;
 
     public void setBookService(IBookService bookService) {
@@ -58,6 +60,10 @@ public class BookController {
 
     public void setBusinessService(IBusinessService businessService) {
         this.businessService = businessService;
+    }
+
+    public void setActivityStreamService(IActivityStreamService activityStreamService) {
+        this.activityStreamService = activityStreamService;
     }
 
     @RequestMapping("/{id}.do")
@@ -93,6 +99,7 @@ public class BookController {
         return new ModelAndView(BOOK_CHAPTER_LIST, map);
     }
 
+
     private void checkPurchase(final String id, final ModelMap map) throws DataAccessException {
         BookEditModel bookViewModel = (BookEditModel) map.get("book");
         BusinessResult result = new BusinessResult(BusinessResult.ResultStatus.OK, "");
@@ -106,13 +113,12 @@ public class BookController {
         map.put("purchased", result);
     }
 
-
     @RequestMapping("/{bookId}/chapter/{id}.do")
     public ModelAndView chapter(@PathVariable("bookId") String bookId, @PathVariable("id") String id) throws DataAccessException {
         ModelMap map = getMap(bookId);
         ChapterReaderModel chapter = this.chapterService.findForReader(bookId, id);
         map.put("chapter", chapter);
-        checkPurchase(bookId,map);
+        checkPurchase(bookId, map);
         return new ModelAndView(BOOK_READER, map);
     }
 
@@ -136,7 +142,7 @@ public class BookController {
             index = Integer.parseInt(pageIndex);
         }
         String bookType = classificationService.findById(bookId).getClassificationName();
-        Map<String,Object> map=new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("category", bookType);
         final Pager<BookEditModel> books = this.bookService.findBooksByType(index, bookId);
         map.put(PAGE_DATA, books);
@@ -242,7 +248,7 @@ public class BookController {
         }
         final Pager<BookEditModel> books = this.bookService.findAll(index);
 //    	 request.setAttribute("", );
-        Map<String,Object> map=new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(PAGE_DATA, books);
         map.put("classifications", this.classificationService.findAll());
         return new ModelAndView(BOOK_BOOKLIBRARY, map);
@@ -257,7 +263,13 @@ public class BookController {
     @RequestMapping(value = "/{bookId}/buy.do", method = RequestMethod.POST)
     @ResponseBody
     public BusinessResult buy(@PathVariable("bookId") String bookId) throws DataAccessException {
-        return this.businessService.buy(SpringSecurityUtils.getCurrentUser().getId(), bookId);
+        if (!SpringSecurityUtils.isAuthenticated())
+            return new BusinessResult(BusinessResult.ResultStatus.FAIL, "您还未登陆，请登陆后购买");
+        BusinessResult result = this.businessService.buy(SpringSecurityUtils.getCurrentUser().getId(), bookId);
+        if (result.getResultStatus() == BusinessResult.ResultStatus.OK) {
+            this.activityStreamService.addPurchaseActivity(SpringSecurityUtils.getCurrentUser().getId(), bookId);
+        }
+        return result;
     }
 
     public ModelMap getMap(String bookId) throws DataAccessException {
@@ -317,6 +329,7 @@ public class BookController {
         }
     }
 
+
     /**
      * 按照收藏量得到图书排行榜
      */
@@ -352,7 +365,6 @@ public class BookController {
         }
     }
 
-
     @RequestMapping("/myBookShelf.do")
     public ModelAndView myBookShelf() throws DataAccessException {
         ModelMap map = new ModelMap();
@@ -374,6 +386,11 @@ public class BookController {
     public BusinessResult recharge(@RequestParam(required = true) String serialNumber) throws DataAccessException {
         if (!SpringSecurityUtils.isAuthenticated())
             return new BusinessResult(BusinessResult.ResultStatus.FAIL, "您还没有登陆，请登陆");
-        return businessService.recharge(SpringSecurityUtils.getCurrentUser().getId(), serialNumber);
+        BusinessResult result= businessService.recharge(SpringSecurityUtils.getCurrentUser().getId(), serialNumber);
+        if(result.getResultStatus()== BusinessResult.ResultStatus.OK){
+            this.activityStreamService.addRechargeActivity(SpringSecurityUtils.getCurrentUser().getId(),serialNumber);
+        }
+        return result;
     }
+
 }

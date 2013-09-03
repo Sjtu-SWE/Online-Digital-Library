@@ -38,6 +38,7 @@
         <property name="userService"> <ref local="userService"></ref></property>
         <property name="bookService"> <ref local="bookService"></ref></property>
         <property name="classificationService"> <ref local="classificationService"></ref></property>
+        <property name="activityStreamService"> <ref local="activityStreamService"></ref></property>
     </bean>
     <bean name="ChapterMgrController" class="com.sjtu.onlinelibrary.web.admin.ChapterMgrController">
         <property name="chapterService"> <ref local="chapterService"></ref> </property>
@@ -66,6 +67,9 @@
     <bean id="businessService" class="com.sjtu.onlinelibrary.service.impl.BusinessServiceImpl">
         <constructor-arg ref="mutableDataAccess"></constructor-arg>
     </bean>
+    <bean id="activityStreamService" class="com.sjtu.onlinelibrary.service.impl.ActivityStreamServiceImpl">
+        <constructor-arg ref="mutableDataAccess"></constructor-arg>
+    </bean>
     <bean name="ClassificationController" class="com.sjtu.onlinelibrary.web.admin.ClassificationController" >
         <property name="classificationService"> <ref local="classificationService"></ref></property>
         <property name="bookService"> <ref local="bookService"></ref></property>
@@ -79,5 +83,6 @@
         <property name="chapterService"> <ref local="chapterService"></ref> </property>
         <property name="classificationService"> <ref local="classificationService"></ref></property>
         <property name="businessService"> <ref local="businessService"></ref></property>
+        <property name="activityStreamService"> <ref local="activityStreamService"></ref></property>
     </bean>
 </beans>
