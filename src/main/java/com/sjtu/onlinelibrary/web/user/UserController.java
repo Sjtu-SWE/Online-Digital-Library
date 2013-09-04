@@ -114,12 +114,14 @@ public class UserController {
             return new ModelAndView(ADMIN_USER_MGR_EDIT, map);
         }
         ModelMap mm = new ModelMap();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 //        String username = userEditModel.getUsername();
 //        User temp = userService.findByName(username);
 
         UserEditModel user = this.userService.findById(userEditModel.getId());
-        if (user.innerUserEntity() == null) {
+        if (user.innerUserEntity() == null) {//创建用户
             user = new UserEditModel("", new User());
+            user.innerUserEntity().setCreateDate(new Date());//保存创建时间
         }
       //判断用户名是否已存在
         User temp = userService.findByName(userEditModel.getUsername());
