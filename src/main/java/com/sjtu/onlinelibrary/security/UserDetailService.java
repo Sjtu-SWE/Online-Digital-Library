@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.service.IUserService;
-import com.sjtu.onlinelibrary.util.LangUtil;
 
 public class UserDetailService  implements UserDetailsService {
 
@@ -30,18 +29,19 @@ public class UserDetailService  implements UserDetailsService {
     	 String name= "";
     	 String password = "";
     	 String roleName = "";
-    	 try {
-				if(userService.findByName(arg0) != null){
-					User temp = userService.findByName(arg0);
-					name = temp.getUsername();//从数据库中取出
-			    	password = temp.getPassword();//数据库中保存的用户密码
-			    	roleName = temp.getRoleName();
-				}else {
-					throw new UsernameNotFoundException("User: " + arg0 + ", has no GrantedAuthority"); 
-				}
-    	 } catch (Exception e) {
- 			e.printStackTrace();
- 		}
+    	 User temp=null;
+		try {
+			temp = userService.findByName(arg0);
+		} catch (com.sjtu.onlinelibrary.DataAccessException e1) {
+			e1.printStackTrace();
+		}
+		if(temp != null){
+			name = temp.getUsername();//从数据库中取出
+	    	password = temp.getPassword();//数据库中保存的用户密码
+	    	roleName = temp.getRoleName();
+		}else {
+			throw new UsernameNotFoundException("User: " + arg0 + ", has no GrantedAuthority"); 
+		}
     			 
     	 //系统管理员为ROLE_ADMIN，普通用户为ROLE_USER
          List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
@@ -50,7 +50,6 @@ public class UserDetailService  implements UserDetailsService {
 
          User user = new User(name, password, true, true, true, true, grantedAuthorities);
          try {
-			User temp = userService.findByName(name);
              user.setId(temp.getId());
              user.setRealName(temp.getRealName());
              user.setCredits(temp.getCredits());
