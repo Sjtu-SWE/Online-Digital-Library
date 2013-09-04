@@ -8,7 +8,9 @@ import com.sjtu.onlinelibrary.service.BaseService;
 import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.MutableDataAccess;
+import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.entity.User;
+import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
 import com.sjtu.onlinelibrary.web.viewmodel.Pagination;
 import com.sjtu.onlinelibrary.web.viewmodel.UserEditModel;
@@ -93,6 +95,21 @@ public class UserServiceImpl  extends BaseService implements IUserService {
 			return users;
 		}
 		return null;
+	}
+
+	@Override
+	public List<User> findAll(int pageIndex, String orderFields) throws DataAccessException {
+		if (pageIndex <= 0) {
+            pageIndex = 1;
+        }
+        final List<User> books = mutableDataAccess.paging(User.class, pageIndex, Pagination.DEFAULT_PAGE_SIZE, null, orderFields);
+        return books;
+	}
+
+	@Override
+	public int countUser(Map<String, Object> condition) throws DataAccessException {
+		int count = mutableDataAccess.count(User.class, condition);
+		return count;
 	}
 	
 }

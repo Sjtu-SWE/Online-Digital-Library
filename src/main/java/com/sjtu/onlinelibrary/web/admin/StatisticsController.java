@@ -1,9 +1,15 @@
 package com.sjtu.onlinelibrary.web.admin;
 
+import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +18,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.service.IBookService;
+import com.sjtu.onlinelibrary.service.IUserService;
 import com.sjtu.onlinelibrary.util.LangUtil;
 import com.sjtu.onlinelibrary.web.viewmodel.BookEditModel;
 import com.sjtu.onlinelibrary.web.viewmodel.Pager;
+import com.sjtu.onlinelibrary.web.viewmodel.StatisticsUserModel;
 
 @Controller
 @RequestMapping("/admin/statistics")
 public class StatisticsController {
 	public static final String ADMIN_STATISTICS_BOOK_LIST = "admin/statistics/bookStatistics";
+	public static final String ADMIN_STATISTICS_USER_LIST = "admin/statistics/userStatistics";
 	public static final String PAGE_DATA = "pageData";
 	
 	 private IBookService bookService;
+	 private IUserService userService;
 	 
 	 public void setBookService(final IBookService bookService) {
 	        this.bookService = bookService;
 	 }
+	 
+	public void setUserService(IUserService userService) {
+	        this.userService = userService;
+	}
 	 
 	 @RequestMapping("/book.do")
 	    public ModelAndView listBook(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
@@ -44,25 +58,51 @@ public class StatisticsController {
 	    }
 	 
 	 @RequestMapping("/user.do")
-	    public ModelAndView listUser(@RequestParam(value = "pageIndex", required = false) final String pageIndex) {
-		 
-		 return null;
+	    public ModelAndView listUser(@RequestParam(value = "pageIndex", required = false) final String pageIndex)  throws DataAccessException, ParseException{
+			 int index = 0;
+	         if (!LangUtil.isNullOrEmpty(pageIndex)) {
+	             index = Integer.parseInt(pageIndex);
+	         }
+			 Date fromDate = userService.findAll(index, "createDate").get(0).getCreateDate();//最早注册用户
+			 Date toDate = userService.findAll(index, "-createDate").get(0).getCreateDate();//最晚注册用户
+			 long diff = getMonthDiff(LangUtil.getDefaultDateFormat().format(fromDate), LangUtil.getDefaultDateFormat().format(toDate));
+			 Calendar cal = Calendar.getInstance();
+			 SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			 SimpleDateFormat fmt2 = new SimpleDateFormat("yyyy-MM");
+			 String temp = fmt.format(fromDate);
+		     cal.setTime(fmt.parse(temp));
+		     
+		     Map<String, Object> condition = new HashMap<String, Object>();
+		     List<StatisticsUserModel> countList = new ArrayList<StatisticsUserModel>();
+			 for(int i=0 ; i<diff+1 ; i++){
+				 	condition.clear();
+				 	Date fromTimeDate = cal.getTime();
+		        	cal.set(Calendar.DAY_OF_MONTH,1);//获取当月第一天
+		        	condition.put("createDate > ", cal.getTime());//传入日期MONTH
+		        	
+		        	cal.add(Calendar.MONTH, 1);      	
+		        	condition.put("createDate < ", cal.getTime());//传入日期MONTH
+		        	countList.add(new StatisticsUserModel(fmt2.format(fromTimeDate), String.valueOf(userService.countUser(condition))));
+		        }
+			 Map<String, Object> map = new HashMap<String, Object>();
+			 map.put("userCount", countList);
+			 return new ModelAndView(ADMIN_STATISTICS_USER_LIST, map);
 	 }
-	 
-	 public static void main(String[] args) throws Exception{
-		 System.out.println(getMonthDiff("2013-01-21", "2013-10-01"));
+	
+	 public static void main(String[] arg) throws Exception{
+		 System.out.print(getMonthDiff("2013-08-27","2013-09-04"));
 	 }
 	 /**
 	     * 得到两日期相差几个月
 	     *
 	     * @param String
 	     * @return
+	 * @throws ParseException 
 	     */
-	    public static long getMonthDiff(String startDate, String endDate) throws Exception {
+	    public static long getMonthDiff(String startDate, String endDate) throws DataAccessException, ParseException{
 	        long monthday;
 	        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 	        Date startDate1 = fmt.parse(startDate);
-	        System.out.println("---------StartDate:"+startDate1);
 	        Calendar starCal = Calendar.getInstance();
 	        starCal.setTime(startDate1);
 
@@ -83,10 +123,10 @@ public class StatisticsController {
 	        if (sDay < eDay) {
 	            monthday = monthday + 1;
 	        }
-	        for(int i=1;i<monthday+1;i++){
-	        	starCal.add(Calendar.MONTH, 1);
-	        	 System.out.println("========="+starCal.getTime());
-	        }
+//	        for(int i=0;i<monthday+1;i++){
+//	        	starCal.add(Calendar.MONTH, i);
+//	        	 System.out.println("========="+starCal.getTime());
+//	        }
 	        return monthday;
 	    }
 	

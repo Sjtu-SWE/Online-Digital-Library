@@ -2,7 +2,6 @@ package com.sjtu.onlinelibrary.web.user;
 
 import com.sjtu.onlinelibrary.DataAccessException;
 import com.sjtu.onlinelibrary.common.Constants;
-import com.sjtu.onlinelibrary.entity.Book;
 import com.sjtu.onlinelibrary.entity.Classification;
 import com.sjtu.onlinelibrary.entity.User;
 import com.sjtu.onlinelibrary.mail.MailSenderInfo;

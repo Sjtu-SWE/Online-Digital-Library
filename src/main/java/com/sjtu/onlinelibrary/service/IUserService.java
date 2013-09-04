@@ -19,4 +19,6 @@ public interface IUserService {
 	User checkLogin(String userName, String password) throws Exception;
 	List<User> findByEmail(String email) throws DataAccessException;
 	
+	List<User> findAll(int pageIndex, String orderFields) throws DataAccessException;
+	int countUser(Map<String, Object> condition) throws DataAccessException;
 }

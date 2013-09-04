@@ -87,6 +87,7 @@
     </bean>
     <bean name="StatisticsController" class="com.sjtu.onlinelibrary.web.admin.StatisticsController" >
         <property name="bookService"> <ref local="bookService"></ref></property>
+        <property name="userService"> <ref local="userService"></ref></property>
     </bean>
     
 </beans>

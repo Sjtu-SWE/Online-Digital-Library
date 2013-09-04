@@ -39,27 +39,18 @@
                     <table class="table table-striped table-condensed table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>书名</th>
-                            <th>点击量</th>
-                            <th>购买量</th>
-                            <th>鲜花数</th>
-                            <th>鸡蛋数</th>
-                            <th>收藏数</th>
+                            <th>用户注册日期</th>
+                            <th>用户注册量</th>
                         </tr>
                         </thead>
-                        <c:forEach items="${pageData.getList()}" var="book">
+                        <c:forEach items="${userCount}" var="list">
                             <tr>
-                                <td><a class="btn btn-link" href="../book/${book.id}/edit.do">${book.name}</a></td>
-                                <td>${book.clickAmount}</td>
-                                <td>${book.sellAmount}</td>
-                                <td>${book.userLikeAmount}</td>
-                                <td>${book.userUnlikeAmount}</td>
-                                <td>${book.userFavoriteAmount}</td>
+                                <td>${list.registerDate}</td>
+                                <td>${list.userCount}</td>
                             </tr>
                         </c:forEach>
                     </table>
                 </div>
-                <jsp:include page="../pagination.jsp"></jsp:include>
             </div>
         </div>
         <jsp:include page="../foot.jsp"></jsp:include>
