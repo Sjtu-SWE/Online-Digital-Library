@@ -18,7 +18,8 @@
     <jsp:include page="navigation.jsp"></jsp:include>
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span3 block">
+        <div class="row-fluid span4">
+            <div class="row-fluid block">
                 <p class="block-heading">图书分类：</p>
                 <div class="block-body sidebar-nav">
                     <ul class="nav nav-list">
@@ -27,11 +28,21 @@
                         </c:forEach>
                     </ul>
                 </div>
-                <!--/.well -->
             </div>
-            <!--/span-->
-
-            <div class="span9">
+            <div class="row-fluid block">
+                <p class="block-heading" >各类榜单:</p>
+                <div class="block-body sidebar-nav">
+                    <ul class="nav nav-list">
+                        <li><a  href="/book/listBooksByClick.do">总点击排行</a></li>
+                        <li><a  href="/book/listBooksBySell.do">畅销书排行</a></li>
+                        <li><a  href="/book/listBooksByUserLike.do">图书鲜花榜</a></li>
+                        <li><a  href="/book/listBooksByUserFavorite.do">总收藏排行</a></li>
+                        <li><a  href="/book/listBooksByRecommend.do">图书推荐榜</a></li>
+                    </ul>
+                </div>
+            </div>
+</div>
+            <div class="span8">
                 <!-- Main hero unit for a primary marketing message or call to action -->
 <!--                 <div class="hero-unit"> -->
 <!--                     <h1>欢迎来到在线数字图书馆</h1> -->

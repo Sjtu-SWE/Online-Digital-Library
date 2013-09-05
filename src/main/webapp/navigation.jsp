@@ -10,6 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+             <img class="pull-left" style="width:32px;height:32px;padding:5px;" src="/img/sjtu.jpg"/>
             <a class="brand" href="/">在线数字图书馆</a>
 
             <div class="nav-collapse collapse">
