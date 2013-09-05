@@ -22,7 +22,7 @@
     <div class="block">
         <p class="block-heading">高级搜索</p>
         <div class="block-body">
-        <form class="form-horizontal">
+        <form class="form-horizontal" action="/book/searchBooks.do">
             <div class="control-group">
                 <label class="control-label" for="name">书名：</label>
                 <div class="controls">
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" formaction="/book/searchBooks.do" >搜索</button>
+            <button type="submit" class="btn btn-primary">搜索</button>
          </div>
         </form>
         </div>
