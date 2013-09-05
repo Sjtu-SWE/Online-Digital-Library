@@ -61,8 +61,8 @@ public class StatisticsController {
 	         if (!LangUtil.isNullOrEmpty(pageIndex)) {
 	             index = Integer.parseInt(pageIndex);
 	         }
-			 Date fromDate = userService.findAll(index, "createDate").get(0).getCreateDate();//最早注册用户
-			 Date toDate = userService.findAll(index, "-createDate").get(0).getCreateDate();//最晚注册用户
+			 Date fromDate = userService.findAll(index, "createdOn").get(0).getCreatedOn();//最早注册用户
+			 Date toDate = userService.findAll(index, "-createdOn").get(0).getCreatedOn();//最晚注册用户
 			 long diff = getMonthDiff(LangUtil.getDefaultDateFormat().format(fromDate), LangUtil.getDefaultDateFormat().format(toDate));
 			 Calendar cal = Calendar.getInstance();
 			 SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
