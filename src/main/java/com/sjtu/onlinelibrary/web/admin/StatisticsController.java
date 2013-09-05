@@ -1,6 +1,5 @@
 package com.sjtu.onlinelibrary.web.admin;
 
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,10 +76,10 @@ public class StatisticsController {
 				 	condition.clear();
 				 	Date fromTimeDate = cal.getTime();
 		        	cal.set(Calendar.DAY_OF_MONTH,1);//获取当月第一天
-		        	condition.put("createDate > ", cal.getTime());//传入日期MONTH
+		        	condition.put("createdOn > ", cal.getTime());//传入日期MONTH
 		        	
 		        	cal.add(Calendar.MONTH, 1);      	
-		        	condition.put("createDate < ", cal.getTime());//传入日期MONTH
+		        	condition.put("createdOn < ", cal.getTime());//传入日期MONTH
 		        	countList.add(new StatisticsUserModel(fmt2.format(fromTimeDate), String.valueOf(userService.countUser(condition))));
 		        }
 			 Map<String, Object> map = new HashMap<String, Object>();
@@ -89,9 +87,9 @@ public class StatisticsController {
 			 return new ModelAndView(ADMIN_STATISTICS_USER_LIST, map);
 	 }
 	
-	 public static void main(String[] arg) throws Exception{
-		 System.out.print(getMonthDiff("2013-08-27","2013-09-04"));
-	 }
+//	 public static void main(String[] arg) throws Exception{
+//		 System.out.print(getMonthDiff("2013-08-27","2013-09-04"));
+//	 }
 	 /**
 	     * 得到两日期相差几个月
 	     *
@@ -123,10 +121,6 @@ public class StatisticsController {
 	        if (sDay < eDay) {
 	            monthday = monthday + 1;
 	        }
-//	        for(int i=0;i<monthday+1;i++){
-//	        	starCal.add(Calendar.MONTH, i);
-//	        	 System.out.println("========="+starCal.getTime());
-//	        }
 	        return monthday;
 	    }
 	
