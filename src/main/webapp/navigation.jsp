@@ -28,9 +28,9 @@
 
                     <li><a href="/admin/dashboard.do">后台管理</a></li>
 
-                    <form class="navbar-form pull-right">
+                    <form class="navbar-form pull-right" action="/book/searchBook.do">
                         <input type="text" name="name" class="span2" placeholder="书名" value="${name}">
-                        <button type="submit" class="btn" formaction="/book/searchBook.do">搜索</button>
+                        <button type="submit" class="btn">搜索</button>
                         <a href="/toSearch.do">高级搜索</a>
                     </form>
                 </ul>
